@@ -1,4 +1,7 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
+
+// Builds with a Web3Forms key send through the API instead; inquiry-web3forms.spec.ts covers those.
+const skipIfWeb3Forms = async (page: Page) => test.skip(await page.locator('input[name="botcheck"]').count() > 0, 'build sends through Web3Forms')
 
 test('reports every invalid field and focuses the first', async ({ page }) => {
   await page.goto('/contact')
@@ -20,6 +23,21 @@ test('validates on blur and clears the error while typing a fix', async ({ page 
   await expect(page.locator('#email')).toHaveAttribute('aria-invalid', 'false')
 })
 
+test('caps field lengths in the browser', async ({ page }) => {
+  await page.goto('/contact')
+  await expect(page.locator('#name')).toHaveAttribute('maxlength', '100')
+  await expect(page.locator('#email')).toHaveAttribute('maxlength', '254')
+  await expect(page.locator('#phone')).toHaveAttribute('maxlength', '30')
+  await expect(page.locator('#message')).toHaveAttribute('maxlength', '5000')
+})
+
+test('without a Web3Forms key there is no honeypot or captcha, and a no-script submit goes to email', async ({ page }) => {
+  await page.goto('/contact')
+  await skipIfWeb3Forms(page)
+  await expect(page.locator('input[name="botcheck"]')).toHaveCount(0)
+  await expect(page.locator('#inquiry-form')).toHaveAttribute('action', 'mailto:info@mastersflyingschool.com')
+})
+
 test('preselects the course from the query string', async ({ page }) => {
   await page.goto('/contact?course=cpl#inquiry')
   await expect(page.locator('#course')).toHaveValue('cpl')
@@ -38,6 +56,7 @@ test('course links on the courses page carry the course over', async ({ page }) 
 
 test('a valid inquiry hands off to email and confirms with a fallback', async ({ page }) => {
   await page.goto('/contact')
+  await skipIfWeb3Forms(page)
   await page.locator('#name').fill('Ana Cruz')
   await page.locator('#email').fill('ana@example.com')
   await page.locator('#message').fill('I want to start my PPL in June.')

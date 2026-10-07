@@ -3,6 +3,7 @@ useSiteMeta({
   title: "Contact | Masters Flying School",
   description: "Contact Masters Flying School. Main office in Pasay City, hangar at Plaridel Airport, Bulacan. Phone, email, maps and an inquiry form.",
 })
+const viaWeb3Forms = !!useRuntimeConfig().public.web3formsKey
 const intro = useIntro()
 const root = ref<HTMLElement | null>(null)
 usePageEnhancements(root)
@@ -52,7 +53,8 @@ usePageEnhancements(root)
       <div class="mx-auto grid max-w-site gap-8 px-4 py-14 sm:px-6 lg:grid-cols-12 lg:gap-10 lg:px-8 lg:py-16">
         <div class="lg:col-span-4">
           <h2 id="inquiry-title" class="font-display text-4xl font-bold leading-none text-navy sm:text-5xl">Send an inquiry</h2>
-          <p class="mt-4 text-ink-muted">Sending opens your email app with the message ready, addressed to info@mastersflyingschool.com.</p>
+          <p v-if="viaWeb3Forms" class="mt-4 text-ink-muted">Your message comes straight to our inbox, and we reply to the email address you give.</p>
+          <p v-else class="mt-4 text-ink-muted">Sending opens your email app with the message ready, addressed to info@mastersflyingschool.com.</p>
 
           <h3 class="mt-8 font-display text-xl font-semibold text-navy">Helpful to mention</h3>
           <ul class="mt-3 space-y-3 text-ink">

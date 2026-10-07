@@ -26,6 +26,8 @@ for (const name of PAGES) {
       await page.setViewportSize(size)
       await page.goto(urlFor(name, info.project.name))
       await settle(page)
+      // The spam check and privacy note on the inquiry form are new (the legacy page has neither), so captures leave them out.
+      await page.locator('#inquiry-captcha, #inquiry-privacy').evaluateAll((els) => els.forEach((el) => el.remove()))
       await expect(page).toHaveScreenshot(`${name}-${viewport}.png`, {
         fullPage: true,
         // Third-party content (map iframes, YouTube thumbnails) changes on its own.
