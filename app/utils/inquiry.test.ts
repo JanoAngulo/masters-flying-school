@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { inquiryRules, buildInquiryMailto, buildWeb3FormsPayload, filledTooFast, COURSES, INQUIRY_MAX } from './inquiry'
+import { inquiryRules, buildInquiryMailto, buildWeb3FormsPayload, COURSES, INQUIRY_MAX } from './inquiry'
 
 describe('inquiryRules', () => {
   it('requires a name of at least two characters', () => {
@@ -30,13 +30,6 @@ describe('length limits', () => {
   it('rejects an over-long email or phone', () => {
     expect(inquiryRules.email(`${'a'.repeat(250)}@b.co`)).not.toBe('')
     expect(inquiryRules.phone('1'.repeat(31))).not.toBe('')
-  })
-})
-
-describe('filledTooFast', () => {
-  it('flags a submission within three seconds of the form loading', () => {
-    expect(filledTooFast(1000, 3999)).toBe(true)
-    expect(filledTooFast(1000, 4000)).toBe(false)
   })
 })
 

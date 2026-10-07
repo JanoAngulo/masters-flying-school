@@ -1,6 +1,6 @@
 <script setup lang="ts">
 type Fields = Record<InquiryField, string>
-type Status = 'idle' | 'invalid' | 'captcha' | 'sent' | 'failed'
+type Status = 'idle' | 'invalid' | 'captcha' | 'blocked' | 'sent' | 'failed'
 interface HCaptcha {
   render: (el: HTMLElement, options: Record<string, unknown>) => string
   getResponse: (id: string) => string
@@ -24,6 +24,8 @@ const botcheck = ref(false)
 const formEl = ref<HTMLFormElement | null>(null)
 const statusEl = ref<HTMLElement | null>(null)
 const captchaEl = ref<HTMLElement | null>(null)
+// 'blocked' when hCaptcha can't load (ad blocker, network filter): the form says so and points to phone and email.
+const captchaState = ref<'idle' | 'ready' | 'blocked'>('idle')
 const inputs: Partial<Record<InquiryField, HTMLInputElement | HTMLTextAreaElement>> = {}
 
 const ALERT = 'mt-6 rounded-md border border-red bg-red-tint p-4 text-ink'
@@ -31,6 +33,7 @@ const STATUS_CLASS: Record<Status, string> = {
   idle: '',
   invalid: ALERT,
   captcha: ALERT,
+  blocked: ALERT,
   failed: ALERT,
   sent: 'mt-6 rounded-md border border-navy bg-apron p-4 text-ink',
 }
@@ -53,21 +56,26 @@ watch(() => route.query.course, (preset) => {
 }, { immediate: true })
 
 // hCaptcha loads only once the form is close to view, so other pages and quick visits never fetch it.
-let startedAt = 0
 let widgetId: string | null = null
 let observer: IntersectionObserver | undefined
+// One load at a time, so the observer and a focus or submit arriving together don't add the script twice.
+let loading: Promise<HCaptcha> | null = null
 
 function loadHCaptcha() {
   const w = window as Window & { hcaptcha?: HCaptcha; onHCaptchaLoad?: () => void }
   if (w.hcaptcha) return Promise.resolve(w.hcaptcha)
-  return new Promise<HCaptcha>((resolve, reject) => {
-    w.onHCaptchaLoad = () => resolve(w.hcaptcha!)
+  loading ??= new Promise<HCaptcha>((resolve, reject) => {
     const script = document.createElement('script')
+    const fail = () => { script.remove(); loading = null; reject(new Error('hCaptcha did not load')) }
+    // A blocked request usually errors at once; a filter that stalls it instead gets ten seconds.
+    const timer = setTimeout(fail, 10000)
+    w.onHCaptchaLoad = () => { clearTimeout(timer); resolve(w.hcaptcha!) }
     script.src = 'https://js.hcaptcha.com/1/api.js?render=explicit&recaptchacompat=off&onload=onHCaptchaLoad'
     script.async = true
-    script.onerror = () => { script.remove(); reject(new Error('hCaptcha did not load')) }
+    script.onerror = () => { clearTimeout(timer); fail() }
     document.head.append(script)
   })
+  return loading
 }
 
 async function renderCaptcha() {
@@ -78,15 +86,15 @@ async function renderCaptcha() {
     if (captchaEl.value && widgetId === null) {
       widgetId = hcaptcha.render(captchaEl.value, { sitekey: HCAPTCHA_SITEKEY, callback: () => { if (status.value === 'captcha') status.value = 'idle' } })
     }
+    captchaState.value = 'ready'
   } catch {
-    // Submitting without a token shows the "tick the box" message, and the phone and email fallbacks stay on the page.
+    captchaState.value = 'blocked'
   }
 }
 const captchaToken = () => (widgetId === null ? '' : (window as Window & { hcaptcha?: HCaptcha }).hcaptcha?.getResponse(widgetId) ?? '')
 const resetCaptcha = () => { if (widgetId !== null) (window as Window & { hcaptcha?: HCaptcha }).hcaptcha?.reset(widgetId) }
 
 onMounted(() => {
-  startedAt = Date.now()
   if (!viaWeb3Forms || !formEl.value) return
   observer = new IntersectionObserver((entries) => { if (entries.some((e) => e.isIntersecting)) renderCaptcha() }, { rootMargin: '400px 0px' })
   observer.observe(formEl.value)
@@ -105,15 +113,16 @@ function clearForm() {
 }
 
 async function sendViaWeb3Forms(courseLabel: string) {
-  // A ticked hidden box or a form filled faster than a person can type is a bot: it gets the normal confirmation and nothing is sent.
-  if (botcheck.value || filledTooFast(startedAt)) {
+  // A ticked hidden box is a bot: it gets the normal confirmation and nothing is sent.
+  if (botcheck.value) {
     sentTo.value = values.email.trim()
     return announce('sent')
   }
   const captcha = captchaToken()
   if (!captcha) {
-    renderCaptcha()
-    return announce('captcha')
+    // Retries a failed load, so a visitor who just switched off a blocker can carry on.
+    await renderCaptcha()
+    return announce(captchaState.value === 'blocked' ? 'blocked' : 'captcha')
   }
   sending.value = true
   try {
@@ -196,8 +205,11 @@ function onSubmit() {
       <div class="hidden" aria-hidden="true">
         <label>Leave this box unticked <input v-model="botcheck" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></label>
       </div>
-      <!-- Reserves the hCaptcha checkbox's height so the button does not jump when it appears. -->
-      <div id="inquiry-captcha" ref="captchaEl" class="mt-8 min-h-[78px]" />
+      <div id="inquiry-captcha" class="mt-8">
+        <!-- Reserves the hCaptcha checkbox's height so the button does not jump when it appears. -->
+        <div v-show="captchaState !== 'blocked'" ref="captchaEl" class="min-h-[78px]" />
+        <p v-if="captchaState === 'blocked'" class="rounded-md border border-line bg-apron p-4 text-sm text-ink">The spam check could not load, so this form can't send right now. An ad blocker or network filter may be stopping it. Email <a class="font-semibold text-red underline underline-offset-2" href="mailto:info@mastersflyingschool.com">info@mastersflyingschool.com</a> or call <a class="whitespace-nowrap font-semibold text-red underline underline-offset-2" href="tel:+6328517042">(02) 851-7042</a> instead.</p>
+      </div>
     </template>
 
     <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -212,9 +224,10 @@ function onSubmit() {
     <div id="inquiry-status" ref="statusEl" class="form-status" role="status" aria-live="polite" tabindex="-1" :hidden="status === 'idle'" :class="STATUS_CLASS[status]">
       <template v-if="status === 'invalid'">{{ invalidCount === 1 ? 'One field needs fixing before we can send this.' : `${invalidCount} fields need fixing before we can send this.` }}</template>
       <template v-else-if="status === 'captcha'">Tick the "I am human" box above the button, then send again. It keeps spam out of our inbox.</template>
-      <template v-else-if="status === 'failed'">Your inquiry did not go through. Try again, or email <a class="font-semibold text-red underline underline-offset-2" href="mailto:info@mastersflyingschool.com">info@mastersflyingschool.com</a> or call <a class="font-semibold text-red underline underline-offset-2" href="tel:+6328517042">(02) 851-7042</a>.</template>
+      <template v-else-if="status === 'blocked'">This form can't send because the spam check could not load. Email <a class="font-semibold text-red underline underline-offset-2" href="mailto:info@mastersflyingschool.com">info@mastersflyingschool.com</a> or call <a class="whitespace-nowrap font-semibold text-red underline underline-offset-2" href="tel:+6328517042">(02) 851-7042</a> instead.</template>
+      <template v-else-if="status === 'failed'">Your inquiry did not go through. Try again, or email <a class="font-semibold text-red underline underline-offset-2" href="mailto:info@mastersflyingschool.com">info@mastersflyingschool.com</a> or call <a class="whitespace-nowrap font-semibold text-red underline underline-offset-2" href="tel:+6328517042">(02) 851-7042</a>.</template>
       <template v-else-if="status === 'sent' && viaWeb3Forms">Thank you, your inquiry is on its way. We will reply to {{ sentTo }}.</template>
-      <template v-else-if="status === 'sent'">Your email app should now be open with this inquiry filled in. Press send there to reach us. If nothing opened, email <a class="font-semibold text-red underline underline-offset-2" href="mailto:info@mastersflyingschool.com">info@mastersflyingschool.com</a> or call <a class="font-semibold text-red underline underline-offset-2" href="tel:+6328517042">(02) 851-7042</a>.</template>
+      <template v-else-if="status === 'sent'">Your email app should now be open with this inquiry filled in. Press send there to reach us. If nothing opened, email <a class="font-semibold text-red underline underline-offset-2" href="mailto:info@mastersflyingschool.com">info@mastersflyingschool.com</a> or call <a class="whitespace-nowrap font-semibold text-red underline underline-offset-2" href="tel:+6328517042">(02) 851-7042</a>.</template>
     </div>
   </form>
 </template>

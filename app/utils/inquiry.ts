@@ -17,10 +17,6 @@ export const inquiryRules: Record<InquiryField, (value: string) => string> = {
 // Web3Forms' shared hCaptcha site key for free accounts (docs.web3forms.com, hCaptcha guide).
 export const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2'
 
-// Nobody types a name, an email and a ten-character message this fast; scripts do.
-export const MIN_FILL_MS = 3000
-export const filledTooFast = (startedAt: number, now = Date.now()) => now - startedAt < MIN_FILL_MS
-
 // Single-line values end up in email headers, so line breaks are flattened to rule out header injection.
 const oneLine = (v: string) => v.replace(/[\r\n]+/g, ' ').trim()
 
