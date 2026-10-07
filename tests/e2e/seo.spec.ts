@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const PATHS = ['/', '/courses', '/fleet', '/students', '/about', '/contact']
+const IMAGE: Record<string, string> = { '/': '/img/og-image.jpg', '/courses': '/img/og/courses.jpg', '/fleet': '/img/og/fleet.jpg', '/students': '/img/og/students.jpg', '/about': '/img/og/about.jpg', '/contact': '/img/og/contact.jpg' }
 
 const ldJson = (html: string) =>
   [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]!))
@@ -11,7 +12,9 @@ for (const path of PATHS) {
     const title = html.match(/<title>([^<]*)<\/title>/)![1]
     expect(html).toContain(`<meta property="og:title" content="${title}">`)
     expect(html).toMatch(/<meta property="og:description" content="[^"]+">/)
-    expect(html).toContain('<meta property="og:image" content="https://mastersflyingschool.com/img/og-image.jpg">')
+    expect(html).toContain(`<meta property="og:image" content="https://mastersflyingschool.com${IMAGE[path]}">`)
+    expect(html).toContain(`<meta name="twitter:image" content="https://mastersflyingschool.com${IMAGE[path]}">`)
+    expect(html).toMatch(/<meta property="og:image:alt" content="[^"]+">/)
     expect(html).toContain('<meta property="og:image:width" content="1200">')
     expect(html).toContain('<meta property="og:image:height" content="630">')
     expect(html).toContain(`<link rel="canonical" href="https://mastersflyingschool.com${path === '/' ? '/' : path}">`)
@@ -19,10 +22,22 @@ for (const path of PATHS) {
   })
 }
 
-test('the sharing image is a 1200x630 JPEG', async ({ request }) => {
-  const res = await request.get('/img/og-image.jpg')
-  expect(res.status()).toBe(200)
-  expect(res.headers()['content-type']).toContain('image/jpeg')
+test('every sharing image is a 1200x630 JPEG small enough for chat apps', async ({ page, request }) => {
+  await page.goto('/')
+  for (const src of new Set(Object.values(IMAGE))) {
+    const res = await request.get(src)
+    expect(res.status()).toBe(200)
+    expect(res.headers()['content-type']).toContain('image/jpeg')
+    // WhatsApp skips preview images over roughly 300 KB.
+    expect((await res.body()).length).toBeLessThan(300_000)
+    const size = await page.evaluate(async (url) => {
+      const img = new Image()
+      img.src = url
+      await img.decode()
+      return [img.naturalWidth, img.naturalHeight]
+    }, src)
+    expect(size).toEqual([1200, 630])
+  }
 })
 
 test('icons and the web manifest are linked and served', async ({ request }) => {

@@ -25,7 +25,9 @@ export default defineNuxtConfig({
   // Every value can be set at generate time with NUXT_PUBLIC_* env vars; see .env.example.
   runtimeConfig: {
     public: {
-      siteUrl: 'https://mastersflyingschool.com',
+      // On Vercel, defaults to the project's production address: pointing link previews at the school's current
+      // site would ask chat apps for images that only exist on this deployment, so cards would show no picture.
+      siteUrl: process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'https://mastersflyingschool.com',
       // Pitch builds stay out of search results so they never compete with the school's live site.
       indexable: false,
       // Web3Forms access keys are public by design (they ship in the page). Inquiries go to the email the key was made with.

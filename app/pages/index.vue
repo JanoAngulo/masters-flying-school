@@ -1,7 +1,7 @@
 <script setup lang="ts">
 useSiteMeta({
   title: "Masters Flying School | Pilot training at Plaridel Airport, Bulacan",
-  description: "Airplane and helicopter pilot training since 1994, certified by CAAP under ATOC No. 94-02. Ground school in Pasay City, flight training at Plaridel Airport, Bulacan.",
+  description: "Airplane and helicopter pilot training since 1994, CAAP-certified under ATOC No. 94-02. Ground school in Pasay City, flying at Plaridel Airport, Bulacan.",
 })
 const START_POINTS = [
   { title: 'New to flying', line: 'Private pilot courses on airplanes or helicopters. This is where every pilot starts.', to: '/courses#ppl' },

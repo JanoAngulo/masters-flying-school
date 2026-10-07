@@ -1,7 +1,8 @@
 <script setup lang="ts">
 useSiteMeta({
   title: "Fleet | Masters Flying School",
-  description: "The Masters Flying School training fleet at Plaridel Airport: Cessna 150, 152 and 172, Piper Aztec, and Schweizer 269 and 300 CB helicopters, with specifications.",
+  description: "Our training fleet at Plaridel Airport: Cessna 150, 152 and 172, Piper Aztec, and Schweizer 269 and 300 CB helicopters, with specifications.",
+  image: { src: '/img/og/fleet.jpg', alt: 'Inside the Masters hangar with a Piper Aztec and a Schweizer helicopter on a red floor' },
 })
 const intro = useIntro()
 const root = ref<HTMLElement | null>(null)
