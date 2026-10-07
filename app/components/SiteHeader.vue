@@ -15,9 +15,19 @@ const open = ref(false)
 const scrolled = ref(false)
 const toggle = ref<HTMLButtonElement | null>(null)
 const panel = ref<HTMLElement | null>(null)
+const header = ref<HTMLElement | null>(null)
+
+// While the menu is open, everything outside the header is inert, so Tab and screen readers stay in
+// the menu instead of wandering into the page that scrolling is locked on.
+function setPageInert(on: boolean) {
+  for (const el of header.value?.parentElement?.children ?? []) {
+    if (el !== header.value) (el as HTMLElement).inert = on
+  }
+}
 
 watch(open, async (isOpen) => {
   document.body.classList.toggle('overflow-hidden', isOpen)
+  setPageInert(isOpen)
   if (isOpen) {
     await nextTick()
     panel.value?.querySelector('a')?.focus()
@@ -47,12 +57,14 @@ onBeforeUnmount(() => {
   document.removeEventListener('keydown', onKeydown)
   wide?.removeEventListener('change', onWide)
   document.body.classList.remove('overflow-hidden')
+  setPageInert(false)
 })
 </script>
 
 <template>
-  <header class="site-header sticky top-0 z-40 bg-white transition-shadow" :data-scrolled="String(scrolled)">
-    <div class="mx-auto flex h-20 max-w-site items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+  <header ref="header" class="site-header sticky top-0 z-40 bg-white transition-shadow" :data-scrolled="String(scrolled)">
+    <div :hidden="!open" class="menu-backdrop fixed inset-x-0 bottom-0 top-20 bg-navy/40 lg:hidden" aria-hidden="true" @click="open = false"></div>
+    <div class="relative mx-auto flex h-20 max-w-site items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
       <NuxtLink to="/" class="shrink-0" aria-label="Masters Flying School home">
         <img src="/img/logo.jpg" alt="Masters Flying School" width="179" height="91" class="h-12 w-auto sm:h-14">
       </NuxtLink>
@@ -76,7 +88,7 @@ onBeforeUnmount(() => {
         </button>
       </div>
     </div>
-    <div id="mobile-menu" ref="panel" :hidden="!open" class="menu-panel border-t border-line bg-white lg:hidden">
+    <div id="mobile-menu" ref="panel" :hidden="!open" class="menu-panel relative border-t border-line bg-white lg:hidden">
       <nav aria-label="Mobile" class="mx-auto max-w-site px-4 pb-6 pt-2 sm:px-6">
         <ul class="divide-y divide-line font-display text-2xl font-semibold text-navy">
           <li v-for="item in NAV" :key="item.to">

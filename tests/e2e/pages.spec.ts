@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const ROUTES = [
-  { path: '/', h1: 'Learn to fly at Plaridel.', title: 'Masters Flying School | Pilot training at Plaridel Airport, Bulacan' },
+  { path: '/', h1: 'Earn your wings. Or your rotors.', title: 'Masters Flying School | Pilot training at Plaridel Airport, Bulacan' },
   { path: '/courses', h1: 'Courses', title: 'Courses | Masters Flying School' },
   { path: '/fleet', h1: 'Fleet', title: 'Fleet | Masters Flying School' },
   { path: '/students', h1: 'Students', title: 'Students | Masters Flying School' },

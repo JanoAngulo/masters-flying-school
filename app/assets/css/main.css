@@ -43,7 +43,12 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
 
   /* Runway threshold motif: the "piano keys" painted at the start of runway 17 at Plaridel. */
   .threshold {
-    background-image: repeating-linear-gradient(90deg, #FFFFFF 0 14px, transparent 14px 26px);
+    /* One gap and its key per tile; "round" fits a whole number of tiles to any width. The gap comes first so a tile
+       clipped by pixel rounding at the end shows only gap, never a sliver of key; the element's -0.75rem left margin
+       pulls that leading gap out so the first key still sits on the content edge. */
+    background-image: linear-gradient(90deg, transparent 0 46%, #FFFFFF 46%);
+    background-size: 26px 100%;
+    background-repeat: round no-repeat;
   }
   .threshold-thin {
     height: 6px;
@@ -105,6 +110,16 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
   .yt img { width: 100%; height: 100%; object-fit: cover; transition: opacity .2s ease-out; }
   .yt button:hover img { opacity: .85; }
   .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .yt[data-loading] iframe { opacity: 0; pointer-events: none; }
+  .yt[data-loading] img { opacity: .6; }
+  .yt-status {
+    position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%);
+    border-radius: 9999px; background: rgb(var(--c-tarmac) / .85); padding: .375rem .875rem;
+    font-size: .875rem; font-weight: 600; color: #FFFFFF; white-space: nowrap;
+  }
+
+  /* Dims the page behind the open mobile menu; tapping it closes the menu. */
+  .menu-backdrop { transition: opacity .2s var(--ease-out); }
 }
 
 @keyframes settle { from { transform: scale(1.04); } }
@@ -115,6 +130,7 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
 
 @starting-style {
   .menu-panel { opacity: 0; transform: translateY(-6px); }
+  .menu-backdrop { opacity: 0; }
   [data-tip] + [role="note"] { opacity: 0; transform: scale(.97); }
   .form-status { opacity: 0; transform: translateY(4px); }
   .field-error { opacity: 0; }

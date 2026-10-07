@@ -139,14 +139,32 @@ function initYoutube(el: HTMLElement): Cleanup {
     const title = box.dataset.title || 'Video'
     const img = box.querySelector('img')
     img?.addEventListener('error', () => img.remove())
-    box.querySelector('button')?.addEventListener('click', () => {
+    const button = box.querySelector('button')
+    button?.addEventListener('click', () => {
+      if (box.dataset.loading !== undefined) return
       const iframe = document.createElement('iframe')
       iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`
       iframe.title = title
       iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
       iframe.allowFullscreen = true
-      box.replaceChildren(iframe)
-      iframe.focus()
+      // The poster stays up with a status line until the player has loaded, so the box never goes
+      // blank on a slow connection. A player that never reports in is shown anyway after a while.
+      const status = document.createElement('span')
+      status.className = 'yt-status'
+      status.setAttribute('role', 'status')
+      status.textContent = 'Loading video…'
+      box.dataset.loading = ''
+      box.append(iframe, status)
+      let shown = false
+      const show = () => {
+        if (shown) return
+        shown = true
+        delete box.dataset.loading
+        box.replaceChildren(iframe)
+        iframe.focus()
+      }
+      iframe.addEventListener('load', show, { once: true })
+      setTimeout(show, 10000)
     })
   })
   return () => {}

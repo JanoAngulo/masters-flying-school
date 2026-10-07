@@ -46,7 +46,7 @@ test.describe('fleet tabs', () => {
     await page.locator('header').getByRole('link', { name: 'Fleet' }).first().click()
     await page.getByRole('tab', { name: /Cessna 172/ }).click()
     await page.goBack()
-    await expect(page.locator('h1')).toHaveText('Learn to fly at Plaridel.')
+    await expect(page.locator('h1')).toHaveText('Earn your wings. Or your rotors.')
     expect(warnings.filter((w) => /history\.state/.test(w))).toEqual([])
   })
 })

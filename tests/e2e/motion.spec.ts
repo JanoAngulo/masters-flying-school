@@ -47,7 +47,7 @@ test.describe('homepage motion', () => {
     await page.locator('header').getByRole('link', { name: 'Courses' }).click()
     await expect(page).toHaveURL(/\/courses\/?$/)
     await page.goBack()
-    await expect(page.locator('h1')).toHaveText('Learn to fly at Plaridel.')
+    await expect(page.locator('h1')).toHaveText('Earn your wings. Or your rotors.')
     await expect(hero).not.toHaveClass(/\bintro\b/)
   })
 
