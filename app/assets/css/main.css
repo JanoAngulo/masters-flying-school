@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Brand tokens, as RGB channels so Tailwind can apply opacity. The only place these colors are defined. */
+:root {
+  --c-red: 200 16 46;        /* #C8102E */
+  --c-red-dark: 162 12 36;   /* #A20C24 */
+  --c-red-tint: 251 233 236; /* #FBE9EC */
+  --c-navy: 14 34 64;        /* #0E2240 */
+  --c-navy-700: 22 48 90;    /* #16305A */
+  --c-navy-400: 125 141 166; /* #7D8DA6 */
+  --c-navy-300: 174 183 194; /* #AEB7C2 */
+  --c-tarmac: 20 26 34;      /* #141A22 */
+  --c-apron: 244 245 247;    /* #F4F5F7 */
+  --c-ink: 27 35 48;         /* #1B2330 */
+  --c-ink-muted: 91 100 112; /* #5B6470 */
+  --c-line: 221 225 230;     /* #DDE1E6 */
+
+  /* Motion. A strong ease-out for anything entering; built-in easings are too weak to feel responsive. */
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
+
+/* The hidden attribute must win over display utilities like .block or .grid. */
+[hidden] { display: none !important; }
+body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
+
+/* Site classes sit in the components layer so utilities on the same element win, as they did
+   when the Tailwind CDN injected its styles after the legacy stylesheet. */
+@layer components {
+  /* Spec tables and hour counts line up. */
+  .tabular { font-variant-numeric: tabular-nums; }
+
+  /* Visible focus everywhere, in brand red on light surfaces and white on dark ones. */
+  :focus-visible { outline: 3px solid rgb(var(--c-red)); outline-offset: 3px; border-radius: 2px; }
+  .on-dark :focus-visible { outline-color: #FFFFFF; }
+
+  /* Reached by keyboard, so it appears instantly rather than animating in. */
+  .skip-link { position: absolute; left: 1rem; top: -4rem; z-index: 100; }
+  .skip-link:focus { top: 1rem; }
+
+  /* Runway threshold motif: the "piano keys" painted at the start of runway 17 at Plaridel. */
+  .threshold {
+    /* One gap and its key per tile; "round" fits a whole number of tiles to any width. The gap comes first so a tile
+       clipped by pixel rounding at the end shows only gap, never a sliver of key; the element's -0.75rem left margin
+       pulls that leading gap out so the first key still sits on the content edge. */
+    background-image: linear-gradient(90deg, transparent 0 46%, #FFFFFF 46%);
+    background-size: 26px 100%;
+    background-repeat: round no-repeat;
+  }
+  .threshold-thin {
+    height: 6px;
+    background-image: repeating-linear-gradient(90deg, rgb(var(--c-navy)) 0 22px, transparent 22px 34px);
+  }
+  .on-dark .threshold-thin {
+    background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.85) 0 22px, transparent 22px 34px);
+  }
+
+  /* Runway designator numerals. */
+  .designator { font-family: "Barlow Condensed", sans-serif; font-weight: 700; line-height: .8; letter-spacing: -.02em; }
+
+  /* Training route: dashed track joining waypoints. */
+  .route-track-v { background-image: repeating-linear-gradient(180deg, rgb(var(--c-red)) 0 10px, transparent 10px 18px); width: 2px; }
+
+  /* Homepage path: each step but the last holds the leg to the next waypoint, so the route ends at the
+     last step. Offsets follow the 36px waypoint and the list's gap-10 (stacked) and gap-4 (row).
+     A real element rather than a pseudo-element, so the homepage script can draw it. */
+  .route-leg {
+    position: absolute; left: 17px; top: 36px; bottom: -2.5rem; width: 2px;
+    background-image: repeating-linear-gradient(180deg, rgb(var(--c-red)) 0 10px, transparent 10px 18px);
+  }
+  @media (min-width: 1024px) {
+    .route-leg {
+      left: 36px; right: -1rem; top: 17px; bottom: auto; width: auto; height: 2px;
+      background-image: repeating-linear-gradient(90deg, rgb(var(--c-red)) 0 10px, transparent 10px 18px);
+    }
+  }
+
+  /* Header gains a hairline once the page scrolls, so it separates from content. */
+  .site-header[data-scrolled="true"] { box-shadow: 0 1px 0 rgb(var(--c-line)); }
+
+  /* One orchestrated moment as each page opens, the first time it is shown in a visit: the page title
+     and what follows it rise in a short stagger, and the runway stripe under the header paints left to
+     right. The homepage photo settles too. Plain CSS, so it runs during hydration without waiting on
+     script. The photo never starts transparent: it is the page's largest paint, and hiding it would
+     delay it. */
+  .intro h1, .intro h1 ~ * { animation: rise .5s var(--ease-out) both; }
+  .intro h1 + * { animation-delay: 70ms; }
+  .intro h1 + * ~ * { animation-delay: 140ms; }
+  .intro .threshold, .intro .threshold-thin { animation: paint .6s var(--ease-out) .2s both; }
+  .intro .designator { animation: rise .5s var(--ease-out) .4s both; }
+  .intro .hero-photo { animation: settle .9s var(--ease-out) both; }
+
+  /* Pressable controls give way slightly under the pointer, so a tap registers before the page changes. */
+  .press { transition: color .15s ease, background-color .15s ease, border-color .15s ease, transform .16s var(--ease-out); }
+  .press:active { transform: scale(.97); }
+
+  /* The mobile menu drops in from the header it belongs to. It closes instantly: closing is the system
+     getting out of the way, and it usually happens on the way to a new page. */
+  .menu-panel { transition: opacity .2s var(--ease-out), transform .2s var(--ease-out); }
+
+  /* Term notes grow from their "?" button. The script points the origin at the button when it shifts
+     a note to keep it on screen. Like the menu, they close instantly. */
+  [data-tip] + [role="note"] { transform-origin: 18px 0; transition: opacity .15s var(--ease-out), transform .15s var(--ease-out); }
+
+  /* Click-to-load video, so YouTube scripts only load when asked. */
+  .yt { position: relative; aspect-ratio: 16 / 9; background: rgb(var(--c-tarmac)); overflow: hidden; }
+  .yt img { width: 100%; height: 100%; object-fit: cover; transition: opacity .2s ease-out; }
+  .yt button:hover img { opacity: .85; }
+  .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .yt[data-loading] iframe { opacity: 0; pointer-events: none; }
+  .yt[data-loading] img { opacity: .6; }
+  .yt-status {
+    position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%);
+    border-radius: 9999px; background: rgb(var(--c-tarmac) / .85); padding: .375rem .875rem;
+    font-size: .875rem; font-weight: 600; color: #FFFFFF; white-space: nowrap;
+  }
+
+  /* Dims the page behind the open mobile menu; tapping it closes the menu. */
+  .menu-backdrop { transition: opacity .2s var(--ease-out); }
+}
+
+@keyframes settle { from { transform: scale(1.04); } }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+@keyframes paint { from { clip-path: inset(0 100% 0 0); } }
+@keyframes fade { from { opacity: 0; } }
+@keyframes drop { from { opacity: 0; transform: translateY(-4px); } }
+
+@starting-style {
+  .menu-panel { opacity: 0; transform: translateY(-6px); }
+  .menu-backdrop { opacity: 0; }
+  [data-tip] + [role="note"] { opacity: 0; transform: scale(.97); }
+  .form-status { opacity: 0; transform: translateY(4px); }
+  .field-error { opacity: 0; }
+}
+
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] .chev { transform: rotate(180deg); }
+.chev { transition: transform .2s var(--ease-out); }
+/* What a disclosure reveals eases down out of its summary. It closes instantly. */
+details[open] > summary ~ * { animation: drop .2s var(--ease-out); }
+
+/* Form feedback fades in where it appears, so a message reads as a response rather than a jump. */
+.form-status { transition: opacity .2s var(--ease-out), transform .2s var(--ease-out); }
+.field-error { transition: opacity .15s var(--ease-out); }
+
+/* Courses side nav: one bar slides along the rail to the section being read. The script sets its
+   transform directly: a 1px bar moved and stretched, so the slide never touches layout. */
+.spy-bar {
+  position: absolute; left: 0; top: 0; width: 2px; height: 1px; transform-origin: 0 0;
+  background: rgb(var(--c-red)); opacity: 0; pointer-events: none;
+  transition: transform .25s var(--ease-out), opacity .15s linear;
+}
+[data-scrollspy][data-spy-active] .spy-bar { opacity: 1; }
+
+/* Drop movement, keep state feedback: the chevron still turns, colors still change, and things that
+   appear still fade in rather than moving into place. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .intro .hero-photo { animation: none; }
+  .intro h1, .intro h1 ~ *, .intro .threshold, .intro .threshold-thin, .intro .designator { animation-name: fade; animation-duration: .3s; }
+  details[open] > summary ~ * { animation-name: fade; }
+  .form-status { transition: opacity .2s linear; }
+  .spy-bar { transition: opacity .15s linear; }
+  .press:active { transform: none; }
+  .menu-panel, [data-tip] + [role="note"] { transition: opacity .15s linear; }
+  .group:hover .group-hover\:scale-105 { --tw-scale-x: 1; --tw-scale-y: 1; }
+}
