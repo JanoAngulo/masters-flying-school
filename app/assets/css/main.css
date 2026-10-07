@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Brand tokens, as RGB channels so Tailwind can apply opacity. The only place these colors are defined. */
+:root {
+  --c-red: 200 16 46;        /* #C8102E */
+  --c-red-dark: 162 12 36;   /* #A20C24 */
+  --c-red-tint: 251 233 236; /* #FBE9EC */
+  --c-navy: 14 34 64;        /* #0E2240 */
+  --c-navy-700: 22 48 90;    /* #16305A */
+  --c-navy-400: 125 141 166; /* #7D8DA6 */
+  --c-navy-300: 174 183 194; /* #AEB7C2 */
+  --c-tarmac: 20 26 34;      /* #141A22 */
+  --c-apron: 244 245 247;    /* #F4F5F7 */
+  --c-ink: 27 35 48;         /* #1B2330 */
+  --c-ink-muted: 91 100 112; /* #5B6470 */
+  --c-line: 221 225 230;     /* #DDE1E6 */
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
+
+/* The hidden attribute must win over display utilities like .block or .grid. */
+[hidden] { display: none !important; }
+body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
+
+/* Spec tables and hour counts line up. */
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* Visible focus everywhere, in brand red on light surfaces and white on dark ones. */
+:focus-visible { outline: 3px solid rgb(var(--c-red)); outline-offset: 3px; border-radius: 2px; }
+.on-dark :focus-visible { outline-color: #FFFFFF; }
+
+.skip-link { position: absolute; left: 1rem; top: -4rem; z-index: 100; transition: top .15s ease-out; }
+.skip-link:focus { top: 1rem; }
+
+/* Runway threshold motif: the "piano keys" painted at the start of runway 17 at Plaridel. */
+.threshold {
+  background-image: repeating-linear-gradient(90deg, #FFFFFF 0 14px, transparent 14px 26px);
+}
+.threshold-thin {
+  height: 6px;
+  background-image: repeating-linear-gradient(90deg, rgb(var(--c-navy)) 0 22px, transparent 22px 34px);
+}
+.on-dark .threshold-thin {
+  background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.85) 0 22px, transparent 22px 34px);
+}
+
+/* Runway designator numerals. */
+.designator { font-family: "Barlow Condensed", sans-serif; font-weight: 700; line-height: .8; letter-spacing: -.02em; }
+
+/* Training route: dashed track joining waypoints. */
+.route-track { background-image: repeating-linear-gradient(90deg, rgb(var(--c-red)) 0 10px, transparent 10px 18px); height: 2px; }
+.route-track-v { background-image: repeating-linear-gradient(180deg, rgb(var(--c-red)) 0 10px, transparent 10px 18px); width: 2px; }
+
+/* Header gains a hairline once the page scrolls, so it separates from content. */
+.site-header[data-scrolled="true"] { box-shadow: 0 1px 0 rgb(var(--c-line)); }
+
+/* One orchestrated moment: the hero photo settles in on load. */
+@keyframes settle { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: scale(1); } }
+.hero-photo { animation: settle .9s cubic-bezier(.2,.7,.2,1) both; }
+
+/* Click-to-load video, so YouTube scripts only load when asked. */
+.yt { position: relative; aspect-ratio: 16 / 9; background: rgb(var(--c-tarmac)); overflow: hidden; }
+.yt img { width: 100%; height: 100%; object-fit: cover; transition: opacity .2s ease-out; }
+.yt button:hover img { opacity: .85; }
+.yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] .chev { transform: rotate(180deg); }
+.chev { transition: transform .2s ease-out; }
+
+/* Drop movement, keep state feedback: the chevron still turns and colors still change. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-photo { animation: none; }
+  .group:hover .group-hover\:scale-\[1\.03\],
+  .group:hover .group-hover\:scale-105 { --tw-scale-x: 1; --tw-scale-y: 1; }
+}

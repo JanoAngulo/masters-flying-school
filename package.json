@@ -1,0 +1,27 @@
+{
+  "name": "masters-flying-school",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "serve .output/public -l 4200 --no-clipboard",
+    "port": "node scripts/port-legacy.mjs",
+    "test": "vitest run",
+    "test:e2e": "nuxt generate && playwright test --project=nuxt",
+    "test:baseline": "playwright test --project=legacy --update-snapshots",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/fonts": "^0.14.0",
+    "nuxt": "^4.4.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.29",
+    "serve": "^14.2.6",
+    "tailwindcss": "^3.4.19",
+    "vitest": "^3.2.7"
+  }
+}
