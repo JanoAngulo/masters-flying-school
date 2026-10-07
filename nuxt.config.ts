@@ -10,9 +10,16 @@ export default defineNuxtConfig({
       { name: 'Barlow Condensed', weights: [500, 600, 700], provider: 'google' },
     ],
   },
+  runtimeConfig: {
+    public: {
+      siteUrl: 'https://mastersflyingschool.com',
+      // Pitch builds stay out of search results so they never compete with the school's live site.
+      indexable: false,
+    },
+  },
   nitro: {
     prerender: {
-      routes: ['/', '/courses', '/fleet', '/students', '/about', '/contact'],
+      routes: ['/', '/courses', '/fleet', '/students', '/about', '/contact', '/sitemap.xml', '/robots.txt'],
       crawlLinks: true,
     },
   },
