@@ -40,13 +40,15 @@ npm run generate   # writes the site to .output/public
 npm run preview    # serves it at http://localhost:4200
 ```
 
+Each page has its own link-preview image in `public/img/og/`, cropped from the page photos. After changing a photo, run `npm run og` to regenerate them.
+
 ### Environment variables
 
 Copy [.env.example](.env.example) to `.env` to override the defaults. On Vercel, set them under Project Settings > Environment Variables.
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `NUXT_PUBLIC_SITE_URL` | `https://mastersflyingschool.com` | Domain used in canonical URLs, sharing tags, structured data and the sitemap |
+| `NUXT_PUBLIC_SITE_URL` | Vercel's production address, else `https://mastersflyingschool.com` | Domain used in canonical URLs, sharing tags, structured data and the sitemap. Link previews only show an image when this is where the site is served |
 | `NUXT_PUBLIC_INDEXABLE` | `false` | Set to `true` only for the school's live site. While `false`, every page is `noindex` |
 | `NUXT_PUBLIC_WEB3FORMS_KEY` | key in `nuxt.config.ts` | Web3Forms access key. Set it to the school's own key to send inquiries to them, or leave it empty to fall back to the email app |
 

@@ -7,6 +7,7 @@
     "generate": "nuxt generate",
     "preview": "serve .output/public -l 4200 --no-clipboard",
     "port": "node scripts/port-legacy.mjs",
+    "og": "node scripts/og-images.mjs",
     "test": "vitest run",
     "test:e2e": "nuxt generate && playwright test --project=nuxt",
     "test:baseline": "playwright test --project=legacy --update-snapshots",

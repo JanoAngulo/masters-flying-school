@@ -1,4 +1,7 @@
-export function useSiteMeta({ title, description }: { title: string; description: string }) {
+const DEFAULT_IMAGE = { src: '/img/og-image.jpg', alt: 'Two Masters Flying School Cessnas in red and white livery parked on the Plaridel flight line' }
+
+// `image` is the link-preview picture: a 1200x630 JPEG from scripts/og-images.mjs.
+export function useSiteMeta({ title, description, image = DEFAULT_IMAGE }: { title: string; description: string; image?: { src: string; alt: string } }) {
   const { siteUrl, indexable } = useRuntimeConfig().public
   const path = useRoute().path.replace(/\/$/, '') || '/'
   const url = `${siteUrl}${path === '/' ? '/' : path}`
@@ -12,13 +15,16 @@ export function useSiteMeta({ title, description }: { title: string; description
     ogSiteName: SITE_NAME,
     ogLocale: 'en_PH',
     ogUrl: url,
-    ogImage: `${siteUrl}/img/og-image.jpg`,
+    ogImage: `${siteUrl}${image.src}`,
     ogImageType: 'image/jpeg',
     ogImageWidth: 1200,
     ogImageHeight: 630,
-    ogImageAlt: 'Two Masters Flying School Cessnas in red and white livery parked on the Plaridel flight line',
+    ogImageAlt: image.alt,
     twitterCard: 'summary_large_image',
-    twitterImageAlt: 'Two Masters Flying School Cessnas in red and white livery parked on the Plaridel flight line',
+    twitterTitle: title,
+    twitterDescription: description,
+    twitterImage: `${siteUrl}${image.src}`,
+    twitterImageAlt: image.alt,
     robots: indexable ? 'index, follow, max-image-preview:large' : 'noindex, nofollow',
   })
   useHead({

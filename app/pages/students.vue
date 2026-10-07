@@ -1,7 +1,8 @@
 <script setup lang="ts">
 useSiteMeta({
   title: "Students | Masters Flying School",
-  description: "What training at Masters Flying School is like, from ground school to first solo and beyond, plus visa information for foreign students and the alumni roll.",
+  description: "Training at Masters Flying School, from ground school to first solo and beyond, plus visa information for foreign students and the alumni roll.",
+  image: { src: '/img/og/students.jpg', alt: 'A batch of Masters students in white uniforms lined up on the Plaridel apron' },
 })
 const intro = useIntro()
 const root = ref<HTMLElement | null>(null)

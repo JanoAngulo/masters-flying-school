@@ -2,6 +2,7 @@
 useSiteMeta({
   title: "About | Masters Flying School",
   description: "Masters Flying School was founded in 1994. Our accreditation, mission, team, and facilities in Pasay City and at Plaridel Airport.",
+  image: { src: '/img/og/about.jpg', alt: 'The Masters Flying School hangar at Plaridel with Cessnas parked in front' },
 })
 const intro = useIntro()
 const root = ref<HTMLElement | null>(null)

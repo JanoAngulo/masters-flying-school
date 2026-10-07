@@ -2,6 +2,7 @@
 useSiteMeta({
   title: "Contact | Masters Flying School",
   description: "Contact Masters Flying School. Main office in Pasay City, hangar at Plaridel Airport, Bulacan. Phone, email, maps and an inquiry form.",
+  image: { src: '/img/og/contact.jpg', alt: 'The Masters Flying School main office storefront in Pasay City' },
 })
 const viaWeb3Forms = !!useRuntimeConfig().public.web3formsKey
 const intro = useIntro()

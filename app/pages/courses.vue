@@ -1,7 +1,8 @@
 <script setup lang="ts">
 useSiteMeta({
   title: "Courses | Masters Flying School",
-  description: "Private and commercial pilot courses for airplanes and helicopters, plus instrument, multi-engine and flight instructor ratings. CAAP-certified, Plaridel Airport.",
+  description: "Private and commercial pilot courses for airplanes and helicopters, plus instrument, multi-engine and instructor ratings. CAAP-certified, at Plaridel Airport.",
+  image: { src: '/img/og/courses.jpg', alt: 'Student pilot standing beside a Masters Cessna' },
 })
 useHead({ script: [{ key: 'ld-courses', type: 'application/ld+json', innerHTML: toJsonLd(courseListSchema(useRuntimeConfig().public.siteUrl)) }] })
 const intro = useIntro()
