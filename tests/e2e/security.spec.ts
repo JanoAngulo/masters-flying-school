@@ -18,6 +18,16 @@ for (const path of PATHS) {
   })
 }
 
+test('the CSP lets a clicked video load its YouTube player', async ({ page }) => {
+  const violations: string[] = []
+  page.on('console', (m) => { if (/Content Security Policy/i.test(m.text())) violations.push(m.text()) })
+  await page.goto('/about')
+  await page.locator('.yt button').first().click()
+  await expect(page.locator('.yt iframe')).toHaveCount(1)
+  await expect(page.locator('.yt-status')).toHaveCount(0, { timeout: 15000 })
+  expect(violations).toEqual([])
+})
+
 test('an inline script the build did not hash is blocked', async ({ page }) => {
   await page.goto('/')
   const ran = await page.evaluate(async () => {

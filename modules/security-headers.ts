@@ -8,7 +8,7 @@ import { defineNuxtModule } from '@nuxt/kit'
 // and the e2e tests catch anything it would block. (A meta CSP cannot carry frame-ancestors; the header does.)
 
 // Third parties the pages load from: hCaptcha (inquiry form spam check), Google Maps (contact page embeds),
-// YouTube thumbnails (about page) and the Web3Forms API (inquiry delivery).
+// YouTube thumbnails and the click-to-play player (about page) and the Web3Forms API (inquiry delivery).
 const HCAPTCHA = ['https://hcaptcha.com', 'https://*.hcaptcha.com']
 
 const CSP: Record<string, string[]> = {
@@ -19,7 +19,7 @@ const CSP: Record<string, string[]> = {
   'img-src': ["'self'", 'data:', 'https://i.ytimg.com'],
   'font-src': ["'self'"],
   'connect-src': ["'self'", 'https://api.web3forms.com', ...HCAPTCHA],
-  'frame-src': ['https://maps.google.com', 'https://www.google.com', ...HCAPTCHA],
+  'frame-src': ['https://maps.google.com', 'https://www.google.com', 'https://www.youtube-nocookie.com', ...HCAPTCHA],
   'manifest-src': ["'self'"],
   'form-action': ["'self'", 'mailto:'],
   'frame-ancestors': ["'none'"],
