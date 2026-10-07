@@ -3,42 +3,75 @@ useSiteMeta({
   title: "Masters Flying School | Pilot training at Plaridel Airport, Bulacan",
   description: "CAAP-certified airplane and helicopter pilot training since 1994. Ground school in Pasay City, flight training at Plaridel Airport, Bulacan.",
 })
+const START_POINTS = [
+  { title: 'New to flying', line: 'Private pilot courses on airplanes or helicopters. This is where every pilot starts.', to: '/courses#ppl' },
+  { title: "Paying for someone's training", line: 'Certificates with numbers you can check, plus the instructors and facilities.', to: '/about#accreditation' },
+  { title: 'Already licensed', line: 'Instrument, multi-engine and instructor ratings, with CAAP-certified flight simulators.', to: '/courses#instrument' },
+  { title: 'Coming from abroad', line: 'Authorized by the Bureau of Immigration. Visa routes and paperwork for foreign students.', to: '/students#foreign-students' },
+] as const
+
+// The opening motion plays the first time the homepage is shown in a visit, not on every return to it.
+// The flag is serialized with the page, so the server and the hydrating client agree on the class.
+const introSeen = useState('home-intro-seen', () => false)
+const intro = !introSeen.value
+onMounted(() => { introSeen.value = true })
+
 const root = ref<HTMLElement | null>(null)
 usePageEnhancements(root)
+useHomeMotion(root, intro)
 </script>
 
 <template>
   <div ref="root" class="contents">
     <!-- Hero -->
-    <section aria-labelledby="hero-title" class="relative bg-white">
+    <section aria-labelledby="hero-title" class="relative bg-white" :class="{ intro }">
       <div class="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]">
-        <div class="order-2 px-4 pb-14 pt-10 sm:px-6 lg:order-1 lg:self-center lg:py-24 lg:pl-[max(2rem,calc((100vw-76rem)/2+2rem))] lg:pr-12">
+        <div class="hero-copy order-2 px-4 pb-14 pt-10 sm:px-6 lg:order-1 lg:self-center lg:py-24 lg:pl-[max(2rem,calc((100vw-76rem)/2+2rem))] lg:pr-12">
           <h1 id="hero-title" class="font-display text-5xl font-bold leading-[.95] text-navy sm:text-6xl xl:text-7xl">Learn to fly at Plaridel.</h1>
           <p class="mt-6 max-w-lg text-lg leading-relaxed text-ink-muted">Airplane and helicopter pilot courses, certified by the Civil Aviation Authority of the Philippines since 1994. Ground school in Pasay City, flight training at Plaridel Airport in Bulacan, the training airfield closest to Metro Manila.</p>
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-            <NuxtLink to="/courses" class="inline-flex min-h-[48px] items-center justify-center rounded-md bg-red px-6 font-display text-xl font-semibold text-white transition-colors hover:bg-red-dark">Compare the courses</NuxtLink>
-            <NuxtLink to="/contact#inquiry" class="inline-flex min-h-[48px] items-center justify-center rounded-md border-2 border-navy px-6 font-display text-xl font-semibold text-navy transition-colors hover:bg-navy hover:text-white">Ask about enrollment</NuxtLink>
+          <!-- The text column narrows at lg, so the buttons stack there until it has room for both on one line. -->
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+            <NuxtLink to="/courses" class="inline-flex min-h-[48px] items-center justify-center whitespace-nowrap rounded-md bg-red px-6 font-display text-xl font-semibold text-white press hover:bg-red-dark">Compare the courses</NuxtLink>
+            <NuxtLink to="/contact#inquiry" class="inline-flex min-h-[48px] items-center justify-center whitespace-nowrap rounded-md border-2 border-navy px-6 font-display text-xl font-semibold text-navy press hover:bg-navy hover:text-white">Send an inquiry</NuxtLink>
           </div>
         </div>
-        <div class="relative order-1 aspect-[4/3] overflow-hidden lg:order-2 lg:aspect-auto lg:min-h-[600px]">
+        <div class="relative order-1 aspect-[16/10] overflow-hidden sm:aspect-[4/3] lg:order-2 lg:aspect-auto lg:min-h-[600px]">
           <img src="/img/hero-cessna-line.webp" width="930" height="624" alt="Two Masters Flying School Cessnas in red and white livery parked on the Plaridel flight line" class="hero-photo absolute inset-0 h-full w-full object-cover" fetchpriority="high">
         </div>
       </div>
 
       <!-- Runway band: the identity motif -->
       <div class="on-dark bg-tarmac text-white">
-        <div class="mx-auto flex max-w-site flex-col gap-6 px-4 py-8 sm:px-6 md:flex-row md:items-center md:gap-10 lg:px-8">
+        <div class="mx-auto flex max-w-site flex-col gap-6 px-4 py-8 sm:px-6 lg:flex-row lg:items-center lg:gap-10 lg:px-8">
           <div class="flex items-center gap-5" aria-hidden="true">
             <div class="threshold h-16 w-36 sm:h-20 sm:w-52"></div>
             <span class="designator text-7xl sm:text-8xl">17</span>
           </div>
-          <dl class="grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-4 md:ml-auto">
-            <div><dt class="text-sm text-navy-300">Airfield</dt><dd class="font-display text-2xl font-semibold">Plaridel, RPUX</dd></div>
-            <div><dt class="text-sm text-navy-300">Runway</dt><dd class="font-display text-2xl font-semibold tabular">17 / 35</dd></div>
-            <div><dt class="text-sm text-navy-300">Length by width</dt><dd class="font-display text-2xl font-semibold tabular">900 × 30 m</dd></div>
+          <dl class="grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-4 lg:ml-auto lg:grid-cols-[repeat(4,auto)] lg:gap-x-10 xl:gap-x-14">
+            <div><dt class="text-sm text-navy-300">CAAP certificate</dt><dd class="font-display text-2xl font-semibold tabular">ATOC 94-02</dd></div>
+            <div><dt class="text-sm text-navy-300">Pilot training on</dt><dd class="font-display text-2xl font-semibold">Airplanes and helicopters</dd></div>
+            <div><dt class="text-sm text-navy-300">Graduates fly for</dt><dd class="font-display text-2xl font-semibold tabular">6 airlines</dd></div>
             <div><dt class="text-sm text-navy-300">School founded</dt><dd class="font-display text-2xl font-semibold tabular">1994</dd></div>
           </dl>
         </div>
+      </div>
+    </section>
+
+    <!-- Four entry points: each audience gets its own first answer before the shared story begins. -->
+    <section aria-labelledby="start-title" class="bg-apron">
+      <div class="mx-auto max-w-site px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
+        <h2 id="start-title" class="font-display text-2xl font-semibold text-navy sm:text-3xl">Where are you starting from?</h2>
+        <ul class="mt-6 grid gap-x-8 sm:grid-cols-2 lg:grid-cols-4">
+          <li v-for="entry in START_POINTS" :key="entry.to" class="border-t-2 border-navy">
+            <NuxtLink :to="entry.to" class="group flex h-full items-start justify-between gap-4 pb-6 pt-4">
+              <span>
+                <span class="block font-display text-xl font-semibold text-navy group-hover:text-red">{{ entry.title }}</span>
+                <span class="mt-1 block text-[15px] leading-relaxed text-ink-muted">{{ entry.line }}</span>
+              </span>
+              <svg class="mt-1 shrink-0 text-red transition-transform duration-200 ease-out group-hover:translate-x-1" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.2 5.3 11.8 6.7 16.1 11H4v2h12.1l-4.3 4.3 1.4 1.4L20 12z" /></svg>
+            </NuxtLink>
+          </li>
+        </ul>
       </div>
     </section>
 
@@ -52,11 +85,11 @@ usePageEnhancements(root)
       <dl class="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:col-span-8 lg:mt-0">
         <div class="border-t-2 border-navy pt-4">
           <dt class="font-display text-2xl font-semibold text-navy">Civil Aviation Authority of the Philippines</dt>
-          <dd class="mt-1 text-ink-muted">Air training organization, ATOC Certificate No. 94-02. Fixed-wing and helicopter simulators are CAAP certified.</dd>
+          <dd class="mt-1 text-ink-muted">Air training organization, <TermTip id="tip-home-atoc" term="ATOC" note="The certificate CAAP issues to a school it approves to train pilots.">ATOC</TermTip> Certificate No. 94-02. Fixed-wing and helicopter simulators are CAAP certified.</dd>
         </div>
         <div class="border-t-2 border-navy pt-4">
           <dt class="font-display text-2xl font-semibold text-navy">Philippine Air Force Air Reserve Command</dt>
-          <dd class="mt-1 text-ink-muted">Affiliated with PAF-ARCEN and designated the 2201st Reserve Pilot Training Squadron.</dd>
+          <dd class="mt-1 text-ink-muted">Affiliated with the Air Reserve Command and designated its 2201st Reserve Pilot Training Squadron.</dd>
         </div>
         <div class="border-t-2 border-line pt-4">
           <dt class="font-display text-2xl font-semibold text-navy">TESDA</dt>
@@ -64,7 +97,7 @@ usePageEnhancements(root)
         </div>
         <div class="border-t-2 border-line pt-4">
           <dt class="font-display text-2xl font-semibold text-navy">Bureau of Immigration</dt>
-          <dd class="mt-1 text-ink-muted">Authorized to accept foreign students, AAFS RBR No. 2000.</dd>
+          <dd class="mt-1 text-ink-muted">Authorized to accept foreign students, AAFS RBR No. 2000. <NuxtLink to="/students#foreign-students" class="font-semibold text-red underline decoration-2 underline-offset-4 hover:text-red-dark">Visa routes for foreign students</NuxtLink></dd>
         </div>
       </dl>
     </section>
@@ -73,47 +106,51 @@ usePageEnhancements(root)
     <section aria-labelledby="path-title" class="bg-apron py-16 lg:py-24">
       <div class="mx-auto max-w-site px-4 sm:px-6 lg:px-8">
         <div class="max-w-2xl">
-          <h2 id="path-title" class="font-display text-4xl font-bold leading-none text-navy sm:text-5xl">From your medical exam to a commercial license</h2>
+          <h2 id="path-title" class="font-display text-4xl font-bold leading-none text-navy sm:text-5xl lg:text-6xl">From your medical exam to a commercial license</h2>
           <p class="mt-4 text-lg text-ink-muted">Every step below is set by CAAP. Hours shown are the CAAP minimums; most students fly more.</p>
         </div>
 
         <div class="relative mt-12">
-        <div class="route-track absolute left-0 right-0 top-[17px] hidden lg:block" aria-hidden="true"></div>
-        <div class="route-track-v absolute bottom-0 left-[17px] top-0 lg:hidden" aria-hidden="true"></div>
         <ol class="relative grid gap-10 lg:grid-cols-7 lg:gap-4">
 
-          <li class="relative pl-14 lg:pl-0 lg:pt-14">
-            <span class="absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-navy font-display text-lg font-bold text-white">1</span>
+          <li class="route-step relative pl-14 lg:pl-0 lg:pt-14">
+            <span class="route-leg" aria-hidden="true"></span>
+            <span class="route-dot absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-navy font-display text-lg font-bold text-white">1</span>
             <h3 class="font-display text-xl font-semibold leading-tight text-navy">Student pilot authority</h3>
-            <p class="mt-2 text-[15px] leading-relaxed text-ink-muted">Third-class medical certificate and NBI clearance, filed with CAAP.</p>
+            <p class="mt-2 text-[15px] leading-relaxed text-ink-muted">Third-class medical <TermTip id="tip-home-medical" term="third-class medical certificate" note="Proof from an aviation doctor accredited by CAAP that you are fit to fly. You get it after a medical exam.">certificate</TermTip> and NBI <TermTip id="tip-home-nbi" term="NBI clearance" note="A certificate from the National Bureau of Investigation showing you have no criminal record.">clearance</TermTip>, filed with CAAP.</p>
           </li>
-          <li class="relative pl-14 lg:pl-0 lg:pt-14">
-            <span class="absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-navy font-display text-lg font-bold text-white">2</span>
+          <li class="route-step relative pl-14 lg:pl-0 lg:pt-14">
+            <span class="route-leg" aria-hidden="true"></span>
+            <span class="route-dot absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-navy font-display text-lg font-bold text-white">2</span>
             <h3 class="font-display text-xl font-semibold leading-tight text-navy">Ground school</h3>
             <p class="mt-2 text-[15px] leading-relaxed text-ink-muted">Nine subjects, air law to principles of flight, in Pasay or at the hangar.</p>
           </li>
-          <li class="relative pl-14 lg:pl-0 lg:pt-14">
-            <span class="absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-red font-display text-lg font-bold text-white">3</span>
+          <li class="route-step relative pl-14 lg:pl-0 lg:pt-14">
+            <span class="route-leg" aria-hidden="true"></span>
+            <span class="route-dot absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-red font-display text-lg font-bold text-white">3</span>
             <h3 class="font-display text-xl font-semibold leading-tight text-navy">First solo</h3>
             <p class="mt-2 text-[15px] leading-relaxed text-ink-muted">After the pre-solo exam and at least 8 flying hours. Ends with a bucket of water.</p>
           </li>
-          <li class="relative pl-14 lg:pl-0 lg:pt-14">
-            <span class="absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-navy font-display text-lg font-bold text-white">4</span>
+          <li class="route-step relative pl-14 lg:pl-0 lg:pt-14">
+            <span class="route-leg" aria-hidden="true"></span>
+            <span class="route-dot absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-navy font-display text-lg font-bold text-white">4</span>
             <h3 class="font-display text-xl font-semibold leading-tight text-navy">Private pilot license</h3>
-            <p class="mt-2 text-[15px] leading-relaxed text-ink-muted"><span class="tabular">40</span> hours total, 20 dual and 20 solo, then CAAP written and practical tests.</p>
+            <p class="mt-2 text-[15px] leading-relaxed text-ink-muted"><span class="tabular">40</span> hours total, 20 <TermTip id="tip-home-dual" term="dual" note="Dual hours are flown with an instructor beside you. Solo hours are flown alone.">dual</TermTip> and 20 solo, then CAAP written and practical tests.</p>
           </li>
-          <li class="relative pl-14 lg:pl-0 lg:pt-14">
-            <span class="absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-navy font-display text-lg font-bold text-white">5</span>
+          <li class="route-step relative pl-14 lg:pl-0 lg:pt-14">
+            <span class="route-leg" aria-hidden="true"></span>
+            <span class="route-dot absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-navy font-display text-lg font-bold text-white">5</span>
             <h3 class="font-display text-xl font-semibold leading-tight text-navy">Commercial pilot license</h3>
-            <p class="mt-2 text-[15px] leading-relaxed text-ink-muted"><span class="tabular">150</span> hours, a higher-horsepower rating and a CAAP checkride.</p>
+            <p class="mt-2 text-[15px] leading-relaxed text-ink-muted"><span class="tabular">150</span> hours, a higher-horsepower <TermTip id="tip-home-hp" term="higher-horsepower rating" note="Training on a more powerful aircraft than the basic trainer. At Masters this is the Cessna 172.">rating</TermTip> and a CAAP <TermTip id="tip-home-checkride" term="checkride" note="The practical flight test with a CAAP examiner that you pass to earn the license.">checkride</TermTip>.</p>
           </li>
-          <li class="relative pl-14 lg:pl-0 lg:pt-14">
-            <span class="absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-navy font-display text-lg font-bold text-white">6</span>
+          <li class="route-step relative pl-14 lg:pl-0 lg:pt-14">
+            <span class="route-leg" aria-hidden="true"></span>
+            <span class="route-dot absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-navy font-display text-lg font-bold text-white">6</span>
             <h3 class="font-display text-xl font-semibold leading-tight text-navy">Instrument rating</h3>
-            <p class="mt-2 text-[15px] leading-relaxed text-ink-muted">Instrument ground school and at least 20 simulator hours.</p>
+            <p class="mt-2 text-[15px] leading-relaxed text-ink-muted">Flying in cloud on instruments alone. Instrument ground school and at least 20 simulator hours.</p>
           </li>
-          <li class="relative pl-14 lg:pl-0 lg:pt-14">
-            <span class="absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-navy font-display text-lg font-bold text-white">7</span>
+          <li class="route-step relative pl-14 lg:pl-0 lg:pt-14">
+            <span class="route-dot absolute left-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-navy font-display text-lg font-bold text-white">7</span>
             <h3 class="font-display text-xl font-semibold leading-tight text-navy">Add-on ratings</h3>
             <p class="mt-2 text-[15px] leading-relaxed text-ink-muted">Multi-engine on the Piper Aztec, then flight instructor.</p>
           </li>
@@ -135,23 +172,23 @@ usePageEnhancements(root)
           <div>
             <h3 class="font-display text-2xl font-semibold text-red">Airplane</h3>
             <ul class="mt-3 divide-y divide-line border-y border-line">
-              <li><NuxtLink to="/courses#ppl" class="flex min-h-[52px] items-center justify-between gap-4 py-3 font-semibold text-navy hover:text-red">Private pilot ground and flight<span class="text-sm font-normal text-ink-muted">Start here</span></NuxtLink></li>
-              <li><NuxtLink to="/courses#cpl" class="flex min-h-[52px] items-center justify-between gap-4 py-3 font-semibold text-navy hover:text-red">Commercial pilot ground and flight<span class="text-sm font-normal text-ink-muted">Needs PPL</span></NuxtLink></li>
+              <li><NuxtLink to="/courses#ppl" class="flex min-h-[52px] items-center justify-between gap-4 py-3 font-semibold text-navy hover:text-red">Private pilot ground and flight<span class="flex shrink-0 items-center gap-2"><span class="rounded bg-red-tint px-2 py-0.5 text-sm font-semibold text-red-dark">Start here</span><svg class="shrink-0 text-red" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.3 5.3 7.9 6.7 13.2 12l-5.3 5.3 1.4 1.4L16 12z" /></svg></span></NuxtLink></li>
+              <li><NuxtLink to="/courses#cpl" class="flex min-h-[52px] items-center justify-between gap-4 py-3 font-semibold text-navy hover:text-red">Commercial pilot ground and flight<span class="flex shrink-0 items-center gap-2 text-sm font-normal text-ink-muted">Needs private license<svg class="shrink-0 text-red" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.3 5.3 7.9 6.7 13.2 12l-5.3 5.3 1.4 1.4L16 12z" /></svg></span></NuxtLink></li>
             </ul>
           </div>
           <div>
             <h3 class="font-display text-2xl font-semibold text-red">Helicopter</h3>
             <ul class="mt-3 divide-y divide-line border-y border-line">
-              <li><NuxtLink to="/courses#phpl" class="flex min-h-[52px] items-center justify-between gap-4 py-3 font-semibold text-navy hover:text-red">Private helicopter pilot<span class="text-sm font-normal text-ink-muted">Start here</span></NuxtLink></li>
-              <li><NuxtLink to="/courses#chpl" class="flex min-h-[52px] items-center justify-between gap-4 py-3 font-semibold text-navy hover:text-red">Commercial helicopter pilot<span class="text-sm font-normal text-ink-muted">Needs PHPL</span></NuxtLink></li>
+              <li><NuxtLink to="/courses#phpl" class="flex min-h-[52px] items-center justify-between gap-4 py-3 font-semibold text-navy hover:text-red">Private helicopter pilot<span class="flex shrink-0 items-center gap-2"><span class="rounded bg-red-tint px-2 py-0.5 text-sm font-semibold text-red-dark">Start here</span><svg class="shrink-0 text-red" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.3 5.3 7.9 6.7 13.2 12l-5.3 5.3 1.4 1.4L16 12z" /></svg></span></NuxtLink></li>
+              <li><NuxtLink to="/courses#chpl" class="flex min-h-[52px] items-center justify-between gap-4 py-3 font-semibold text-navy hover:text-red">Commercial helicopter pilot<span class="flex shrink-0 items-center gap-2 text-sm font-normal text-ink-muted">Needs private license<svg class="shrink-0 text-red" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.3 5.3 7.9 6.7 13.2 12l-5.3 5.3 1.4 1.4L16 12z" /></svg></span></NuxtLink></li>
             </ul>
           </div>
           <div class="sm:col-span-2">
             <h3 class="font-display text-2xl font-semibold text-red">Ratings for licensed pilots</h3>
             <ul class="mt-3 grid divide-y divide-line border-y border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-              <li><NuxtLink to="/courses#instrument" class="flex min-h-[52px] items-center py-3 font-semibold text-navy hover:text-red sm:px-4 sm:first:pl-0">Instrument rating</NuxtLink></li>
-              <li><NuxtLink to="/courses#multi-engine" class="flex min-h-[52px] items-center py-3 font-semibold text-navy hover:text-red sm:px-4">Multi-engine</NuxtLink></li>
-              <li><NuxtLink to="/courses#instructor" class="flex min-h-[52px] items-center py-3 font-semibold text-navy hover:text-red sm:px-4">Flight instructor (CFI, CFII)</NuxtLink></li>
+              <li><NuxtLink to="/courses#instrument" class="flex min-h-[52px] items-center justify-between gap-4 py-3 font-semibold text-navy hover:text-red sm:px-4 sm:first:pl-0">Instrument rating<svg class="shrink-0 text-red" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.3 5.3 7.9 6.7 13.2 12l-5.3 5.3 1.4 1.4L16 12z" /></svg></NuxtLink></li>
+              <li><NuxtLink to="/courses#multi-engine" class="flex min-h-[52px] items-center justify-between gap-4 py-3 font-semibold text-navy hover:text-red sm:px-4">Multi-engine<svg class="shrink-0 text-red" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.3 5.3 7.9 6.7 13.2 12l-5.3 5.3 1.4 1.4L16 12z" /></svg></NuxtLink></li>
+              <li><NuxtLink to="/courses#instructor" class="flex min-h-[52px] items-center justify-between gap-4 py-3 font-semibold text-navy hover:text-red sm:px-4">Flight instructor (CFI, CFII)<svg class="shrink-0 text-red" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.3 5.3 7.9 6.7 13.2 12l-5.3 5.3 1.4 1.4L16 12z" /></svg></NuxtLink></li>
             </ul>
           </div>
         </div>
@@ -165,7 +202,7 @@ usePageEnhancements(root)
           <img src="/img/flightline-dusk.webp" width="930" height="624" loading="lazy" alt="Masters Cessnas lined up on the Plaridel apron at dusk" class="absolute inset-0 h-full w-full object-cover">
         </div>
         <div class="px-4 py-16 sm:px-6 lg:px-16 lg:py-24">
-          <h2 id="plaridel-title" class="font-display text-4xl font-bold leading-none sm:text-5xl">Your classroom has a control tower</h2>
+          <h2 id="plaridel-title" class="font-display text-3xl font-bold leading-none sm:text-4xl">Your classroom has a control tower</h2>
           <p class="mt-6 max-w-lg text-lg leading-relaxed text-navy-300">Plaridel Airport opened in 1935 and trained fighter pilots during the Second World War. Today it is the only airport in Bulacan and is dedicated mainly to flight training. CAAP staffs the tower during operating hours, so you practice radio calls with a staffed tower from your first lessons.</p>
           <p class="mt-4 max-w-lg text-lg leading-relaxed text-navy-300">Our hangar sits on the field with a classroom and briefing room, and student lodging is in the immediate vicinity of the airport.</p>
           <div class="mt-8 flex flex-wrap gap-x-8 gap-y-3">
@@ -180,7 +217,7 @@ usePageEnhancements(root)
     <section aria-labelledby="fleet-title" class="mx-auto max-w-site px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
         <div>
-          <h2 id="fleet-title" class="font-display text-4xl font-bold leading-none text-navy sm:text-5xl">The fleet you will fly</h2>
+          <h2 id="fleet-title" class="font-display text-3xl font-bold leading-none text-navy sm:text-4xl">The fleet you will fly</h2>
           <p class="mt-4 max-w-xl text-lg text-ink-muted">Registered, airworthy and maintained in-house by our CAAP-approved maintenance organization, AMO No. 113-12.</p>
         </div>
         <NuxtLink to="/fleet" class="inline-flex min-h-[44px] shrink-0 items-center font-semibold text-red underline decoration-2 underline-offset-4 hover:text-red-dark">Specifications for every aircraft</NuxtLink>
@@ -188,42 +225,42 @@ usePageEnhancements(root)
       <ul class="mt-10 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
         <li>
           <NuxtLink to="/fleet#cessna-150" class="group block">
-            <div class="overflow-hidden rounded-lg"><img src="/img/fleet-cessna-150.webp" width="930" height="624" loading="lazy" alt="Cessna 150 RP-C1330 on the apron" class="aspect-[3/2] w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"></div>
+            <div class="overflow-hidden rounded-lg"><img src="/img/fleet-cessna-150.webp" width="930" height="624" loading="lazy" alt="Cessna 150 RP-C1330 on the apron" class="aspect-[3/2] w-full object-cover"></div>
             <h3 class="mt-4 font-display text-2xl font-semibold text-navy group-hover:text-red">Cessna 150</h3>
             <p class="text-ink-muted">Basic trainer for first lessons and first solo</p>
           </NuxtLink>
         </li>
         <li>
           <NuxtLink to="/fleet#cessna-152" class="group block">
-            <div class="overflow-hidden rounded-lg"><img src="/img/fleet-cessna-152.webp" width="930" height="624" loading="lazy" alt="Cessna 152 RP-C2683 climbing out over Plaridel" class="aspect-[3/2] w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"></div>
+            <div class="overflow-hidden rounded-lg"><img src="/img/fleet-cessna-152.webp" width="930" height="624" loading="lazy" alt="Cessna 152 RP-C2683 climbing out over Plaridel" class="aspect-[3/2] w-full object-cover"></div>
             <h3 class="mt-4 font-display text-2xl font-semibold text-navy group-hover:text-red">Cessna 152</h3>
             <p class="text-ink-muted">Primary trainer for private pilot training</p>
           </NuxtLink>
         </li>
         <li>
           <NuxtLink to="/fleet#cessna-172" class="group block">
-            <div class="overflow-hidden rounded-lg"><img src="/img/fleet-cessna-172.webp" width="930" height="624" loading="lazy" alt="Cessna 172 on the Plaridel apron" class="aspect-[3/2] w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"></div>
+            <div class="overflow-hidden rounded-lg"><img src="/img/fleet-cessna-172.webp" width="930" height="624" loading="lazy" alt="Cessna 172 on the Plaridel apron" class="aspect-[3/2] w-full object-cover"></div>
             <h3 class="mt-4 font-display text-2xl font-semibold text-navy group-hover:text-red">Cessna 172</h3>
             <p class="text-ink-muted">Higher-horsepower rating for commercial students</p>
           </NuxtLink>
         </li>
         <li>
           <NuxtLink to="/fleet#piper-aztec" class="group block">
-            <div class="overflow-hidden rounded-lg"><img src="/img/fleet-piper-aztec.webp" width="930" height="624" loading="lazy" alt="Piper Aztec twin on the grass beside the runway" class="aspect-[3/2] w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"></div>
+            <div class="overflow-hidden rounded-lg"><img src="/img/fleet-piper-aztec.webp" width="930" height="624" loading="lazy" alt="Piper Aztec twin on the grass beside the runway" class="aspect-[3/2] w-full object-cover"></div>
             <h3 class="mt-4 font-display text-2xl font-semibold text-navy group-hover:text-red">Piper Aztec</h3>
             <p class="text-ink-muted">Twin-engine aircraft for the multi-engine rating</p>
           </NuxtLink>
         </li>
         <li>
           <NuxtLink to="/fleet#schweizer-269" class="group block">
-            <div class="overflow-hidden rounded-lg"><img src="/img/fleet-schweizer-269.webp" width="930" height="624" loading="lazy" alt="Masters Schweizer training helicopter on the pad" class="aspect-[3/2] w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"></div>
+            <div class="overflow-hidden rounded-lg"><img src="/img/fleet-schweizer-269.webp" width="930" height="624" loading="lazy" alt="Masters Schweizer training helicopter on the pad" class="aspect-[3/2] w-full object-cover"></div>
             <h3 class="mt-4 font-display text-2xl font-semibold text-navy group-hover:text-red">Schweizer 269</h3>
             <p class="text-ink-muted">Light trainer helicopter</p>
           </NuxtLink>
         </li>
         <li>
           <NuxtLink to="/fleet#schweizer-300cb" class="group block">
-            <div class="overflow-hidden rounded-lg"><img src="/img/fleet-schweizer-300cb.webp" width="930" height="624" loading="lazy" alt="Schweizer 300CB helicopter with a student in the cockpit" class="aspect-[3/2] w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"></div>
+            <div class="overflow-hidden rounded-lg"><img src="/img/fleet-schweizer-300cb.webp" width="930" height="624" loading="lazy" alt="Schweizer 300CB helicopter with a student in the cockpit" class="aspect-[3/2] w-full object-cover"></div>
             <h3 class="mt-4 font-display text-2xl font-semibold text-navy group-hover:text-red">Schweizer 300 CB</h3>
             <p class="text-ink-muted">Light trainer helicopter</p>
           </NuxtLink>
@@ -231,21 +268,24 @@ usePageEnhancements(root)
       </ul>
     </section>
 
-    <!-- First solo -->
-    <section aria-labelledby="solo-title" class="bg-apron">
+    <!-- Video -->
+    <section aria-labelledby="video-title" class="on-dark bg-tarmac text-white">
       <div class="mx-auto grid max-w-site items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:px-8 lg:py-24">
-        <div class="lg:col-span-5">
-          <h2 id="solo-title" class="font-display text-4xl font-bold leading-none text-navy sm:text-5xl">The day you fly alone</h2>
-          <p class="mt-6 text-lg leading-relaxed text-ink-muted">Your first solo is the flight every student works toward. When you climb out of the aircraft, your batchmates meet you with a bucket of water in front of the plane you just flew. In our instructors' experience, that new confidence carries students through the rest of their license, and they push on to it sooner.</p>
-          <blockquote class="mt-8 border-t-2 border-red pt-4">
-            <p class="font-display text-2xl font-semibold leading-snug text-navy">“Another eagle is born and is set conquering the sky.”</p>
-            <footer class="mt-2 text-sm text-ink-muted">From the school's student life guide</footer>
-          </blockquote>
-          <NuxtLink to="/students#student-life" class="mt-8 inline-flex min-h-[44px] items-center font-semibold text-red underline decoration-2 underline-offset-4 hover:text-red-dark">Read about student life</NuxtLink>
+        <div class="lg:col-span-4">
+          <h2 id="video-title" class="font-display text-3xl font-bold leading-none sm:text-4xl">Ride along on a training flight</h2>
+          <p class="mt-4 text-navy-300">A fixed-wing flight in a Masters Cessna. The helicopter flight and both simulators are on the About page.</p>
+          <NuxtLink to="/about#videos" class="mt-6 inline-flex min-h-[44px] items-center font-semibold text-white underline decoration-red decoration-2 underline-offset-4 hover:decoration-white">Watch all four videos</NuxtLink>
         </div>
-        <figure class="lg:col-span-7">
-          <img src="/img/crew-runway.webp" width="930" height="624" loading="lazy" alt="Masters students in red flight suits standing on runway 17 at Plaridel in front of a Cessna" class="w-full rounded-lg object-cover">
-        </figure>
+        <div class="lg:col-span-8">
+          <div class="yt rounded-lg" data-yt="zArCGT2t9AQ" data-title="Fixed wing flight, Cessna">
+            <button type="button" class="group absolute inset-0 h-full w-full" aria-label="Play video: Fixed wing flight, Cessna">
+              <img src="https://i.ytimg.com/vi/zArCGT2t9AQ/sddefault.jpg" alt="" loading="lazy">
+              <span class="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-red text-white transition-transform group-hover:scale-105">
+                <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+              </span>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -254,7 +294,7 @@ usePageEnhancements(root)
       <div class="grid gap-10 lg:grid-cols-12 lg:gap-12">
         <div class="lg:col-span-5">
           <h2 id="alumni-title" class="font-display text-4xl font-bold leading-none text-navy sm:text-5xl">Where our graduates fly</h2>
-          <p class="mt-5 text-lg leading-relaxed text-ink-muted">Captains on our alumni roll, counted by the airline listed beside their name. Several batches of the Philippine Army Aviation Battalion also trained here, and graduates have come from Saudi Arabia, Nepal, Bangladesh and India.</p>
+          <p class="mt-5 text-lg leading-relaxed text-ink-muted">Captains on our alumni roll, counted by the airline listed beside their name. Several batches of the Philippine Army Aviation Battalion also trained here, and graduates have come from Saudi Arabia, Nepal, Bangladesh and India. <NuxtLink to="/students#foreign-students" class="font-semibold text-red underline decoration-2 underline-offset-4 hover:text-red-dark">How foreign students enroll</NuxtLink></p>
           <p class="mt-4 text-sm text-ink-muted">Some airlines have since merged or rebranded. We list them as our graduates joined them.</p>
           <figure class="mt-8 hidden overflow-hidden rounded-lg lg:block">
             <img src="/img/class-runway-17.webp" width="930" height="624" loading="lazy" alt="Masters students and instructors on the runway 17 threshold at Plaridel" class="aspect-[16/10] w-full object-cover">
@@ -262,7 +302,7 @@ usePageEnhancements(root)
         </div>
         <div class="lg:col-span-7">
           <h3 class="font-display text-xl font-semibold text-ink-muted">Graduates by airline</h3>
-          <ol class="mt-2 divide-y divide-line border-y border-line">
+          <ol class="mt-2 divide-y divide-line border-y border-line" data-bars>
             <li class="grid grid-cols-[1fr_auto] items-baseline gap-x-4 gap-y-2 py-3">
               <span class="font-display text-xl font-semibold text-navy sm:text-2xl">Cebu Pacific</span>
               <span class="text-sm text-ink-muted tabular"><span class="font-display text-2xl font-bold text-navy">10</span> graduates</span>
@@ -302,26 +342,39 @@ usePageEnhancements(root)
           <NuxtLink to="/students#alumni" class="mt-6 inline-flex min-h-[44px] items-center font-semibold text-red underline decoration-2 underline-offset-4 hover:text-red-dark">See every name on the alumni roll</NuxtLink>
         </div>
       </div>
-    </section>
 
-    <!-- Video -->
-    <section aria-labelledby="video-title" class="on-dark bg-tarmac text-white">
-      <div class="mx-auto grid max-w-site items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:px-8 lg:py-24">
-        <div class="lg:col-span-4">
-          <h2 id="video-title" class="font-display text-4xl font-bold leading-none sm:text-5xl">Ride along on a training flight</h2>
-          <p class="mt-4 text-navy-300">A fixed-wing flight in a Masters Cessna. The helicopter flight and both simulators are on the About page.</p>
-          <NuxtLink to="/about#videos" class="mt-6 inline-flex min-h-[44px] items-center font-semibold text-white underline decoration-red decoration-2 underline-offset-4 hover:decoration-white">Watch all four videos</NuxtLink>
-        </div>
-        <div class="lg:col-span-8">
-          <div class="yt rounded-lg" data-yt="zArCGT2t9AQ" data-title="Fixed wing flight, Cessna">
-            <button type="button" class="group absolute inset-0 h-full w-full" aria-label="Play video: Fixed wing flight, Cessna">
-              <img src="https://i.ytimg.com/vi/zArCGT2t9AQ/hqdefault.jpg" alt="" loading="lazy">
-              <span class="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-red text-white transition-transform group-hover:scale-105">
-                <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
-              </span>
-            </button>
+      <!-- Mid-page way to ask, so a phone visitor at the proof point does not have to scroll to the end. -->
+      <div class="mt-14 lg:mt-20">
+        <div class="threshold-thin" aria-hidden="true"></div>
+        <div class="mt-8 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+          <div>
+            <p class="font-display text-3xl font-bold leading-tight text-navy sm:text-4xl">Want your name on this list?</p>
+            <p class="mt-2 max-w-xl text-lg text-ink-muted">Tell us your goal and any licenses you hold. Schedules and current fees are quoted on request.</p>
+          </div>
+          <div class="flex shrink-0 flex-col gap-3 sm:flex-row">
+            <NuxtLink to="/contact#inquiry" class="inline-flex min-h-[48px] items-center justify-center rounded-md bg-red px-6 font-display text-xl font-semibold text-white press hover:bg-red-dark">Send an inquiry</NuxtLink>
+            <a href="tel:+6328517042" class="inline-flex min-h-[48px] items-center justify-center rounded-md border-2 border-navy px-6 font-display text-xl font-semibold text-navy press hover:bg-navy hover:text-white tabular">Call (02) 851-7042</a>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- First solo -->
+    <section aria-labelledby="solo-title" class="bg-apron">
+      <div class="mx-auto grid max-w-site items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:px-8 lg:py-24">
+        <div class="lg:col-span-5">
+          <h2 id="solo-title" class="font-display text-[2.75rem] font-bold leading-[.95] text-navy sm:text-6xl">The day you fly alone</h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-muted">Your first solo is the flight every student works toward. When you climb out of the aircraft, your batchmates meet you with a bucket of water in front of the plane you just flew. In our instructors' experience, that confidence carries students through the rest of their training, and they tend to reach their license sooner.</p>
+          <blockquote class="mt-8 border-t-2 border-red pt-4">
+            <p class="font-display text-2xl font-semibold leading-snug text-navy">“Another eagle is born and is set conquering the sky.”</p>
+            <footer class="mt-2 text-sm text-ink-muted">From the school's student life guide</footer>
+          </blockquote>
+          <NuxtLink to="/students#student-life" class="mt-8 inline-flex min-h-[44px] items-center font-semibold text-red underline decoration-2 underline-offset-4 hover:text-red-dark">Read about student life</NuxtLink>
+        </div>
+        <!-- Photo first on phones: the closing peak opens on the moment, not on a link. -->
+        <figure class="order-first lg:order-none lg:col-span-7">
+          <img src="/img/crew-runway.webp" width="930" height="624" loading="lazy" alt="Masters students in red flight suits standing on runway 17 at Plaridel in front of a Cessna" class="w-full rounded-lg object-cover">
+        </figure>
       </div>
     </section>
 
@@ -333,20 +386,28 @@ usePageEnhancements(root)
           <h3 class="font-display text-2xl font-semibold text-navy">Pasay office</h3>
           <p class="mt-2 text-ink-muted">2317 Nissan Car Lease Bldg., Aurora Blvd., Pasay City, Metro Manila</p>
           <p class="mt-4"><a href="tel:+6328517042" class="inline-flex min-h-[44px] items-center font-semibold text-navy hover:text-red tabular">(02) 851-7042</a></p>
+          <p class="text-sm text-ink-muted tabular">From abroad <span class="whitespace-nowrap">+63 2 851 7042</span></p>
         </div>
         <div class="rounded-lg border border-line p-6">
           <h3 class="font-display text-2xl font-semibold text-navy">Plaridel hangar</h3>
           <p class="mt-2 text-ink-muted">Plaridel Airport, Plaridel, Bulacan</p>
           <p class="mt-4"><a href="tel:+63447942865" class="inline-flex min-h-[44px] items-center font-semibold text-navy hover:text-red tabular">(044) 794-2865</a></p>
+          <p class="text-sm text-ink-muted tabular">From abroad <span class="whitespace-nowrap">+63 44 794 2865</span></p>
         </div>
         <div class="flex flex-col justify-between rounded-lg bg-red p-6 text-white on-dark">
           <div>
             <h3 class="font-display text-2xl font-semibold">Not sure which course fits?</h3>
             <p class="mt-2">Tell us your goal and any licenses you hold. Ask about schedules and current fees too.</p>
           </div>
-          <NuxtLink to="/contact#inquiry" class="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-md bg-white px-5 font-display text-xl font-semibold text-red transition-colors hover:bg-apron">Send an inquiry</NuxtLink>
+          <NuxtLink to="/contact#inquiry" class="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-md bg-white px-5 font-display text-xl font-semibold text-red press hover:bg-apron">Send an inquiry</NuxtLink>
         </div>
       </div>
+      <!-- Channels that work from any country, so the close does not depend on a Metro Manila landline or a mail app. -->
+      <dl class="mt-8 flex flex-col gap-x-10 gap-y-2 sm:flex-row sm:flex-wrap">
+        <div class="flex flex-wrap items-baseline gap-x-3"><dt class="text-sm text-ink-muted">Email</dt><dd><a href="mailto:info@mastersflyingschool.com" class="inline-flex min-h-[44px] items-center font-semibold text-navy [overflow-wrap:anywhere] hover:text-red">info@mastersflyingschool.com</a></dd></div>
+        <div class="flex flex-wrap items-baseline gap-x-3"><dt class="text-sm text-ink-muted">Mobile</dt><dd><a href="tel:+639178691974" class="inline-flex min-h-[44px] items-center font-semibold text-navy hover:text-red tabular">+63 917 869 1974</a></dd></div>
+        <div class="flex flex-wrap items-baseline gap-x-3"><dt class="text-sm text-ink-muted">Facebook</dt><dd><a href="https://www.facebook.com/pages/Masters-Flying-School/154831617913387" rel="noopener" target="_blank" class="inline-flex min-h-[44px] items-center font-semibold text-navy hover:text-red">Masters Flying School page</a></dd></div>
+      </dl>
     </section>
   </div>
 </template>

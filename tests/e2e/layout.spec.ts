@@ -33,6 +33,23 @@ test.describe('layout', () => {
     await expect(page.locator('body')).not.toHaveClass(/overflow-hidden/)
   })
 
+  test('phone header keeps the inquiry and call within reach', async ({ page }) => {
+    const header = page.locator('.site-header')
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/')
+    await expect(header.getByRole('link', { name: 'Inquire', exact: true })).toBeVisible()
+    await expect(header.getByRole('link', { name: 'Call the Pasay office, (02) 851-7042' })).toBeVisible()
+
+    // The narrowest phones drop the call icon rather than overflow; the call stays in the menu.
+    await page.setViewportSize({ width: 320, height: 640 })
+    await expect(header.getByRole('link', { name: 'Inquire', exact: true })).toBeVisible()
+    await expect(header.getByRole('link', { name: 'Call the Pasay office, (02) 851-7042' })).toBeHidden()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320)
+
+    await page.goto('/contact')
+    await expect(header.getByRole('link', { name: 'Inquire', exact: true })).toHaveCount(0)
+  })
+
   test('footer shows the current year and both addresses', async ({ page }) => {
     await page.goto('/')
     const footer = page.locator('footer').last()

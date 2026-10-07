@@ -87,7 +87,7 @@ function onSubmit() {
       </div>
     </div>
     <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-      <button type="submit" :disabled="sending" class="inline-flex min-h-[48px] items-center justify-center rounded-md bg-red px-8 font-display text-xl font-semibold text-white transition-colors hover:bg-red-dark disabled:cursor-wait disabled:opacity-60">{{ sending ? 'Preparing your email…' : 'Send inquiry' }}</button>
+      <button type="submit" :disabled="sending" class="inline-flex min-h-[48px] items-center justify-center rounded-md bg-red px-8 font-display text-xl font-semibold text-white press hover:bg-red-dark disabled:cursor-wait disabled:opacity-60">{{ sending ? 'Preparing your email…' : 'Send inquiry' }}</button>
       <p class="text-sm text-ink-muted"><span class="text-red" aria-hidden="true">*</span> Required</p>
     </div>
     <div id="inquiry-status" ref="statusEl" role="status" aria-live="polite" tabindex="-1" :hidden="status === 'idle'" :class="STATUS_CLASS[status]">

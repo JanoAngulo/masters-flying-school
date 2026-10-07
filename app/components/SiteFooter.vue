@@ -23,12 +23,13 @@ const year = new Date().getFullYear()
       </div>
       <div class="mt-12 flex flex-col gap-6 border-t border-white/15 pt-8 lg:flex-row lg:items-center lg:justify-between">
         <nav aria-label="Footer">
-          <ul class="flex flex-wrap gap-x-6 gap-y-1">
-            <li><NuxtLink to="/courses" class="inline-flex min-h-[44px] items-center hover:underline">Courses</NuxtLink></li>
-            <li><NuxtLink to="/fleet" class="inline-flex min-h-[44px] items-center hover:underline">Fleet</NuxtLink></li>
-            <li><NuxtLink to="/students" class="inline-flex min-h-[44px] items-center hover:underline">Students</NuxtLink></li>
-            <li><NuxtLink to="/about" class="inline-flex min-h-[44px] items-center hover:underline">About</NuxtLink></li>
-            <li><NuxtLink to="/contact" class="inline-flex min-h-[44px] items-center hover:underline">Contact</NuxtLink></li>
+          <!-- Short labels get a 44px tap width; the gap is trimmed by the same amount so the row wraps as it did before. -->
+          <ul class="flex flex-wrap gap-x-[22px] gap-y-1">
+            <li><NuxtLink to="/courses" class="inline-flex min-h-[44px] min-w-[44px] items-center justify-center hover:underline">Courses</NuxtLink></li>
+            <li><NuxtLink to="/fleet" class="inline-flex min-h-[44px] min-w-[44px] items-center justify-center hover:underline">Fleet</NuxtLink></li>
+            <li><NuxtLink to="/students" class="inline-flex min-h-[44px] min-w-[44px] items-center justify-center hover:underline">Students</NuxtLink></li>
+            <li><NuxtLink to="/about" class="inline-flex min-h-[44px] min-w-[44px] items-center justify-center hover:underline">About</NuxtLink></li>
+            <li><NuxtLink to="/contact" class="inline-flex min-h-[44px] min-w-[44px] items-center justify-center hover:underline">Contact</NuxtLink></li>
             <li><a href="mailto:info@mastersflyingschool.com" class="inline-flex min-h-[44px] items-center hover:underline">info@mastersflyingschool.com</a></li>
             <li><a href="https://www.facebook.com/pages/Masters-Flying-School/154831617913387" rel="noopener" target="_blank" class="inline-flex min-h-[44px] items-center hover:underline">Facebook</a></li>
           </ul>

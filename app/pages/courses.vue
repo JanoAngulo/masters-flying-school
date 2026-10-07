@@ -20,20 +20,21 @@ usePageEnhancements(root)
     <div class="mx-auto max-w-site px-4 py-12 sm:px-6 lg:grid lg:grid-cols-12 lg:gap-12 lg:px-8 lg:py-16">
       <!-- In-page navigation -->
       <aside class="lg:col-span-3">
-        <nav aria-label="Courses on this page" class="lg:sticky lg:top-28">
+        <nav aria-label="Courses on this page" class="relative lg:sticky lg:top-28" data-scrollspy>
           <p class="font-display text-xl font-semibold text-navy">On this page</p>
           <ul class="mt-3 space-y-1 border-l-2 border-line">
             <li class="pt-2 pl-4 text-sm font-semibold text-ink-muted">Airplane</li>
-            <li><a href="#ppl" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red">Private pilot</a></li>
-            <li><a href="#cpl" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red">Commercial pilot</a></li>
+            <li><a href="#ppl" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red aria-[current=location]:text-red">Private pilot</a></li>
+            <li><a href="#cpl" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red aria-[current=location]:text-red">Commercial pilot</a></li>
             <li class="pt-3 pl-4 text-sm font-semibold text-ink-muted">Helicopter</li>
-            <li><a href="#phpl" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red">Private helicopter pilot</a></li>
-            <li><a href="#chpl" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red">Commercial helicopter pilot</a></li>
+            <li><a href="#phpl" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red aria-[current=location]:text-red">Private helicopter pilot</a></li>
+            <li><a href="#chpl" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red aria-[current=location]:text-red">Commercial helicopter pilot</a></li>
             <li class="pt-3 pl-4 text-sm font-semibold text-ink-muted">Ratings</li>
-            <li><a href="#instrument" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red">Instrument rating</a></li>
-            <li><a href="#multi-engine" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red">Multi-engine</a></li>
-            <li><a href="#instructor" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red">Flight instructor</a></li>
+            <li><a href="#instrument" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red aria-[current=location]:text-red">Instrument rating</a></li>
+            <li><a href="#multi-engine" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red aria-[current=location]:text-red">Multi-engine</a></li>
+            <li><a href="#instructor" class="-ml-[2px] flex min-h-[40px] items-center border-l-2 border-transparent pl-4 text-navy hover:border-red hover:text-red aria-[current=location]:text-red">Flight instructor</a></li>
           </ul>
+          <span class="spy-bar" aria-hidden="true"></span>
         </nav>
       </aside>
 
@@ -79,7 +80,7 @@ usePageEnhancements(root)
             <li>PPL application form</li>
             <li>Pass the CAAP written exam, then a practical test with a CAAP check pilot</li>
           </ol>
-          <NuxtLink to="/contact?course=ppl#inquiry" class="mt-8 inline-flex min-h-[48px] items-center rounded-md bg-red px-6 font-display text-xl font-semibold text-white transition-colors hover:bg-red-dark">Ask about the private pilot course</NuxtLink>
+          <NuxtLink to="/contact?course=ppl#inquiry" class="mt-8 inline-flex min-h-[48px] items-center rounded-md bg-red px-6 font-display text-xl font-semibold text-white press hover:bg-red-dark">Ask about the private pilot course</NuxtLink>
         </article>
 
         <!-- CPL -->
@@ -108,7 +109,7 @@ usePageEnhancements(root)
             </div>
           </div>
           <p class="mt-6 max-w-2xl leading-relaxed text-ink-muted">You can add twin-engine training for a multi-engine rating. The license is issued after the CAAP written exam and practical checkride.</p>
-          <NuxtLink to="/contact?course=cpl#inquiry" class="mt-8 inline-flex min-h-[48px] items-center rounded-md border-2 border-navy px-6 font-display text-xl font-semibold text-navy transition-colors hover:bg-navy hover:text-white">Ask about the commercial pilot course</NuxtLink>
+          <NuxtLink to="/contact?course=cpl#inquiry" class="mt-8 inline-flex min-h-[48px] items-center rounded-md border-2 border-navy px-6 font-display text-xl font-semibold text-navy press hover:bg-navy hover:text-white">Ask about the commercial pilot course</NuxtLink>
         </article>
 
         <!-- PHPL -->
@@ -138,7 +139,7 @@ usePageEnhancements(root)
           <h3 class="mt-10 font-display text-2xl font-semibold text-navy">How helicopter flying is different</h3>
           <p class="mt-3 max-w-2xl leading-relaxed text-ink-muted">A helicopter is less stable than an airplane and needs continuous input. You set the angle of the rotor disc with the cyclic, total rotor thrust with the collective, and balance direction with the anti-torque pedals, all while managing engine power, the radio and the weather. Control skills come with practice; command skills, like anticipation and judgement, are built lesson by lesson. Reading before and after each flight makes both come faster.</p>
           <p class="mt-4 max-w-2xl leading-relaxed text-ink-muted">As with airplanes, you need at least 8 flying hours and a passed pre-solo exam before your first solo. The license requires the RROC, an ELP certificate, ground school and flight time certificates, a PHPL application, and passing the CAAP written exam and practical test.</p>
-          <NuxtLink to="/contact?course=phpl#inquiry" class="mt-8 inline-flex min-h-[48px] items-center rounded-md bg-red px-6 font-display text-xl font-semibold text-white transition-colors hover:bg-red-dark">Ask about the private helicopter course</NuxtLink>
+          <NuxtLink to="/contact?course=phpl#inquiry" class="mt-8 inline-flex min-h-[48px] items-center rounded-md bg-red px-6 font-display text-xl font-semibold text-white press hover:bg-red-dark">Ask about the private helicopter course</NuxtLink>
         </article>
 
         <!-- CHPL -->
@@ -172,7 +173,7 @@ usePageEnhancements(root)
           </div>
           <div class="mt-8 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
             <p class="max-w-md text-ink-muted">The license lets you be paid for every flight you make.</p>
-            <NuxtLink to="/contact?course=chpl#inquiry" class="inline-flex min-h-[48px] shrink-0 items-center justify-center rounded-md border-2 border-navy px-6 font-display text-xl font-semibold text-navy transition-colors hover:bg-navy hover:text-white">Ask about the commercial helicopter course</NuxtLink>
+            <NuxtLink to="/contact?course=chpl#inquiry" class="inline-flex min-h-[48px] shrink-0 items-center justify-center rounded-md border-2 border-navy px-6 font-display text-xl font-semibold text-navy press hover:bg-navy hover:text-white">Ask about the commercial helicopter course</NuxtLink>
           </div>
         </article>
 
@@ -209,7 +210,7 @@ usePageEnhancements(root)
                 <p class="mt-2 leading-relaxed text-ink-muted">Takes you to the Certified Flight Instrument Instructor rating, so you can teach instrument flying.</p>
               </div>
             </div>
-            <NuxtLink to="/contact?course=instructor#inquiry" class="mt-8 inline-flex min-h-[48px] items-center rounded-md bg-navy px-6 font-display text-xl font-semibold text-white transition-colors hover:bg-navy-700">Ask about the instructor course</NuxtLink>
+            <NuxtLink to="/contact?course=instructor#inquiry" class="mt-8 inline-flex min-h-[48px] items-center rounded-md bg-navy px-6 font-display text-xl font-semibold text-white press hover:bg-navy-700">Ask about the instructor course</NuxtLink>
           </article>
         </section>
 

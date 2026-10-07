@@ -11,7 +11,7 @@ export function usePageEnhancements(root: Ref<HTMLElement | null>) {
   onMounted(() => {
     const el = root.value
     if (!el) return
-    cleanups.push(initYoutube(el), initTermTips(el), initDetailsLinks(el))
+    cleanups.push(initYoutube(el), initTermTips(el), initDetailsLinks(el), initScrollSpy(el))
     const tabs = initTabs(el)
     if (tabs) {
       tabs.showHash(route.hash)
@@ -104,10 +104,13 @@ function initTermTips(el: HTMLElement): Cleanup {
       const note = noteOf(btn)
       btn.setAttribute('aria-expanded', 'true')
       note.hidden = false
-      note.style.left = '0px'
-      // Keep the note inside the viewport on narrow screens.
-      const overflow = note.getBoundingClientRect().right - (document.documentElement.clientWidth - 12)
-      if (overflow > 0) note.style.left = `${-overflow}px`
+      // Keep the note inside the viewport on narrow screens. Measured from layout, not the box on screen,
+      // which is still scaled down while the note grows in.
+      const right = note.parentElement!.getBoundingClientRect().left + note.offsetWidth
+      const left = Math.min(0, document.documentElement.clientWidth - 12 - right)
+      note.style.left = `${left}px`
+      // Grow from the button even when the note has shifted left of it.
+      note.style.transformOrigin = `${btn.offsetLeft + btn.offsetWidth / 2 - left}px 0`
       // Set the text on the next frame so the change registers even when the same note reopens.
       requestAnimationFrame(() => { live.textContent = note.textContent ?? '' })
     })
@@ -156,4 +159,44 @@ function initDetailsLinks(el: HTMLElement): Cleanup {
     if (target instanceof HTMLDetailsElement) a.addEventListener('click', () => { target.open = true })
   })
   return () => {}
+}
+
+// In-page nav marks the section being read. A section is current once its top crosses a reading line
+// 40% down the viewport, until the next one does. Sections laid out side by side cross together, so
+// both stay marked. Past the end of the last section nothing is marked.
+function initScrollSpy(el: HTMLElement): Cleanup {
+  const nav = el.querySelector<HTMLElement>('[data-scrollspy]')
+  if (!nav) return () => {}
+  const links = [...nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')]
+  const bar = nav.querySelector<HTMLElement>('.spy-bar')
+  const targets = links.map((a) => document.getElementById(a.hash.slice(1))!)
+  let frame = 0
+
+  const update = () => {
+    frame = 0
+    const line = window.innerHeight * 0.4
+    const boxes = targets.map((t) => t.getBoundingClientRect())
+    const passed = boxes.map((b) => Math.round(b.top)).filter((top) => top <= line)
+    const past = boxes.every((b) => b.bottom < line)
+    const top = passed.length && !past ? Math.max(...passed) : null
+    const active = links.filter((_, i) => Math.round(boxes[i].top) === top)
+    links.forEach((a) => (active.includes(a) ? a.setAttribute('aria-current', 'location') : a.removeAttribute('aria-current')))
+    if (!active.length) return void delete nav.dataset.spyActive
+    const origin = nav.getBoundingClientRect().top
+    const first = active[0].getBoundingClientRect()
+    const last = active[active.length - 1].getBoundingClientRect()
+    // Set on the bar itself: a custom property on the nav would restyle every link on each scroll frame.
+    if (bar) bar.style.transform = `translateY(${first.top - origin}px) scaleY(${last.bottom - first.top})`
+    nav.dataset.spyActive = ''
+  }
+  const schedule = () => { frame ||= requestAnimationFrame(update) }
+
+  update()
+  window.addEventListener('scroll', schedule, { passive: true })
+  window.addEventListener('resize', schedule)
+  return () => {
+    cancelAnimationFrame(frame)
+    window.removeEventListener('scroll', schedule)
+    window.removeEventListener('resize', schedule)
+  }
 }

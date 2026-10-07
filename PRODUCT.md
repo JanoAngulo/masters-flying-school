@@ -43,7 +43,8 @@ From existing site copy (verify with the school before launch):
 - Courses: PPL, CPL, private and commercial helicopter pilot, instrument rating, multi-engine, flight instructor (CFI, CFII).
 - Fleet: Cessna 150, 152, 172; Piper Aztec (multi-engine); Schweizer 269 and 300CB helicopters.
 - Student rituals: first solo ends with a bucket of water from batchmates.
-- Contact channels: (02) 851-7042 (Pasay), (044) 794-2865 (Plaridel), info@mastersflyingschool.com, Facebook page.
+- Contact channels: (02) 851-7042 (Pasay), (044) 794-2865 (Plaridel), mobile +63 917 869 1974, info@mastersflyingschool.com, Facebook page.
+- **Verify before launch:** the Pasay landline is in the 7-digit format Metro Manila retired in October 2019 (the live site still shows "63 2 851 7042"). It may now be (02) 8851-7042. Confirm with the school, then update every `tel:+6328517042` link.
 
 ## Capabilities and Constraints
 

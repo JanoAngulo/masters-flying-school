@@ -576,7 +576,7 @@ usePageEnhancements(root)
             <p class="font-display text-3xl font-semibold leading-tight">Want to see them up close?</p>
             <p class="mt-1 text-navy-300">Arrange a visit to the Plaridel hangar and sit in the aircraft you would train on.</p>
           </div>
-          <NuxtLink to="/contact#inquiry" class="inline-flex min-h-[48px] shrink-0 items-center justify-center rounded-md bg-red px-6 font-display text-xl font-semibold text-white transition-colors hover:bg-red-dark">Arrange a hangar visit</NuxtLink>
+          <NuxtLink to="/contact#inquiry" class="inline-flex min-h-[48px] shrink-0 items-center justify-center rounded-md bg-red px-6 font-display text-xl font-semibold text-white press hover:bg-red-dark">Arrange a hangar visit</NuxtLink>
         </div>
       </div>
     </section>

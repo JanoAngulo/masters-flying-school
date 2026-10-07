@@ -1,6 +1,7 @@
 import { test, expect, type Page } from '@playwright/test'
 
-const PAGES = ['index', 'courses', 'fleet', 'students', 'about', 'contact'] as const
+// The homepage left parity on purpose when its redesign began; its behavior is covered by the other specs.
+const PAGES = ['courses', 'fleet', 'students', 'about', 'contact'] as const
 const VIEWPORTS = { desktop: { width: 1280, height: 800 }, mobile: { width: 390, height: 844 } } as const
 
 export function urlFor(name: string, project: string) {
@@ -25,12 +26,7 @@ for (const name of PAGES) {
       await expect(page).toHaveScreenshot(`${name}-${viewport}.png`, {
         fullPage: true,
         // Third-party content (map iframes, YouTube thumbnails) changes on its own.
-        mask: [
-          page.locator('iframe'),
-          page.locator('.yt img'),
-          // Intentional copy change (Task 10): the founding-year stat differs from legacy on purpose.
-          page.locator('section[aria-labelledby="hero-title"] dl > div:last-child'),
-        ],
+        mask: [page.locator('iframe'), page.locator('.yt img')],
       })
     })
   }

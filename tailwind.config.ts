@@ -5,6 +5,8 @@ const c = (name: string) => `rgb(var(--c-${name}) / <alpha-value>)`
 
 export default {
   content: ['./app/**/*.{vue,ts}'],
+  // Hover styles apply only to a real hovering pointer, so a tap on a phone never leaves one stuck on.
+  future: { hoverOnlyWhenSupported: true },
   theme: {
     extend: {
       colors: {
