@@ -36,7 +36,7 @@ usePageEnhancements(root)
             <div><dt class="text-sm text-navy-300">Airfield</dt><dd class="font-display text-2xl font-semibold">Plaridel, RPUX</dd></div>
             <div><dt class="text-sm text-navy-300">Runway</dt><dd class="font-display text-2xl font-semibold tabular">17 / 35</dd></div>
             <div><dt class="text-sm text-navy-300">Length by width</dt><dd class="font-display text-2xl font-semibold tabular">900 × 30 m</dd></div>
-            <div><dt class="text-sm text-navy-300">Training pilots since</dt><dd class="font-display text-2xl font-semibold tabular">1935</dd></div>
+            <div><dt class="text-sm text-navy-300">School founded</dt><dd class="font-display text-2xl font-semibold tabular">1994</dd></div>
           </dl>
         </div>
       </div>

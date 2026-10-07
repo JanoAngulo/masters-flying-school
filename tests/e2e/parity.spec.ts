@@ -25,7 +25,12 @@ for (const name of PAGES) {
       await expect(page).toHaveScreenshot(`${name}-${viewport}.png`, {
         fullPage: true,
         // Third-party content (map iframes, YouTube thumbnails) changes on its own.
-        mask: [page.locator('iframe'), page.locator('.yt img')],
+        mask: [
+          page.locator('iframe'),
+          page.locator('.yt img'),
+          // Intentional copy change (Task 10): the founding-year stat differs from legacy on purpose.
+          page.locator('section[aria-labelledby="hero-title"] dl > div:last-child'),
+        ],
       })
     })
   }

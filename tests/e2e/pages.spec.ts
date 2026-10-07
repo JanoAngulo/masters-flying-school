@@ -49,3 +49,11 @@ test('mobile menu closes and unlocks scroll after navigating', async ({ page }) 
   await expect(page.locator('#mobile-menu')).toBeHidden()
   await expect(page.locator('body')).not.toHaveClass(/overflow-hidden/)
 })
+
+test('runway band states when the school was founded, not when the airfield opened', async ({ page }) => {
+  await page.goto('/')
+  const band = page.locator('section[aria-labelledby="hero-title"] dl')
+  await expect(band).toContainText('School founded')
+  await expect(band).toContainText('1994')
+  await expect(band).not.toContainText('1935')
+})
