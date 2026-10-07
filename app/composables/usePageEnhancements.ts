@@ -40,8 +40,12 @@ function initTabs(el: HTMLElement) {
       panels[j].hidden = !on
     })
     if (focus) tabs[i].focus()
-    // Keep Vue Router's history state, or Back stops working.
-    if (push) history.replaceState(history.state, '', `#${panels[i].id}`)
+    if (push) {
+      // Record the hash in Vue Router's own state too, or its next navigation rewrites this entry
+      // back to the old URL and Back loses the chosen aircraft.
+      const url = `${location.pathname}${location.search}#${panels[i].id}`
+      history.replaceState({ ...history.state, current: url }, '', url)
+    }
   }
 
   list.hidden = false
@@ -73,25 +77,22 @@ function initTabs(el: HTMLElement) {
   }
 }
 
-// Term explanations (toggletips). Each note is a status region that is filled only once it is
-// visible, so screen readers announce the explanation when it opens.
+// Term explanations (toggletips). Screen readers only announce changes to a live region that was
+// already in the page, so one always-rendered, visually hidden status region repeats the open note.
 function initTermTips(el: HTMLElement): Cleanup {
   const tips = [...el.querySelectorAll<HTMLButtonElement>('[data-tip]')]
   if (!tips.length) return () => {}
   const noteOf = (btn: HTMLButtonElement) => document.getElementById(btn.getAttribute('aria-controls')!)!
-  const text = new Map<HTMLElement, string>()
-  tips.forEach((btn) => {
-    const note = noteOf(btn)
-    text.set(note, note.textContent ?? '')
-    note.setAttribute('role', 'status')
-    note.textContent = ''
-  })
+  const live = document.createElement('div')
+  live.className = 'sr-only'
+  live.setAttribute('role', 'status')
+  live.dataset.tipAnnouncer = ''
+  el.appendChild(live)
 
   const close = (btn: HTMLButtonElement) => {
     btn.setAttribute('aria-expanded', 'false')
-    const note = noteOf(btn)
-    note.hidden = true
-    note.textContent = ''
+    noteOf(btn).hidden = true
+    live.textContent = ''
   }
 
   tips.forEach((btn) => {
@@ -104,12 +105,11 @@ function initTermTips(el: HTMLElement): Cleanup {
       btn.setAttribute('aria-expanded', 'true')
       note.hidden = false
       note.style.left = '0px'
-      requestAnimationFrame(() => {
-        note.textContent = text.get(note) ?? ''
-        // Keep the note inside the viewport on narrow screens.
-        const overflow = note.getBoundingClientRect().right - (document.documentElement.clientWidth - 12)
-        if (overflow > 0) note.style.left = `${-overflow}px`
-      })
+      // Keep the note inside the viewport on narrow screens.
+      const overflow = note.getBoundingClientRect().right - (document.documentElement.clientWidth - 12)
+      if (overflow > 0) note.style.left = `${-overflow}px`
+      // Set the text on the next frame so the change registers even when the same note reopens.
+      requestAnimationFrame(() => { live.textContent = note.textContent ?? '' })
     })
   })
 

@@ -40,3 +40,29 @@ test.describe('layout', () => {
     await expect(footer).toContainText('Plaridel Airport, Plaridel, Bulacan')
   })
 })
+
+test.describe('client-side navigation', () => {
+  test('announces the new page and moves focus to the main content', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Courses' }).click()
+    await expect(page.locator('h1')).toHaveText('Courses')
+    await expect(page.locator('main#main')).toBeFocused()
+    await expect(page.locator('[aria-live]').filter({ hasText: 'Courses | Masters Flying School' })).toHaveCount(1)
+  })
+
+  test('keeps focus out of a closed mobile menu after navigating from it', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Open menu' }).click()
+    await page.locator('#mobile-menu').getByRole('link', { name: 'Students' }).click()
+    await expect(page.locator('h1')).toHaveText('Students')
+    await expect(page.locator('main#main')).toBeFocused()
+  })
+
+  test('arriving at a hash leaves focus alone so the browser can jump to it', async ({ page }) => {
+    await page.goto('/')
+    await page.locator('a[href="/fleet#piper-aztec"]').click()
+    await expect(page.locator('#piper-aztec')).toBeVisible()
+    await expect(page.locator('main#main')).not.toBeFocused()
+  })
+})

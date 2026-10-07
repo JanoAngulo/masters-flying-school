@@ -51,23 +51,40 @@ test.describe('fleet tabs', () => {
   })
 })
 
+test('back button restores the aircraft chosen before leaving the page', async ({ page }) => {
+  await page.goto('/fleet')
+  await page.getByRole('tab', { name: /Cessna 172/ }).click()
+  await expect(page).toHaveURL(/#cessna-172$/)
+  await page.locator('main a[href^="/contact"]').last().click()
+  await expect(page.locator('h1')).toHaveText('Contact us')
+  await page.goBack()
+  await expect(page).toHaveURL(/\/fleet\/?#cessna-172$/)
+  await expect(page.getByRole('tab', { name: /Cessna 172/ })).toHaveAttribute('aria-selected', 'true')
+})
+
 test.describe('term tips', () => {
-  test('open with text in a status region, close on Escape and outside click', async ({ page }) => {
+  test('open and announce through a status region that is always in the page, close on Escape and outside click', async ({ page }) => {
     await page.goto('/fleet')
     const btn = page.getByRole('button', { name: 'What does stall mean?' }).first()
     const note = page.locator('#tip-cessna-150-1')
-    await expect(note).toHaveAttribute('role', 'status')
+    // The announcer must already be rendered (not display:none) before it changes, or screen readers miss it.
+    const live = page.locator('[data-tip-announcer]')
+    await expect(live).toHaveAttribute('role', 'status')
+    await expect(live).toHaveClass(/sr-only/)
+    await expect(live).toHaveText('')
     await btn.click()
     await expect(btn).toHaveAttribute('aria-expanded', 'true')
     await expect(note).toBeVisible()
     await expect(note).toContainText('wing stops making enough lift')
+    await expect(live).toContainText('wing stops making enough lift')
     await page.keyboard.press('Escape')
     await expect(note).toBeHidden()
+    await expect(live).toHaveText('')
     await expect(btn).toBeFocused()
     await btn.click()
     await page.locator('h1').click()
     await expect(note).toBeHidden()
-    await expect(note).toHaveText('')
+    await expect(live).toHaveText('')
   })
 
   test('stays inside a narrow viewport', async ({ page }) => {
