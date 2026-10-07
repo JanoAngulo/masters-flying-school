@@ -10,12 +10,7 @@ const START_POINTS = [
   { title: 'Coming from abroad', line: 'Authorized by the Bureau of Immigration. Visa routes and paperwork for foreign students.', to: '/students#foreign-students' },
 ] as const
 
-// The opening motion plays the first time the homepage is shown in a visit, not on every return to it.
-// The flag is serialized with the page, so the server and the hydrating client agree on the class.
-const introSeen = useState('home-intro-seen', () => false)
-const intro = !introSeen.value
-onMounted(() => { introSeen.value = true })
-
+const intro = useIntro()
 const root = ref<HTMLElement | null>(null)
 usePageEnhancements(root)
 useHomeMotion(root, intro)
@@ -26,7 +21,7 @@ useHomeMotion(root, intro)
     <!-- Hero -->
     <section aria-labelledby="hero-title" class="relative bg-white" :class="{ intro }">
       <div class="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]">
-        <div class="hero-copy order-2 px-4 pb-14 pt-10 sm:px-6 lg:order-1 lg:self-center lg:py-24 lg:pl-[max(2rem,calc((100vw-76rem)/2+2rem))] lg:pr-12">
+        <div class="order-2 px-4 pb-14 pt-10 sm:px-6 lg:order-1 lg:self-center lg:py-24 lg:pl-[max(2rem,calc((100vw-76rem)/2+2rem))] lg:pr-12">
           <h1 id="hero-title" class="font-display text-5xl font-bold leading-[.95] text-navy sm:text-6xl xl:text-7xl">Learn to fly at Plaridel.</h1>
           <p class="mt-6 max-w-lg text-lg leading-relaxed text-ink-muted">Airplane and helicopter pilot courses, certified by the Civil Aviation Authority of the Philippines since 1994. Ground school in Pasay City, flight training at Plaridel Airport in Bulacan, the training airfield closest to Metro Manila.</p>
           <!-- The text column narrows at lg, so the buttons stack there until it has room for both on one line. -->

@@ -20,6 +20,9 @@ async function settle(page: Page) {
 for (const name of PAGES) {
   for (const [viewport, size] of Object.entries(VIEWPORTS)) {
     test(`${name} matches the legacy page (${viewport})`, async ({ page }, info) => {
+      // Parity is about the static page. Scroll motion would leave parts of a full-page capture
+      // undrawn, so it stays off here and motion.spec.ts covers it.
+      await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.setViewportSize(size)
       await page.goto(urlFor(name, info.project.name))
       await settle(page)

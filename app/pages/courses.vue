@@ -3,13 +3,14 @@ useSiteMeta({
   title: "Courses | Masters Flying School",
   description: "Private and commercial pilot courses for airplanes and helicopters, plus instrument, multi-engine and flight instructor ratings. CAAP-certified, Plaridel Airport.",
 })
+const intro = useIntro()
 const root = ref<HTMLElement | null>(null)
 usePageEnhancements(root)
 </script>
 
 <template>
   <div ref="root" class="contents">
-    <section class="on-dark bg-navy text-white">
+    <section class="on-dark bg-navy text-white" :class="{ intro }">
       <div class="mx-auto max-w-site px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <h1 class="font-display text-5xl font-bold leading-none sm:text-6xl">Courses</h1>
         <p class="mt-5 max-w-2xl text-lg text-navy-300">Two licenses for airplanes, two for helicopters, and three ratings that add to them. Ground school runs in Pasay City and at the Plaridel hangar. All flying is at Plaridel Airport.</p>

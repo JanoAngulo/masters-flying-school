@@ -3,13 +3,14 @@ useSiteMeta({
   title: "Contact | Masters Flying School",
   description: "Contact Masters Flying School. Main office in Pasay City, hangar at Plaridel Airport, Bulacan. Phone, email, maps and an inquiry form.",
 })
+const intro = useIntro()
 const root = ref<HTMLElement | null>(null)
 usePageEnhancements(root)
 </script>
 
 <template>
   <div ref="root" class="contents">
-    <section class="on-dark bg-navy text-white">
+    <section class="on-dark bg-navy text-white" :class="{ intro }">
       <div class="mx-auto max-w-site px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <h1 class="font-display text-5xl font-bold leading-none sm:text-6xl">Contact us</h1>
         <p class="mt-5 max-w-2xl text-lg text-navy-300">Call, email, or send the form below. For enrollment and documents, start with the Pasay office. To see the aircraft, visit the hangar.</p>

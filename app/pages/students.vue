@@ -3,13 +3,15 @@ useSiteMeta({
   title: "Students | Masters Flying School",
   description: "What training at Masters Flying School is like, from ground school to first solo and beyond, plus visa information for foreign students and the alumni roll.",
 })
+const intro = useIntro()
 const root = ref<HTMLElement | null>(null)
 usePageEnhancements(root)
+useStudentsMotion(root, intro)
 </script>
 
 <template>
   <div ref="root" class="contents">
-    <section class="on-dark bg-navy text-white">
+    <section class="on-dark bg-navy text-white" :class="{ intro }">
       <div class="mx-auto max-w-site px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
         <h1 class="font-display text-5xl font-bold leading-none sm:text-6xl">Students</h1>
         <p class="mt-5 max-w-2xl text-lg text-navy-300">What training here is like, what foreign students need to arrange, and where our graduates went.</p>

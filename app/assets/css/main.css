@@ -76,16 +76,17 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
   /* Header gains a hairline once the page scrolls, so it separates from content. */
   .site-header[data-scrolled="true"] { box-shadow: 0 1px 0 rgb(var(--c-line)); }
 
-  /* One orchestrated moment, on the first view of the homepage: the photo settles, the headline rises in
-     a short stagger, and the runway threshold paints left to right. Plain CSS, so it runs during
-     hydration without waiting on script. The photo never starts transparent: it is the page's largest
-     paint, and hiding it would delay it. */
-  .intro .hero-photo { animation: settle .9s var(--ease-out) both; }
-  .intro .hero-copy > * { animation: rise .5s var(--ease-out) both; }
-  .intro .hero-copy > :nth-child(2) { animation-delay: 70ms; }
-  .intro .hero-copy > :nth-child(3) { animation-delay: 140ms; }
-  .intro .threshold { animation: paint .6s var(--ease-out) .2s both; }
+  /* One orchestrated moment as each page opens, the first time it is shown in a visit: the page title
+     and what follows it rise in a short stagger, and the runway stripe under the header paints left to
+     right. The homepage photo settles too. Plain CSS, so it runs during hydration without waiting on
+     script. The photo never starts transparent: it is the page's largest paint, and hiding it would
+     delay it. */
+  .intro h1, .intro h1 ~ * { animation: rise .5s var(--ease-out) both; }
+  .intro h1 + * { animation-delay: 70ms; }
+  .intro h1 + * ~ * { animation-delay: 140ms; }
+  .intro .threshold, .intro .threshold-thin { animation: paint .6s var(--ease-out) .2s both; }
   .intro .designator { animation: rise .5s var(--ease-out) .4s both; }
+  .intro .hero-photo { animation: settle .9s var(--ease-out) both; }
 
   /* Pressable controls give way slightly under the pointer, so a tap registers before the page changes. */
   .press { transition: color .15s ease, background-color .15s ease, border-color .15s ease, transform .16s var(--ease-out); }
@@ -110,16 +111,25 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
 @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
 @keyframes paint { from { clip-path: inset(0 100% 0 0); } }
 @keyframes fade { from { opacity: 0; } }
+@keyframes drop { from { opacity: 0; transform: translateY(-4px); } }
 
 @starting-style {
   .menu-panel { opacity: 0; transform: translateY(-6px); }
   [data-tip] + [role="note"] { opacity: 0; transform: scale(.97); }
+  .form-status { opacity: 0; transform: translateY(4px); }
+  .field-error { opacity: 0; }
 }
 
 details > summary { list-style: none; cursor: pointer; }
 details > summary::-webkit-details-marker { display: none; }
 details[open] .chev { transform: rotate(180deg); }
 .chev { transition: transform .2s var(--ease-out); }
+/* What a disclosure reveals eases down out of its summary. It closes instantly. */
+details[open] > summary ~ * { animation: drop .2s var(--ease-out); }
+
+/* Form feedback fades in where it appears, so a message reads as a response rather than a jump. */
+.form-status { transition: opacity .2s var(--ease-out), transform .2s var(--ease-out); }
+.field-error { transition: opacity .15s var(--ease-out); }
 
 /* Courses side nav: one bar slides along the rail to the section being read. The script sets its
    transform directly: a 1px bar moved and stretched, so the slide never touches layout. */
@@ -135,7 +145,9 @@ details[open] .chev { transform: rotate(180deg); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .intro .hero-photo { animation: none; }
-  .intro .hero-copy > *, .intro .threshold, .intro .designator { animation-name: fade; animation-duration: .3s; }
+  .intro h1, .intro h1 ~ *, .intro .threshold, .intro .threshold-thin, .intro .designator { animation-name: fade; animation-duration: .3s; }
+  details[open] > summary ~ * { animation-name: fade; }
+  .form-status { transition: opacity .2s linear; }
   .spy-bar { transition: opacity .15s linear; }
   .press:active { transform: none; }
   .menu-panel, [data-tip] + [role="note"] { transition: opacity .15s linear; }

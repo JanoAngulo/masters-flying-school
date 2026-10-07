@@ -3,13 +3,15 @@ useSiteMeta({
   title: "Fleet | Masters Flying School",
   description: "The Masters Flying School training fleet at Plaridel Airport: Cessna 150, 152 and 172, Piper Aztec, and Schweizer 269 and 300 CB helicopters, with specifications.",
 })
+const intro = useIntro()
 const root = ref<HTMLElement | null>(null)
 usePageEnhancements(root)
+useFleetMotion(root, intro)
 </script>
 
 <template>
   <div ref="root" class="contents">
-    <section class="on-dark bg-navy text-white">
+    <section class="on-dark bg-navy text-white" :class="{ intro }">
       <div class="mx-auto grid max-w-site gap-8 px-4 py-14 sm:px-6 lg:grid-cols-12 lg:items-end lg:px-8 lg:py-16">
         <div class="lg:col-span-7">
           <h1 class="font-display text-5xl font-bold leading-none sm:text-6xl">Fleet</h1>
