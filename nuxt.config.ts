@@ -19,7 +19,7 @@ export default defineNuxtConfig({
         { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
         { rel: 'manifest', href: '/site.webmanifest' },
       ],
-      meta: [{ name: 'theme-color', content: '#0E2240' }],
+      meta: [{ name: 'theme-color', content: '#FFFFFF' }],
     },
   },
   // Every value can be set at generate time with NUXT_PUBLIC_* env vars; see .env.example.

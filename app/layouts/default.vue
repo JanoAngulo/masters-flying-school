@@ -16,7 +16,7 @@ onBeforeUnmount(stop)
 </script>
 
 <template>
-  <a href="#main" class="skip-link rounded-md bg-navy px-4 py-3 font-semibold text-white">Skip to content</a>
+  <a href="#main" class="skip-link rounded-md bg-ink-strong px-4 py-3 font-semibold text-white">Skip to content</a>
   <SiteHeader />
   <main id="main" ref="main" tabindex="-1" class="focus:outline-none">
     <slot />

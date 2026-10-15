@@ -35,7 +35,7 @@ const STATUS_CLASS: Record<Status, string> = {
   captcha: ALERT,
   blocked: ALERT,
   failed: ALERT,
-  sent: 'mt-6 rounded-md border border-navy bg-apron p-4 text-ink',
+  sent: 'mt-6 rounded-md border border-ink-strong bg-apron p-4 text-ink',
 }
 
 const fieldClass = (f: InquiryField) => ({ 'border-red': !!errors[f] })
@@ -172,29 +172,29 @@ function onSubmit() {
   <form id="inquiry-form" ref="formEl" action="mailto:info@mastersflyingschool.com" method="post" enctype="text/plain" novalidate class="self-start rounded-lg bg-white p-6 shadow-[0_1px_0_rgb(var(--c-line))] sm:p-8 lg:col-span-8" @submit.prevent="onSubmit" @focusin="viaWeb3Forms && renderCaptcha()">
     <div class="grid gap-6 sm:grid-cols-2">
       <div>
-        <label for="name" class="block font-semibold text-navy">Full name <span class="text-red" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
-        <input id="name" :ref="(el) => { inputs.name = el as HTMLInputElement }" v-model="values.name" name="name" type="text" autocomplete="name" required :maxlength="INQUIRY_MAX.name" aria-describedby="name-error" :aria-invalid="ariaInvalid('name')" class="mt-2 block min-h-[48px] w-full rounded-md border border-ink-muted/80 px-3 text-base focus:border-navy" :class="fieldClass('name')" @blur="onBlur('name')" @input="onInput('name')">
+        <label for="name" class="block font-semibold text-ink-strong">Full name <span class="text-red" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+        <input id="name" :ref="(el) => { inputs.name = el as HTMLInputElement }" v-model="values.name" name="name" type="text" autocomplete="name" required :maxlength="INQUIRY_MAX.name" aria-describedby="name-error" :aria-invalid="ariaInvalid('name')" class="mt-2 block min-h-[48px] w-full rounded-md border border-ink-muted/80 px-3 text-base focus:border-ink-strong" :class="fieldClass('name')" @blur="onBlur('name')" @input="onInput('name')">
         <p id="name-error" class="field-error mt-1 text-sm font-semibold text-red" :hidden="!errors.name">{{ errors.name }}</p>
       </div>
       <div>
-        <label for="email" class="block font-semibold text-navy">Email <span class="text-red" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
-        <input id="email" :ref="(el) => { inputs.email = el as HTMLInputElement }" v-model="values.email" name="email" type="email" autocomplete="email" inputmode="email" required :maxlength="INQUIRY_MAX.email" aria-describedby="email-error" :aria-invalid="ariaInvalid('email')" class="mt-2 block min-h-[48px] w-full rounded-md border border-ink-muted/80 px-3 text-base focus:border-navy" :class="fieldClass('email')" @blur="onBlur('email')" @input="onInput('email')">
+        <label for="email" class="block font-semibold text-ink-strong">Email <span class="text-red" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+        <input id="email" :ref="(el) => { inputs.email = el as HTMLInputElement }" v-model="values.email" name="email" type="email" autocomplete="email" inputmode="email" required :maxlength="INQUIRY_MAX.email" aria-describedby="email-error" :aria-invalid="ariaInvalid('email')" class="mt-2 block min-h-[48px] w-full rounded-md border border-ink-muted/80 px-3 text-base focus:border-ink-strong" :class="fieldClass('email')" @blur="onBlur('email')" @input="onInput('email')">
         <p id="email-error" class="field-error mt-1 text-sm font-semibold text-red" :hidden="!errors.email">{{ errors.email }}</p>
       </div>
       <div>
-        <label for="phone" class="block font-semibold text-navy">Phone or mobile <span class="font-normal text-ink-muted">(optional)</span></label>
-        <input id="phone" :ref="(el) => { inputs.phone = el as HTMLInputElement }" v-model="values.phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" :maxlength="INQUIRY_MAX.phone" aria-describedby="phone-error" :aria-invalid="ariaInvalid('phone')" class="mt-2 block min-h-[48px] w-full rounded-md border border-ink-muted/80 px-3 text-base focus:border-navy" :class="fieldClass('phone')" @blur="onBlur('phone')" @input="onInput('phone')">
+        <label for="phone" class="block font-semibold text-ink-strong">Phone or mobile <span class="font-normal text-ink-muted">(optional)</span></label>
+        <input id="phone" :ref="(el) => { inputs.phone = el as HTMLInputElement }" v-model="values.phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" :maxlength="INQUIRY_MAX.phone" aria-describedby="phone-error" :aria-invalid="ariaInvalid('phone')" class="mt-2 block min-h-[48px] w-full rounded-md border border-ink-muted/80 px-3 text-base focus:border-ink-strong" :class="fieldClass('phone')" @blur="onBlur('phone')" @input="onInput('phone')">
         <p id="phone-error" class="field-error mt-1 text-sm font-semibold text-red" :hidden="!errors.phone">{{ errors.phone }}</p>
       </div>
       <div>
-        <label for="course" class="block font-semibold text-navy">Course</label>
-        <select id="course" v-model="course" name="course" class="mt-2 block min-h-[48px] w-full rounded-md border border-ink-muted/80 bg-white px-3 text-base focus:border-navy">
+        <label for="course" class="block font-semibold text-ink-strong">Course</label>
+        <select id="course" v-model="course" name="course" class="mt-2 block min-h-[48px] w-full rounded-md border border-ink-muted/80 bg-white px-3 text-base focus:border-ink-strong">
           <option v-for="c in COURSES" :key="c.value" :value="c.value">{{ c.label }}</option>
         </select>
       </div>
       <div class="sm:col-span-2">
-        <label for="message" class="block font-semibold text-navy">Message <span class="text-red" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
-        <textarea id="message" :ref="(el) => { inputs.message = el as HTMLTextAreaElement }" v-model="values.message" name="message" rows="9" required :maxlength="INQUIRY_MAX.message" aria-describedby="message-help message-error" :aria-invalid="ariaInvalid('message')" class="mt-2 block w-full rounded-md border border-ink-muted/80 px-3 py-3 text-base focus:border-navy" :class="fieldClass('message')" @blur="onBlur('message')" @input="onInput('message')" />
+        <label for="message" class="block font-semibold text-ink-strong">Message <span class="text-red" aria-hidden="true">*</span><span class="sr-only">(required)</span></label>
+        <textarea id="message" :ref="(el) => { inputs.message = el as HTMLTextAreaElement }" v-model="values.message" name="message" rows="9" required :maxlength="INQUIRY_MAX.message" aria-describedby="message-help message-error" :aria-invalid="ariaInvalid('message')" class="mt-2 block w-full rounded-md border border-ink-muted/80 px-3 py-3 text-base focus:border-ink-strong" :class="fieldClass('message')" @blur="onBlur('message')" @input="onInput('message')" />
         <p id="message-help" class="mt-1 text-sm text-ink-muted">For example: "I have a PPL from 2022 and want to start my CPL in June."</p>
         <p id="message-error" class="field-error mt-1 text-sm font-semibold text-red" :hidden="!errors.message">{{ errors.message }}</p>
       </div>
