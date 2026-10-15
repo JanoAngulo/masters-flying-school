@@ -21,6 +21,7 @@
 
   /* Motion. A strong ease-out for anything entering; built-in easings are too weak to feel responsive. */
   --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --ease-sweep: cubic-bezier(.65, 0, .35, 1);
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
@@ -65,8 +66,15 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
     height: 6px;
     background-image: repeating-linear-gradient(90deg, rgb(var(--c-ink-strong)) 0 22px, transparent 22px 34px);
   }
-  /* Livery cheatline: the double red stripe painted along the fleet's fuselage. Closes each page opening and tops the footer. */
-  .cheatline { height: 10px; background-image: linear-gradient(rgb(var(--c-red)) 0 6px, transparent 6px 8px, rgb(var(--c-red)) 8px); }
+  /* Livery cheatline: the double red stripe painted along the fleet's fuselage. Closes each page opening and tops the footer.
+     Each stripe is its own layer so the page opening can draw them one after the other. */
+  .cheatline { position: relative; height: 10px; }
+  .cheatline::before, .cheatline::after {
+    content: ""; position: absolute; left: 0; right: 0;
+    background: rgb(var(--c-red)); transform-origin: 0 50%;
+  }
+  .cheatline::before { top: 0; height: 6px; }
+  .cheatline::after { bottom: 0; height: 2px; }
   .on-dark .threshold-thin {
     background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.85) 0 22px, transparent 22px 34px);
   }
@@ -94,17 +102,25 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
   /* Header gains a hairline once the page scrolls, so it separates from content. */
   .site-header[data-scrolled="true"] { box-shadow: 0 1px 0 rgb(var(--c-line)); }
 
-  /* One orchestrated moment as each page opens, the first time it is shown in a visit: the page title
+  /* One orchestrated moment each time a page opens: the page title
      and what follows it rise in a short stagger, and the runway stripe under the header paints left to
      right. The homepage photo settles too. Plain CSS, so it runs during hydration without waiting on
      script. The photo never starts transparent: it is the page's largest paint, and hiding it would
-     delay it. */
-  .intro h1, .intro h1 ~ * { animation: rise .5s var(--ease-out) both; }
-  .intro h1 + * { animation-delay: 70ms; }
-  .intro h1 + * ~ * { animation-delay: 140ms; }
-  .intro .threshold, .intro .threshold-thin, .intro .cheatline { animation: paint .6s var(--ease-out) .2s both; }
-  .intro .designator { animation: rise .5s var(--ease-out) .4s both; }
-  .intro .hero-photo { animation: settle .9s var(--ease-out) both; }
+     delay it. It plays on every navigation, so it stays brisk: the title is readable within .4s and the
+     whole opening is done in under a second. */
+  .intro h1, .intro h1 ~ * { animation: rise .4s var(--ease-out) both; }
+  .intro h1 + * { animation-delay: 50ms; }
+  .intro h1 + * ~ * { animation-delay: 100ms; }
+  .intro .threshold, .intro .threshold-thin { animation: paint .5s var(--ease-out) .15s both; }
+  /* The cheatline is drawn like a brush pass down the fuselage: the wide stripe sweeps across, the pinstripe
+     follows a beat behind. A long sweep reads better eased in and out than snapped out. */
+  .intro .cheatline::before, .intro .cheatline::after { animation: draw .7s var(--ease-sweep) .15s both; }
+  .intro .cheatline::after { animation-delay: .24s; }
+  .intro .designator { animation: rise .4s var(--ease-out) .3s both; }
+  .intro .hero-photo { animation: settle .7s var(--ease-out) both; }
+
+  /* A sent inquiry is ticked off: the check draws in once the message has faded up. */
+  .sent-check path { stroke-dasharray: 1; animation: tick .35s var(--ease-out) .12s both; }
 
   /* Pressable controls give way slightly under the pointer, so a tap registers before the page changes. */
   .press { transition: color .15s ease, background-color .15s ease, border-color .15s ease, transform .16s var(--ease-out); }
@@ -143,6 +159,8 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
 @keyframes settle { from { transform: scale(1.04); } }
 @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
 @keyframes paint { from { clip-path: inset(0 100% 0 0); } }
+@keyframes draw { from { transform: scaleX(0); } }
+@keyframes tick { from { stroke-dashoffset: 1; } }
 @keyframes fade { from { opacity: 0; } }
 @keyframes drop { from { opacity: 0; transform: translateY(-4px); } }
 
@@ -178,8 +196,8 @@ details[open] > summary ~ * { animation: drop .2s var(--ease-out); }
    appear still fade in rather than moving into place. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .intro .hero-photo { animation: none; }
-  .intro h1, .intro h1 ~ *, .intro .threshold, .intro .threshold-thin, .intro .cheatline, .intro .designator { animation-name: fade; animation-duration: .3s; }
+  .intro .hero-photo, .sent-check path { animation: none; }
+  .intro h1, .intro h1 ~ *, .intro .threshold, .intro .threshold-thin, .intro .cheatline::before, .intro .cheatline::after, .intro .designator { animation-name: fade; animation-duration: .3s; }
   details[open] > summary ~ * { animation-name: fade; }
   .form-status { transition: opacity .2s linear; }
   .spy-bar { transition: opacity .15s linear; }

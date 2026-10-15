@@ -5,8 +5,8 @@ type Timeline = ReturnType<MotionKit['gsap']['timeline']>
 
 // Homepage: the training route draws itself waypoint by waypoint, and the alumni bars grow to their
 // share. Both explain something (order, proportion), so both earn their motion.
-export function useHomeMotion(root: Ref<HTMLElement | null>, enabled: boolean) {
-  useMotion(root, enabled, (kit) => {
+export function useHomeMotion(root: Ref<HTMLElement | null>) {
+  useMotion(root, (kit) => {
     drawRoute(kit)
     growBars(kit)
   })

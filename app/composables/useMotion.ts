@@ -17,14 +17,14 @@ export const EASE_OUT = 'power4.out'
 export const belowFold = (top: number) => top > window.innerHeight
 
 // Runs a page's scroll motion. GSAP loads only after mount and only when the motion will run, so it never
-// delays first paint, never reaches pages without motion, and never downloads for reduced-motion readers
-// or on a return visit. `setup` may return a cleanup for anything GSAP does not track itself.
-export function useMotion(root: Ref<HTMLElement | null>, enabled: boolean, setup: (kit: MotionKit) => void | (() => void)) {
+// delays first paint, never reaches pages without motion, and never downloads for reduced-motion readers.
+// `setup` may return a cleanup for anything GSAP does not track itself.
+export function useMotion(root: Ref<HTMLElement | null>, setup: (kit: MotionKit) => void | (() => void)) {
   let revert: (() => void) | undefined
   let unmounted = false
 
   onMounted(async () => {
-    if (!enabled || matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const [{ gsap }, { ScrollTrigger }] = await Promise.all([import('gsap'), import('gsap/ScrollTrigger')])
     const el = root.value
     if (unmounted || !el) return

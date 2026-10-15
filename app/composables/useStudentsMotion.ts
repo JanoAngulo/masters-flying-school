@@ -3,8 +3,8 @@ import type { Ref } from 'vue'
 // Students: the track joining the training stages follows the reader down the page, and each stage's
 // number lights up as the line reaches it. It shows where a stage sits in the whole course, so scrolling
 // back up retracts the line and dims the stages again.
-export function useStudentsMotion(root: Ref<HTMLElement | null>, enabled: boolean) {
-  useMotion(root, enabled, ({ gsap, el }) => {
+export function useStudentsMotion(root: Ref<HTMLElement | null>) {
+  useMotion(root, ({ gsap, el }) => {
     const track = el.querySelector<HTMLElement>('.route-track-v')
     const list = track?.parentElement?.querySelector<HTMLOListElement>(':scope > ol')
     if (!track || !list || !belowFold(track.getBoundingClientRect().top)) return

@@ -5,14 +5,13 @@ useSiteMeta({
   image: { src: '/img/og/courses.jpg', alt: 'Student pilot standing beside a Masters Cessna' },
 })
 useHead({ script: [{ key: 'ld-courses', type: 'application/ld+json', innerHTML: toJsonLd(courseListSchema(useRuntimeConfig().public.siteUrl)) }] })
-const intro = useIntro()
 const root = ref<HTMLElement | null>(null)
 usePageEnhancements(root)
 </script>
 
 <template>
   <div ref="root" class="contents">
-    <section class="bg-apron text-ink-strong" :class="{ intro }">
+    <section class="intro bg-apron text-ink-strong">
       <div class="mx-auto max-w-site px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <h1 class="font-display text-5xl font-bold leading-none sm:text-6xl">Courses</h1>
         <p class="mt-5 max-w-2xl text-lg text-ink-muted">Two licenses for airplanes, two for helicopters, and three ratings that add to them. Ground school runs in Pasay City and at the Plaridel hangar. All flying is at Plaridel Airport.</p>

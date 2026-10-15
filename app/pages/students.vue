@@ -4,15 +4,14 @@ useSiteMeta({
   description: "Training at Masters Flying School, from ground school to first solo and beyond, plus visa information for foreign students and the alumni roll.",
   image: { src: '/img/og/students.jpg', alt: 'A batch of Masters students in white uniforms lined up on the Plaridel apron' },
 })
-const intro = useIntro()
 const root = ref<HTMLElement | null>(null)
 usePageEnhancements(root)
-useStudentsMotion(root, intro)
+useStudentsMotion(root)
 </script>
 
 <template>
   <div ref="root" class="contents">
-    <section class="bg-apron text-ink-strong" :class="{ intro }">
+    <section class="intro bg-apron text-ink-strong">
       <div class="mx-auto max-w-site px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
         <h1 class="font-display text-5xl font-bold leading-none sm:text-6xl">Students</h1>
         <p class="mt-5 max-w-2xl text-lg text-ink-muted">What training here is like, what foreign students need to arrange, and where our graduates went.</p>

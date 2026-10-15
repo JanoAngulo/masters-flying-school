@@ -10,16 +10,15 @@ const START_POINTS = [
   { title: 'Coming from abroad', line: 'Authorized by the Bureau of Immigration. Visa routes and paperwork for foreign students.', to: '/students#foreign-students' },
 ] as const
 
-const intro = useIntro()
 const root = ref<HTMLElement | null>(null)
 usePageEnhancements(root)
-useHomeMotion(root, intro)
+useHomeMotion(root)
 </script>
 
 <template>
   <div ref="root" class="contents">
     <!-- Hero -->
-    <section aria-labelledby="hero-title" class="relative bg-white" :class="{ intro }">
+    <section aria-labelledby="hero-title" class="intro relative bg-white">
       <div class="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] 2xl:grid-cols-2">
         <div class="order-2 px-4 pb-14 pt-10 sm:px-6 lg:order-1 lg:self-center lg:py-24 lg:pl-[max(2rem,calc((100vw-76rem)/2+2rem))] lg:pr-12">
           <h1 id="hero-title" class="font-display text-[2.75rem] font-bold min-[360px]:text-5xl leading-[.95] text-ink-strong sm:text-6xl xl:text-7xl"><span class="block">Earn your wings.</span> <span class="block text-red">Or your rotors.</span></h1>

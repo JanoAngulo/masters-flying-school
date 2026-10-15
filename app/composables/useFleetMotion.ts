@@ -4,8 +4,8 @@ import type { Ref } from 'vue'
 // the climb or descent to 50 ft carrying on from it, so the reader sees how much of Plaridel's runway the
 // aircraft uses. It plays the first time an aircraft is shown. A tab switch is not animated itself: the
 // tabs move with the arrow keys, and only the first look at each spec sheet gets the motion.
-export function useFleetMotion(root: Ref<HTMLElement | null>, enabled: boolean) {
-  useMotion(root, enabled, ({ gsap, el }) => {
+export function useFleetMotion(root: Ref<HTMLElement | null>) {
+  useMotion(root, ({ gsap, el }) => {
     // An observer rather than ScrollTrigger: it also notices a hidden panel becoming visible.
     const plays = new Map<Element, { play: () => unknown }>()
     const io = new IntersectionObserver((entries) => entries.forEach((e) => {

@@ -4,15 +4,14 @@ useSiteMeta({
   description: "Our training fleet at Plaridel Airport: Cessna 150, 152 and 172, Piper Aztec, and Schweizer 269 and 300 CB helicopters, with specifications.",
   image: { src: '/img/og/fleet.jpg', alt: 'Inside the Masters hangar with a Piper Aztec and a Schweizer helicopter on a red floor' },
 })
-const intro = useIntro()
 const root = ref<HTMLElement | null>(null)
 usePageEnhancements(root)
-useFleetMotion(root, intro)
+useFleetMotion(root)
 </script>
 
 <template>
   <div ref="root" class="contents">
-    <section class="bg-apron text-ink-strong" :class="{ intro }">
+    <section class="intro bg-apron text-ink-strong">
       <div class="mx-auto grid max-w-site gap-8 px-4 py-14 sm:px-6 lg:grid-cols-12 lg:items-end lg:px-8 lg:py-16">
         <div class="lg:col-span-7">
           <h1 class="font-display text-5xl font-bold leading-none sm:text-6xl">Fleet</h1>

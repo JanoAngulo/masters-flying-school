@@ -19,7 +19,7 @@ const LINKS = [
 
 <template>
   <NuxtLayout>
-    <section class="bg-apron text-ink-strong">
+    <section class="intro bg-apron text-ink-strong">
       <div class="mx-auto max-w-site px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <p class="font-display text-xl font-semibold text-ink-muted tabular">{{ error.statusCode }}</p>
         <h1 class="mt-2 font-display text-5xl font-bold leading-none sm:text-6xl">{{ notFound ? 'Page not found' : 'Something went wrong' }}</h1>
