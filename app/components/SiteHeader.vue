@@ -82,9 +82,9 @@ onBeforeUnmount(() => {
         </a>
         <a href="tel:+6328517042" class="hidden min-h-[44px] items-center rounded px-3 text-sm font-semibold text-ink-strong hover:text-red xl:inline-flex tabular">(02) 851-7042</a>
         <NuxtLink v-if="!onContact" to="/contact#inquiry" class="inline-flex min-h-[44px] items-center rounded-md bg-red px-4 font-display text-lg font-semibold text-white press hover:bg-red-dark sm:px-5"><span class="sm:hidden">Inquire</span><span class="hidden sm:inline">Send an inquiry</span></NuxtLink>
-        <button ref="toggle" type="button" aria-controls="mobile-menu" :aria-expanded="String(open)" :aria-label="open ? 'Close menu' : 'Open menu'" class="inline-flex h-11 w-11 items-center justify-center rounded-md text-ink-strong hover:bg-apron lg:hidden" @click="open = !open">
-          <svg :class="{ hidden: open }" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z" /></svg>
-          <svg :class="{ hidden: !open }" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.4 5 5 6.4 10.6 12 5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6L19 6.4 17.6 5 12 10.6z" /></svg>
+        <button ref="toggle" type="button" aria-controls="mobile-menu" :aria-expanded="String(open)" :aria-label="open ? 'Close menu' : 'Open menu'" class="menu-toggle relative inline-flex h-11 w-11 items-center justify-center rounded-md text-ink-strong hover:bg-apron lg:hidden" @click="open = !open">
+          <svg class="menu-icon menu-icon-open" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z" /></svg>
+          <svg class="menu-icon menu-icon-close" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.4 5 5 6.4 10.6 12 5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6L19 6.4 17.6 5 12 10.6z" /></svg>
         </button>
       </div>
     </div>

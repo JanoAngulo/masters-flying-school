@@ -17,11 +17,11 @@ usePageEnhancements(root)
         <p class="mt-5 max-w-2xl text-lg text-ink-muted">Training private and commercial pilots, on airplanes and helicopters, since 1994.</p>
         <nav aria-label="Sections on this page" class="mt-8">
           <ul class="flex flex-wrap gap-3">
-            <li><a href="#mission" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/30 bg-white px-4 font-semibold text-ink-strong hover:border-ink-strong hover:bg-ink-strong hover:text-white">Mission</a></li>
-            <li><a href="#accreditation" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/30 bg-white px-4 font-semibold text-ink-strong hover:border-ink-strong hover:bg-ink-strong hover:text-white">Accreditation</a></li>
-            <li><a href="#facilities" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/30 bg-white px-4 font-semibold text-ink-strong hover:border-ink-strong hover:bg-ink-strong hover:text-white">Facilities</a></li>
-            <li><a href="#team" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/30 bg-white px-4 font-semibold text-ink-strong hover:border-ink-strong hover:bg-ink-strong hover:text-white">Team</a></li>
-            <li><a href="#videos" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/30 bg-white px-4 font-semibold text-ink-strong hover:border-ink-strong hover:bg-ink-strong hover:text-white">Videos</a></li>
+            <li><a href="#mission" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/30 bg-white px-4 font-semibold text-ink-strong press hover:border-ink-strong hover:bg-ink-strong hover:text-white">Mission</a></li>
+            <li><a href="#accreditation" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/30 bg-white px-4 font-semibold text-ink-strong press hover:border-ink-strong hover:bg-ink-strong hover:text-white">Accreditation</a></li>
+            <li><a href="#facilities" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/30 bg-white px-4 font-semibold text-ink-strong press hover:border-ink-strong hover:bg-ink-strong hover:text-white">Facilities</a></li>
+            <li><a href="#team" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/30 bg-white px-4 font-semibold text-ink-strong press hover:border-ink-strong hover:bg-ink-strong hover:text-white">Team</a></li>
+            <li><a href="#videos" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/30 bg-white px-4 font-semibold text-ink-strong press hover:border-ink-strong hover:bg-ink-strong hover:text-white">Videos</a></li>
           </ul>
         </nav>
       </div>

@@ -30,6 +30,14 @@ html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
 body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
 ::selection { background-color: rgb(var(--c-red-tint)); color: rgb(var(--c-ink)); }
 
+@layer base {
+  /* Hover colors fade at the pace .press uses, so a card title turning red keeps time with its arrow and a pill
+     filling black matches the hero button. Classes that set their own transition still win. */
+  a, button, summary, a *, button *, summary * {
+    transition: color .15s ease, background-color .15s ease, border-color .15s ease, text-decoration-color .15s ease, fill .15s ease;
+  }
+}
+
 /* Site classes sit in the components layer so utilities on the same element win, as they did
    when the Tailwind CDN injected its styles after the legacy stylesheet. */
 @layer components {
@@ -105,6 +113,11 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
   /* The mobile menu drops in from the header it belongs to. It closes instantly: closing is the system
      getting out of the way, and it usually happens on the way to a new page. */
   .menu-panel { transition: opacity .2s var(--ease-out), transform .2s var(--ease-out); }
+  /* The menu button's two icons trade places: the outgoing one fades and shrinks as the incoming one grows in,
+     so the button reads as one control changing state rather than two pictures swapping. */
+  .menu-icon { position: absolute; inset: 0; margin: auto; transition: opacity .15s var(--ease-out), transform .15s var(--ease-out), filter .15s var(--ease-out); }
+  .menu-toggle[aria-expanded="true"] .menu-icon-open,
+  .menu-toggle[aria-expanded="false"] .menu-icon-close { opacity: 0; transform: scale(.9); filter: blur(2px); }
 
   /* Term notes grow from their "?" button. The script points the origin at the button when it shifts
      a note to keep it on screen. Like the menu, they close instantly. */
@@ -112,7 +125,7 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
 
   /* Click-to-load video, so YouTube scripts only load when asked. */
   .yt { position: relative; aspect-ratio: 16 / 9; background: rgb(var(--c-tarmac)); overflow: hidden; }
-  .yt img { width: 100%; height: 100%; object-fit: cover; transition: opacity .2s ease-out; }
+  .yt img { width: 100%; height: 100%; object-fit: cover; transition: opacity .15s ease; }
   .yt button:hover img { opacity: .85; }
   .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
   .yt[data-loading] iframe { opacity: 0; pointer-events: none; }
@@ -171,6 +184,6 @@ details[open] > summary ~ * { animation: drop .2s var(--ease-out); }
   .form-status { transition: opacity .2s linear; }
   .spy-bar { transition: opacity .15s linear; }
   .press:active { transform: none; }
-  .menu-panel, [data-tip] + [role="note"] { transition: opacity .15s linear; }
+  .menu-panel, [data-tip] + [role="note"], .menu-icon { transition: opacity .15s linear; }
   .group:hover .group-hover\:scale-105 { --tw-scale-x: 1; --tw-scale-y: 1; }
 }
