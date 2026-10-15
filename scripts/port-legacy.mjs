@@ -28,7 +28,7 @@ export function rewriteBody(main) {
     .replace(PAGE_LINK, (_, before, page, rest = '', after, inner) =>
       `<NuxtLink${before} to="/${page === 'index' ? '' : page}${rest}"${after}>${inner}</NuxtLink>`)
     .replaceAll('assets/img/', '/img/')
-    .replaceAll('bg-[#7D8DA6]', 'bg-navy-400')
+    .replaceAll('bg-[#7D8DA6]', 'bg-ink-400')
 }
 
 export function toVue({ title, description, body }) {

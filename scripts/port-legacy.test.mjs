@@ -29,7 +29,7 @@ describe('rewriteBody', () => {
     expect(rewriteBody(html)).toBe(html)
   })
   it('points image paths at /img and swaps the untokenized bar color', () => {
-    expect(rewriteBody('<img src="assets/img/logo.jpg"><span class="bg-[#7D8DA6]"></span>')).toBe('<img src="/img/logo.jpg"><span class="bg-navy-400"></span>')
+    expect(rewriteBody('<img src="assets/img/logo.jpg"><span class="bg-[#7D8DA6]"></span>')).toBe('<img src="/img/logo.jpg"><span class="bg-ink-400"></span>')
   })
   it('replaces the inquiry form with the component', () => {
     expect(rewriteBody('<div><form id="inquiry-form" novalidate>\n<input name="a">\n</form></div>')).toBe('<div><InquiryForm /></div>')

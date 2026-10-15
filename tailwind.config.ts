@@ -10,13 +10,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Livery red from the fleet paint scheme and logo bird. Accent only.
+        // Livery red from the fleet paint scheme and logo bird. The brand color: actions, the cheatline, one red band.
         red: { DEFAULT: c('red'), dark: c('red-dark'), tint: c('red-tint') },
-        // Navy from the "Flying School" logotype. Primary dark surface and headings.
-        navy: { DEFAULT: c('navy'), 700: c('navy-700'), 400: c('navy-400'), 300: c('navy-300') },
         tarmac: c('tarmac'),
         apron: c('apron'),
-        ink: { DEFAULT: c('ink'), muted: c('ink-muted') },
+        // Body text, plus near-black for headings and outlines (strong), its hover (soft) and a chart tint (400).
+        ink: { DEFAULT: c('ink'), muted: c('ink-muted'), strong: c('ink-strong'), soft: c('ink-soft'), 400: c('ink-400') },
         line: c('line'),
       },
       fontFamily: {

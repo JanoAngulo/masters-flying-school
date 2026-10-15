@@ -10,7 +10,6 @@
     "og": "node scripts/og-images.mjs",
     "test": "vitest run",
     "test:e2e": "nuxt generate && playwright test --project=nuxt",
-    "test:baseline": "playwright test --project=legacy --update-snapshots",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {

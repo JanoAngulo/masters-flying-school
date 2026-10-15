@@ -60,14 +60,14 @@ npx playwright install chromium   # once, before the first e2e run
 npm run test:e2e                  # generates the site, then runs Playwright against it
 ```
 
-The end-to-end suite covers pages, layout, the inquiry form, SEO tags, security headers, motion and visual parity.
+The end-to-end suite covers pages, layout, the inquiry form, SEO tags, security headers and motion.
 
 ## How the migration worked
 
 The site began as six static HTML pages using the Tailwind Play CDN. Those originals live untouched in [legacy/](legacy/) and serve two purposes:
 
 1. **Port source.** [scripts/port-legacy.mjs](scripts/port-legacy.mjs) (`npm run port`) converted each legacy page's `<main>` into a Nuxt page, turning page links into `NuxtLink`s and the contact form into the `InquiryForm` component.
-2. **Visual baseline.** Playwright screenshots of `legacy/` are the reference the Nuxt build was checked against before any intentional design change. `npm run test:baseline` recaptures them.
+2. **Visual baseline.** Playwright screenshots of `legacy/` were the reference the Nuxt build was checked against until the livery redesign, which changed every page on purpose. The parity suite was retired then.
 
 The full plan is in [docs/superpowers/plans/2026-10-07-nuxt-migration.md](docs/superpowers/plans/2026-10-07-nuxt-migration.md).
 
