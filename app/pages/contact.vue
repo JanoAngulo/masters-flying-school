@@ -5,14 +5,13 @@ useSiteMeta({
   image: { src: '/img/og/contact.jpg', alt: 'The Masters Flying School main office storefront in Pasay City' },
 })
 const viaWeb3Forms = !!useRuntimeConfig().public.web3formsKey
-const intro = useIntro()
 const root = ref<HTMLElement | null>(null)
 usePageEnhancements(root)
 </script>
 
 <template>
   <div ref="root" class="contents">
-    <section class="bg-apron text-ink-strong" :class="{ intro }">
+    <section class="intro bg-apron text-ink-strong">
       <div class="mx-auto max-w-site px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <h1 class="font-display text-5xl font-bold leading-none sm:text-6xl">Contact us</h1>
         <p class="mt-5 max-w-2xl text-lg text-ink-muted">Call, email, or send the form below. For enrollment and documents, start with the Pasay office. To see the aircraft, visit the hangar.</p>

@@ -39,7 +39,7 @@ test.describe('homepage motion', () => {
     expect(gsap).toEqual([])
   })
 
-  test('the opening plays on the first view of the homepage only', async ({ page }) => {
+  test('the opening plays on every view of the homepage', async ({ page }) => {
     const hero = page.locator('section[aria-labelledby="hero-title"]')
     await page.goto('/')
     await expect(hero).toHaveClass(/\bintro\b/)
@@ -48,7 +48,7 @@ test.describe('homepage motion', () => {
     await expect(page).toHaveURL(/\/courses\/?$/)
     await page.goBack()
     await expect(page.locator('h1')).toHaveText('Earn your wings. Or your rotors.')
-    await expect(hero).not.toHaveClass(/\bintro\b/)
+    await expect(hero).toHaveClass(/\bintro\b/)
   })
 
   test('pages without scroll motion never download GSAP', async ({ page }) => {
@@ -67,7 +67,7 @@ const clipped = (page: Page, selector: string) =>
 test.describe('inner page motion', () => {
   test.use({ viewport: { width: 1280, height: 800 } })
 
-  test('each page header opens with its intro once per visit', async ({ page }) => {
+  test('each page header opens with its intro on every view', async ({ page }) => {
     const header = page.locator('main section').first()
     await page.goto('/about')
     await expect(header).toHaveClass(/\bintro\b/)
@@ -76,7 +76,7 @@ test.describe('inner page motion', () => {
     await expect(header).toHaveClass(/\bintro\b/)
     await page.goBack()
     await expect(page.locator('h1')).toHaveText('About the school')
-    await expect(header).not.toHaveClass(/\bintro\b/)
+    await expect(header).toHaveClass(/\bintro\b/)
   })
 
   test('fleet runway bars run out when an aircraft is first shown, and end fully drawn', async ({ page }) => {

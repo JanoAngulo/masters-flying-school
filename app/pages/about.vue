@@ -4,14 +4,13 @@ useSiteMeta({
   description: "Masters Flying School was founded in 1994. Our accreditation, mission, team, and facilities in Pasay City and at Plaridel Airport.",
   image: { src: '/img/og/about.jpg', alt: 'The Masters Flying School hangar at Plaridel with Cessnas parked in front' },
 })
-const intro = useIntro()
 const root = ref<HTMLElement | null>(null)
 usePageEnhancements(root)
 </script>
 
 <template>
   <div ref="root" class="contents">
-    <section class="bg-apron text-ink-strong" :class="{ intro }">
+    <section class="intro bg-apron text-ink-strong">
       <div class="mx-auto max-w-site px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <h1 class="font-display text-5xl font-bold leading-none sm:text-6xl">About the school</h1>
         <p class="mt-5 max-w-2xl text-lg text-ink-muted">Training private and commercial pilots, on airplanes and helicopters, since 1994.</p>
