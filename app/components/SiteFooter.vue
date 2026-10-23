@@ -7,7 +7,7 @@ const year = new Date().getFullYear()
     <div class="cheatline" aria-hidden="true" />
     <div class="mx-auto max-w-site px-4 py-14 sm:px-6 lg:px-8">
       <div class="grid gap-10 lg:grid-cols-12">
-        <p class="font-display text-3xl font-semibold leading-tight text-ink-strong lg:col-span-5">Fly and you will catch the wind; dream and you shall reach your goal.</p>
+        <p class="font-display text-3xl font-semibold leading-snug text-ink-strong lg:col-span-5">Fly and you will catch the wind; dream and you shall reach your goal.</p>
         <div class="grid gap-8 sm:grid-cols-2 lg:col-span-7">
           <address class="not-italic">
             <p class="font-semibold">Main office</p>
@@ -21,7 +21,7 @@ const year = new Date().getFullYear()
           </address>
         </div>
       </div>
-      <div class="mt-12 flex flex-col gap-6 border-t border-line pt-8 lg:flex-row lg:items-center lg:justify-between">
+      <div class="mt-12 flex flex-col gap-6 border-t border-line pt-8 xl:flex-row xl:items-center xl:justify-between">
         <nav aria-label="Footer">
           <!-- Short labels get a 44px tap width; the gap is trimmed by the same amount so the row wraps as it did before. -->
           <ul class="flex flex-wrap gap-x-[22px] gap-y-1">

@@ -4,7 +4,7 @@ import type { Ref } from 'vue'
 // number lights up as the line reaches it. It shows where a stage sits in the whole course, so scrolling
 // back up retracts the line and dims the stages again.
 export function useStudentsMotion(root: Ref<HTMLElement | null>) {
-  useMotion(root, ({ gsap, el }) => {
+  useMotion(root, ({ gsap, ScrollTrigger, el }) => {
     const track = el.querySelector<HTMLElement>('.route-track-v')
     const list = track?.parentElement?.querySelector<HTMLOListElement>(':scope > ol')
     if (!track || !list || !belowFold(track.getBoundingClientRect().top)) return
@@ -20,6 +20,10 @@ export function useStudentsMotion(root: Ref<HTMLElement | null>) {
         opacity: 1, scale: 1, duration: 0.25, ease: EASE_OUT,
         scrollTrigger: { trigger: dot, start: line, toggleActions: 'play none none reverse' },
       })
+      // First solo splashes once when the line first reaches it; scrolling back and forth does not repeat it.
+      if (dot.classList.contains('celebrate')) {
+        ScrollTrigger.create({ trigger: dot, start: line, once: true, onEnter: () => dot.setAttribute('data-celebrate', '') })
+      }
     })
   })
 }

@@ -12,7 +12,7 @@ export function useHomeMotion(root: Ref<HTMLElement | null>) {
   })
 }
 
-function drawRoute({ gsap, ScrollTrigger, el, row }: MotionKit) {
+function drawRoute({ gsap, ScrollTrigger, el, wide: row }: MotionKit) {
   const steps = [...el.querySelectorAll<HTMLElement>('.route-step')]
   if (!steps.length) return
   const dots = steps.map((s) => s.querySelector<HTMLElement>('.route-dot')!)
@@ -27,7 +27,14 @@ function drawRoute({ gsap, ScrollTrigger, el, row }: MotionKit) {
       tl.fromTo(legs[i - 1], { clipPath: hidden }, { clipPath: shown, duration: legTime, ease: legEase, clearProps: 'clipPath' }, at)
       at += legTime
     }
-    tl.fromTo(dots[i], { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.25, ease: EASE_OUT, clearProps: 'opacity,transform' }, at)
+    const dot = dots[i]
+    if (dot.classList.contains('celebrate')) {
+      // First solo: the waypoint pops a little past full size, the only overshoot on the site, and splashes.
+      tl.fromTo(dot, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.45, ease: 'back.out(2.2)', clearProps: 'opacity,transform' }, at)
+      tl.call(() => dot.setAttribute('data-celebrate', ''), undefined, at + 0.15)
+    } else {
+      tl.fromTo(dot, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.25, ease: EASE_OUT, clearProps: 'opacity,transform' }, at)
+    }
     return at
   }
 

@@ -35,7 +35,7 @@ const STATUS_CLASS: Record<Status, string> = {
   captcha: ALERT,
   blocked: ALERT,
   failed: ALERT,
-  sent: 'mt-6 rounded-md border border-ink-strong bg-apron p-4 text-ink',
+  sent: 'mt-6 rounded-md border border-line bg-apron p-4 text-ink',
 }
 
 const fieldClass = (f: InquiryField) => ({ 'border-red': !!errors[f] })
@@ -208,7 +208,7 @@ function onSubmit() {
       <div id="inquiry-captcha" class="mt-8">
         <!-- Reserves the hCaptcha checkbox's height so the button does not jump when it appears. -->
         <div v-show="captchaState !== 'blocked'" ref="captchaEl" class="min-h-[78px]" />
-        <p v-if="captchaState === 'blocked'" class="rounded-md border border-line bg-apron p-4 text-sm text-ink">The spam check could not load, so this form can't send right now. An ad blocker or network filter may be stopping it. Email <a class="font-semibold text-red underline underline-offset-2" href="mailto:info@mastersflyingschool.com">info@mastersflyingschool.com</a> or call <a class="whitespace-nowrap font-semibold text-red underline underline-offset-2" href="tel:+6328517042">(02) 851-7042</a> instead.</p>
+        <p v-if="captchaState === 'blocked'" class="max-w-none rounded-md border border-line bg-apron p-4 text-sm text-ink">The spam check could not load, so this form can't send right now. An ad blocker or network filter may be stopping it. Email <a class="font-semibold text-red underline underline-offset-2" href="mailto:info@mastersflyingschool.com">info@mastersflyingschool.com</a> or call <a class="whitespace-nowrap font-semibold text-red underline underline-offset-2" href="tel:+6328517042">(02) 851-7042</a> instead.</p>
       </div>
     </template>
 
@@ -227,7 +227,10 @@ function onSubmit() {
       <template v-else-if="status === 'blocked'">This form can't send because the spam check could not load. Email <a class="font-semibold text-red underline underline-offset-2" href="mailto:info@mastersflyingschool.com">info@mastersflyingschool.com</a> or call <a class="whitespace-nowrap font-semibold text-red underline underline-offset-2" href="tel:+6328517042">(02) 851-7042</a> instead.</template>
       <template v-else-if="status === 'failed'">Your inquiry did not go through. Try again, or email <a class="font-semibold text-red underline underline-offset-2" href="mailto:info@mastersflyingschool.com">info@mastersflyingschool.com</a> or call <a class="whitespace-nowrap font-semibold text-red underline underline-offset-2" href="tel:+6328517042">(02) 851-7042</a>.</template>
       <span v-else-if="status === 'sent' && viaWeb3Forms" class="flex items-start gap-3">
-        <svg class="sent-check mt-0.5 shrink-0 text-red" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        <!-- The same splash as a first solo, once the check has drawn: the inquiry is on its way. -->
+        <span class="celebrate celebrate-late relative mt-0.5 shrink-0 rounded-full" data-celebrate aria-hidden="true">
+          <svg class="sent-check block text-red" width="20" height="20" viewBox="0 0 24 24"><path pathLength="1" d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </span>
         <span>Thank you, your inquiry is on its way. We will reply to {{ sentTo }}.</span>
       </span>
       <template v-else-if="status === 'sent'">Your email app should now be open with this inquiry filled in. Press send there to reach us. If nothing opened, email <a class="font-semibold text-red underline underline-offset-2" href="mailto:info@mastersflyingschool.com">info@mastersflyingschool.com</a> or call <a class="whitespace-nowrap font-semibold text-red underline underline-offset-2" href="tel:+6328517042">(02) 851-7042</a>.</template>

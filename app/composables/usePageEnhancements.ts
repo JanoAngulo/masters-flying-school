@@ -11,7 +11,7 @@ export function usePageEnhancements(root: Ref<HTMLElement | null>) {
   onMounted(() => {
     const el = root.value
     if (!el) return
-    cleanups.push(initYoutube(el), initTermTips(el), initDetailsLinks(el), initScrollSpy(el))
+    cleanups.push(initImageFade(el), initYoutube(el), initTermTips(el), initDetailsLinks(el), initScrollSpy(el))
     const tabs = initTabs(el)
     if (tabs) {
       tabs.showHash(route.hash)
@@ -75,6 +75,23 @@ function initTabs(el: HTMLElement) {
       }
     },
   }
+}
+
+// Photos still downloading fade in when they arrive. Only images not yet loaded are hidden, so a cached
+// photo, or one that loaded before the script ran, never flashes out.
+function initImageFade(el: HTMLElement): Cleanup {
+  const pending = [...el.querySelectorAll<HTMLImageElement>('img[loading="lazy"]')].filter((img) => !img.complete)
+  const done = (e: Event) => (e.currentTarget as HTMLImageElement).removeAttribute('data-pending')
+  pending.forEach((img) => {
+    img.classList.add('img-fade')
+    img.setAttribute('data-pending', '')
+    img.addEventListener('load', done, { once: true })
+    img.addEventListener('error', done, { once: true })
+  })
+  return () => pending.forEach((img) => {
+    img.removeEventListener('load', done)
+    img.removeEventListener('error', done)
+  })
 }
 
 // Term explanations (toggletips). Screen readers only announce changes to a live region that was

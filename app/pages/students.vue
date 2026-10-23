@@ -14,12 +14,12 @@ useStudentsMotion(root)
     <section class="intro bg-apron text-ink-strong">
       <div class="mx-auto max-w-site px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
         <h1 class="font-display text-5xl font-bold leading-none sm:text-6xl">Students</h1>
-        <p class="mt-5 max-w-2xl text-lg text-ink-muted">What training here is like, what foreign students need to arrange, and where our graduates went.</p>
+        <p class="mt-5 text-lg text-ink-muted">What training here is like, what foreign students need to arrange, and where our graduates went.</p>
         <nav aria-label="Sections on this page" class="mt-8">
           <ul class="flex flex-wrap gap-3">
-            <li><a href="#student-life" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/30 bg-white px-4 font-semibold text-ink-strong press hover:border-ink-strong hover:bg-ink-strong hover:text-white">Student life</a></li>
-            <li><a href="#foreign-students" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/30 bg-white px-4 font-semibold text-ink-strong press hover:border-ink-strong hover:bg-ink-strong hover:text-white">Foreign students</a></li>
-            <li><a href="#alumni" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/30 bg-white px-4 font-semibold text-ink-strong press hover:border-ink-strong hover:bg-ink-strong hover:text-white">Alumni</a></li>
+            <li><a href="#student-life" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/20 bg-white px-4 font-semibold text-ink-strong press hover:border-red hover:bg-red-tint hover:text-red-dark">Student life</a></li>
+            <li><a href="#foreign-students" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/20 bg-white px-4 font-semibold text-ink-strong press hover:border-red hover:bg-red-tint hover:text-red-dark">Foreign students</a></li>
+            <li><a href="#alumni" class="inline-flex min-h-[44px] items-center rounded-md border border-ink-strong/20 bg-white px-4 font-semibold text-ink-strong press hover:border-red hover:bg-red-tint hover:text-red-dark">Alumni</a></li>
           </ul>
         </nav>
       </div>
@@ -28,14 +28,14 @@ useStudentsMotion(root)
 
     <!-- Student life intro -->
     <section id="student-life" aria-labelledby="life-title" class="scroll-mt-24">
-      <div class="mx-auto grid max-w-site items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8 lg:py-20">
-        <div class="lg:col-span-5">
-          <h2 id="life-title" class="font-display text-4xl font-bold leading-none text-ink-strong sm:text-5xl">You arrive shy. You leave a pilot.</h2>
+      <div class="mx-auto grid max-w-site items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-12 lg:gap-12 lg:px-8 lg:py-20">
+        <div class="md:col-span-6 lg:col-span-5">
+          <h2 id="life-title" class="font-display text-4xl font-semibold leading-[1.05] text-ink-strong sm:text-5xl">You arrive shy. You leave a pilot.</h2>
           <p class="mt-6 text-lg leading-relaxed text-ink-muted">In our experience, new trainees walk in with bowed heads, humble and unsure. Ground school, the flight line and, above all, the first solo change that. Studying here transforms both character and confidence.</p>
           <p class="mt-4 text-lg leading-relaxed text-ink-muted">Here is the path every Masters student follows, in order.</p>
         </div>
-        <figure class="lg:col-span-7">
-          <img src="/img/class-apron.webp" width="930" height="624" alt="A batch of Masters students in white uniforms lined up on the Plaridel apron" class="w-full rounded-lg object-cover">
+        <figure class="md:col-span-6 lg:col-span-7">
+          <img src="/img/class-apron.webp" width="930" height="624" alt="A batch of Masters students in white uniforms lined up on the Plaridel apron" class="w-full rounded-2xl object-cover">
         </figure>
       </div>
     </section>
@@ -48,31 +48,31 @@ useStudentsMotion(root)
       <ol class="relative space-y-12">
 
         <li class="relative grid gap-6 pl-16 md:grid-cols-12 md:gap-10">
-          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-ink-strong font-display text-xl font-bold text-white">1</span>
+          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-red font-display text-xl font-bold text-white">1</span>
           <div class="md:col-span-7">
-            <h3 class="font-display text-3xl font-bold leading-none text-ink-strong">Ground course</h3>
+            <h3 class="font-display text-3xl font-semibold leading-none text-ink-strong">Ground course</h3>
             <p class="mt-2 inline-block rounded bg-apron px-2 py-1 text-sm font-semibold text-ink-strong">9 subjects, Pasay or Plaridel</p>
             <p class="mt-4 leading-relaxed text-ink-muted">Everyone starts in the classroom with air law, meteorology, navigation and the rest of the private pilot syllabus. Reading before and after every lesson makes the flying come faster later.</p>
           </div>
-          <img src="/img/ground-school.webp" width="930" height="624" loading="lazy" alt="Instructor pointing to a chart during ground school" class="aspect-[16/10] w-full rounded-lg object-cover md:col-span-5">
+          <img src="/img/ground-school.webp" width="930" height="624" loading="lazy" alt="Instructor pointing to a chart during ground school" class="aspect-[16/10] w-full rounded-2xl object-cover md:col-span-5">
         </li>
 
         <li class="relative grid gap-6 pl-16 md:grid-cols-12 md:gap-10">
-          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-ink-strong font-display text-xl font-bold text-white">2</span>
+          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-red font-display text-xl font-bold text-white">2</span>
           <div class="md:col-span-7">
-            <h3 class="font-display text-3xl font-bold leading-none text-ink-strong">Flight training at Plaridel</h3>
+            <h3 class="font-display text-3xl font-semibold leading-none text-ink-strong">Flight training at Plaridel</h3>
             <p class="mt-2 inline-block rounded bg-apron px-2 py-1 text-sm font-semibold text-ink-strong tabular">RPUX, runway 17/35, 900 × 30 m</p>
             <p class="mt-4 leading-relaxed text-ink-muted">New pilots are not allowed to train at international airports, so you fly from Plaridel, the training airfield closest to Metro Manila and the only airport in Bulacan. You start on the Cessna 150 or 152, and CAAP controllers staff the tower during operating hours.</p>
           </div>
-          <img src="/img/preflight-cessna.webp" width="930" height="624" loading="lazy" alt="Student and line crew doing a preflight check under a Cessna wing" class="aspect-[16/10] w-full rounded-lg object-cover md:col-span-5">
+          <img src="/img/preflight-cessna.webp" width="930" height="624" loading="lazy" alt="Student and line crew doing a preflight check under a Cessna wing" class="aspect-[16/10] w-full rounded-2xl object-cover md:col-span-5">
         </li>
 
         <!-- First solo is the milestone the whole school celebrates, so it gets the accent -->
         <li class="relative pl-16">
-          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-red font-display text-xl font-bold text-white">3</span>
-          <div class="grid gap-6 overflow-hidden rounded-lg bg-red text-white on-dark md:grid-cols-12">
+          <span class="celebrate absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-red font-display text-xl font-bold text-white ring-4 ring-red-tint">3</span>
+          <div class="grid gap-6 overflow-hidden rounded-2xl bg-red text-white on-dark md:grid-cols-12">
             <div class="p-6 sm:p-8 md:col-span-6">
-              <h3 class="font-display text-3xl font-bold leading-none">First solo</h3>
+              <h3 class="font-display text-3xl font-semibold leading-none">First solo</h3>
               <p class="mt-2 inline-block rounded bg-white/15 px-2 py-1 text-sm font-semibold tabular">At least 8 hours and a pre-solo exam first</p>
               <p class="mt-4 leading-relaxed">Your instructor steps out and you fly the aircraft alone. When you climb down, your batchmates pour a bucket of water over you in front of the plane you just soloed. A solo blow-out party, paid for by the soloist, is customary but not required.</p>
               <p class="mt-4 font-display text-2xl font-semibold leading-snug">“Another eagle is born and is set conquering the sky.”</p>
@@ -82,47 +82,47 @@ useStudentsMotion(root)
         </li>
 
         <li class="relative grid gap-6 pl-16 md:grid-cols-12 md:gap-10">
-          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-ink-strong font-display text-xl font-bold text-white">4</span>
+          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-red font-display text-xl font-bold text-white">4</span>
           <div class="md:col-span-7">
-            <h3 class="font-display text-3xl font-bold leading-none text-ink-strong">Private pilot license</h3>
+            <h3 class="font-display text-3xl font-semibold leading-none text-ink-strong">Private pilot license</h3>
             <p class="mt-2 inline-block rounded bg-apron px-2 py-1 text-sm font-semibold text-ink-strong tabular">40 hours: 20 dual, 20 solo</p>
             <p class="mt-4 leading-relaxed text-ink-muted">Confidence after soloing makes this stage quicker. With the hours and your ground certificate, you sit the CAAP written test on nine subjects, then the practical test. You also need an English Language Proficiency certificate at Level 4 or above.</p>
             <NuxtLink to="/courses#ppl" class="mt-3 inline-flex min-h-[44px] items-center font-semibold text-red underline decoration-2 underline-offset-4 hover:text-red-dark">Private pilot course details</NuxtLink>
           </div>
-          <img src="/img/student-cessna.webp" width="930" height="624" loading="lazy" alt="Two students beside a Masters Cessna" class="aspect-[16/10] w-full rounded-lg object-cover md:col-span-5">
+          <img src="/img/student-cessna.webp" width="930" height="624" loading="lazy" alt="Two students beside a Masters Cessna" class="aspect-[16/10] w-full rounded-2xl object-cover md:col-span-5">
         </li>
 
         <li class="relative grid gap-6 pl-16 md:grid-cols-12 md:gap-10">
-          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-ink-strong font-display text-xl font-bold text-white">5</span>
+          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-red font-display text-xl font-bold text-white">5</span>
           <div class="md:col-span-7">
-            <h3 class="font-display text-3xl font-bold leading-none text-ink-strong">Commercial pilot license</h3>
+            <h3 class="font-display text-3xl font-semibold leading-none text-ink-strong">Commercial pilot license</h3>
             <p class="mt-2 inline-block rounded bg-apron px-2 py-1 text-sm font-semibold text-ink-strong tabular">110 more hours: at least 100 solo, 50 dual</p>
             <p class="mt-4 leading-relaxed text-ink-muted">The commercial ground course plus flying beyond your private hours, and a rating on a higher-horsepower aircraft. Pass nine CAAP written subjects and a practical checkride, and you can be paid to fly.</p>
             <NuxtLink to="/courses#cpl" class="mt-3 inline-flex min-h-[44px] items-center font-semibold text-red underline decoration-2 underline-offset-4 hover:text-red-dark">Commercial pilot course details</NuxtLink>
           </div>
-          <img src="/img/instructor-student.webp" width="930" height="624" loading="lazy" alt="Instructor and student with headsets in the cockpit" class="aspect-[16/10] w-full rounded-lg object-cover md:col-span-5">
+          <img src="/img/instructor-student.webp" width="930" height="624" loading="lazy" alt="Instructor and student with headsets in the cockpit" class="aspect-[16/10] w-full rounded-2xl object-cover md:col-span-5">
         </li>
 
         <li class="relative grid gap-6 pl-16 md:grid-cols-12 md:gap-10">
-          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-ink-strong font-display text-xl font-bold text-white">6</span>
+          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-red font-display text-xl font-bold text-white">6</span>
           <div class="md:col-span-7">
-            <h3 class="font-display text-3xl font-bold leading-none text-ink-strong">Instrument rating</h3>
+            <h3 class="font-display text-3xl font-semibold leading-none text-ink-strong">Instrument rating</h3>
             <p class="mt-2 inline-block rounded bg-apron px-2 py-1 text-sm font-semibold text-ink-strong tabular">At least 20 simulator hours</p>
             <p class="mt-4 leading-relaxed text-ink-muted">Mandatory for commercial pilots. It lets you fly in poor weather, low visibility and at night. Instrument ground school and simulator time come first, then the CAAP written and practical exams.</p>
             <NuxtLink to="/courses#instrument" class="mt-3 inline-flex min-h-[44px] items-center font-semibold text-red underline decoration-2 underline-offset-4 hover:text-red-dark">Instrument rating details</NuxtLink>
           </div>
-          <img src="/img/simulator-students.webp" width="930" height="624" loading="lazy" alt="Two students flying the fixed-wing simulator" class="aspect-[16/10] w-full rounded-lg object-cover md:col-span-5">
+          <img src="/img/simulator-students.webp" width="930" height="624" loading="lazy" alt="Two students flying the fixed-wing simulator" class="aspect-[16/10] w-full rounded-2xl object-cover md:col-span-5">
         </li>
 
         <li class="relative grid gap-6 pl-16 md:grid-cols-12 md:gap-10">
-          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-ink-strong font-display text-xl font-bold text-white">7</span>
+          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-red font-display text-xl font-bold text-white">7</span>
           <div class="md:col-span-7">
-            <h3 class="font-display text-3xl font-bold leading-none text-ink-strong">Twin-engine rating</h3>
+            <h3 class="font-display text-3xl font-semibold leading-none text-ink-strong">Twin-engine rating</h3>
             <p class="mt-2 inline-block rounded bg-apron px-2 py-1 text-sm font-semibold text-ink-strong tabular">At least 10 hours on the Piper Aztec</p>
             <p class="mt-4 leading-relaxed text-ink-muted">For pilots who plan to fly multi-engine planes. Equipment Qualification Course ground school, flights with a rated instructor, then CAAP written and practical tests.</p>
             <NuxtLink to="/courses#multi-engine" class="mt-3 inline-flex min-h-[44px] items-center font-semibold text-red underline decoration-2 underline-offset-4 hover:text-red-dark">Multi-engine rating details</NuxtLink>
           </div>
-          <img src="/img/student-aztec.webp" width="930" height="624" loading="lazy" alt="Students and instructors with the Piper Aztec" class="aspect-[16/10] w-full rounded-lg object-cover md:col-span-5">
+          <img src="/img/student-aztec.webp" width="930" height="624" loading="lazy" alt="Students and instructors with the Piper Aztec" class="aspect-[16/10] w-full rounded-2xl object-cover md:col-span-5">
         </li>
       </ol>
       </div>
@@ -140,17 +140,17 @@ useStudentsMotion(root)
     <!-- Foreign students -->
     <section id="foreign-students" aria-labelledby="foreign-title" class="scroll-mt-24 bg-apron">
       <div class="mx-auto max-w-site px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
-          <div class="lg:col-span-7">
-            <h2 id="foreign-title" class="font-display text-4xl font-bold leading-none text-ink-strong sm:text-5xl">Coming from abroad</h2>
+        <div class="grid gap-6 md:grid-cols-12 md:items-end md:gap-8">
+          <div class="md:col-span-7">
+            <h2 id="foreign-title" class="font-display text-4xl font-semibold leading-[1.05] text-ink-strong sm:text-5xl">Coming from abroad</h2>
             <p class="mt-5 text-lg text-ink-muted">We are authorized by the Bureau of Immigration to accept foreign students (AAFS RBR No. 2000). You submit the same documents as local students, plus papers for your visa. Our liaison officers hand-carry conversion papers to the Bureau for you.</p>
           </div>
-          <p class="rounded-md border border-ink-strong/20 bg-white p-4 text-sm text-ink lg:col-span-5">Immigration rules change. Confirm current requirements with the <a href="https://immigration.gov.ph" target="_blank" rel="noopener" class="font-semibold text-red underline underline-offset-2">Bureau of Immigration</a> and the <a href="https://dfa.gov.ph" target="_blank" rel="noopener" class="font-semibold text-red underline underline-offset-2">Department of Foreign Affairs</a> before you travel.</p>
+          <p class="max-w-none rounded-md border border-ink-strong/20 bg-white p-4 text-sm text-ink md:col-span-5">Immigration rules change. Confirm current requirements with the <a href="https://immigration.gov.ph" target="_blank" rel="noopener" class="font-semibold text-red underline underline-offset-2">Bureau of Immigration</a> and the <a href="https://dfa.gov.ph" target="_blank" rel="noopener" class="font-semibold text-red underline underline-offset-2">Department of Foreign Affairs</a> before you travel.</p>
         </div>
 
         <h3 class="mt-12 font-display text-2xl font-semibold text-ink-strong">Which route fits you?</h3>
         <ul class="mt-4 grid gap-4 md:grid-cols-3">
-          <li class="flex flex-col rounded-lg border-2 border-ink-strong bg-white p-6">
+          <li class="flex flex-col rounded-xl border-2 border-red bg-white p-6">
             <p class="font-display text-2xl font-bold text-ink-strong">Student visa</p>
             <dl class="mt-4 space-y-3 text-sm">
               <div><dt class="font-semibold text-ink">Best for</dt><dd class="text-ink-muted">Full license programs you plan before you travel</dd></div>
@@ -236,7 +236,7 @@ useStudentsMotion(root)
     <!-- Alumni -->
     <section id="alumni" aria-labelledby="alumni-title" class="scroll-mt-24 mx-auto max-w-site px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
-        <h2 id="alumni-title" class="font-display text-4xl font-bold leading-none text-ink-strong sm:text-5xl lg:col-span-6">The students of yesterday are the pilots of today</h2>
+        <h2 id="alumni-title" class="font-display text-4xl font-semibold leading-[1.05] text-ink-strong sm:text-5xl lg:col-span-6">The students of yesterday are the pilots of today</h2>
         <p class="text-lg text-ink-muted lg:col-span-6">Graduates on our alumni roll, grouped by where they flew when they were listed. Several batches of the Philippine Army Aviation Battalion also trained here and are now command pilots in their own service.</p>
       </div>
 
@@ -244,7 +244,7 @@ useStudentsMotion(root)
       <div class="mt-12 grid gap-6 lg:grid-cols-2">
         <article class="rounded-lg bg-apron p-6 sm:p-8">
           <div class="flex items-baseline justify-between gap-4 border-b border-line pb-4">
-            <h3 class="font-display text-3xl font-bold text-ink-strong">Cebu Pacific</h3>
+            <h3 class="font-display text-3xl font-semibold text-ink-strong">Cebu Pacific</h3>
             <p class="font-display text-xl text-ink-muted"><span class="text-4xl font-bold text-red tabular">10</span> on the roll</p>
           </div>
           <ul class="mt-4 grid gap-x-6 gap-y-1 sm:grid-cols-2">
@@ -253,7 +253,7 @@ useStudentsMotion(root)
         </article>
         <article class="rounded-lg bg-apron p-6 sm:p-8">
           <div class="flex items-baseline justify-between gap-4 border-b border-line pb-4">
-            <h3 class="font-display text-3xl font-bold text-ink-strong">PAL Express</h3>
+            <h3 class="font-display text-3xl font-semibold text-ink-strong">PAL Express</h3>
             <p class="font-display text-xl text-ink-muted"><span class="text-4xl font-bold text-red tabular">10</span> on the roll</p>
           </div>
           <ul class="mt-4 grid gap-x-6 gap-y-1 sm:grid-cols-2">
@@ -264,28 +264,28 @@ useStudentsMotion(root)
 
       <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <article class="rounded-lg border border-line p-5">
-          <div class="flex items-baseline justify-between gap-3 border-b border-line pb-3"><h3 class="font-display text-xl font-bold text-ink-strong">AirAsia and AirAsia Zest</h3><span class="font-display text-3xl font-bold text-ink-strong tabular">5</span></div>
+          <div class="flex items-baseline justify-between gap-3 border-b border-line pb-3"><h3 class="font-display text-xl font-semibold text-ink-strong">AirAsia and AirAsia Zest</h3><span class="font-display text-3xl font-bold text-ink-strong tabular">5</span></div>
           <ul class="mt-3 space-y-1 text-sm text-ink-muted"><li>Capt. Dennis Salumbides, 1998</li><li>Capt. Carmelito Bidayan, 1999</li><li>Capt. Francisco Santiago, 2000</li><li>Capt. Ernest Gerard G. Villa, 2011</li><li>Capt. Jayfred Basawil</li></ul>
         </article>
         <article class="rounded-lg border border-line p-5">
-          <div class="flex items-baseline justify-between gap-3 border-b border-line pb-3"><h3 class="font-display text-xl font-bold text-ink-strong">SEAIR</h3><span class="font-display text-3xl font-bold text-ink-strong tabular">3</span></div>
+          <div class="flex items-baseline justify-between gap-3 border-b border-line pb-3"><h3 class="font-display text-xl font-semibold text-ink-strong">SEAIR</h3><span class="font-display text-3xl font-bold text-ink-strong tabular">3</span></div>
           <ul class="mt-3 space-y-1 text-sm text-ink-muted"><li>Capt. Mark Allan Caluag, 2009</li><li>Capt. Nilo Sumang</li><li>Capt. Pocholo Delos Reyes</li></ul>
         </article>
         <article class="rounded-lg border border-line p-5">
-          <div class="flex items-baseline justify-between gap-3 border-b border-line pb-3"><h3 class="font-display text-xl font-bold text-ink-strong">Philippine Airlines</h3><span class="font-display text-3xl font-bold text-ink-strong tabular">2</span></div>
+          <div class="flex items-baseline justify-between gap-3 border-b border-line pb-3"><h3 class="font-display text-xl font-semibold text-ink-strong">Philippine Airlines</h3><span class="font-display text-3xl font-bold text-ink-strong tabular">2</span></div>
           <ul class="mt-3 space-y-1 text-sm text-ink-muted"><li>Capt. Gerry Recio, 2001</li><li>Capt. Thor Cuasadin</li></ul>
-          <div class="mt-5 flex items-baseline justify-between gap-3 border-b border-line pb-3"><h3 class="font-display text-xl font-bold text-ink-strong">Airphil Express</h3><span class="font-display text-3xl font-bold text-ink-strong tabular">2</span></div>
+          <div class="mt-5 flex items-baseline justify-between gap-3 border-b border-line pb-3"><h3 class="font-display text-xl font-semibold text-ink-strong">Airphil Express</h3><span class="font-display text-3xl font-bold text-ink-strong tabular">2</span></div>
           <ul class="mt-3 space-y-1 text-sm text-ink-muted"><li>Capt. Dickenson James Mangahas</li><li>Capt. Mark Tangonan</li></ul>
         </article>
         <article class="rounded-lg border border-line p-5">
-          <div class="flex items-baseline justify-between gap-3 border-b border-line pb-3"><h3 class="font-display text-xl font-bold text-ink-strong">CAAP and others</h3><span class="font-display text-3xl font-bold text-ink-strong tabular">5</span></div>
+          <div class="flex items-baseline justify-between gap-3 border-b border-line pb-3"><h3 class="font-display text-xl font-semibold text-ink-strong">CAAP and others</h3><span class="font-display text-3xl font-bold text-ink-strong tabular">5</span></div>
           <ul class="mt-3 space-y-1 text-sm text-ink-muted"><li>Capt. Khristuval E. Brillantes, CAAP check pilot</li><li>Capt. Sigfrid Repasa, CAAP check pilot</li><li>Capt. Amiel Jerome Perlas, PAAC</li><li>Capt. Aldrin Sabawa, Malaysia</li><li>Capt. Vikas Hooda, helicopter pilot, India</li></ul>
         </article>
       </div>
 
-      <div class="mt-16 border-t-2 border-ink-strong pt-10">
+      <div class="mt-16 border-t border-line pt-10">
         <div class="max-w-2xl">
-          <h3 class="font-display text-3xl font-bold text-ink-strong">Graduates from abroad</h3>
+          <h3 class="font-display text-3xl font-semibold text-ink-strong">Graduates from abroad</h3>
           <p class="mt-3 text-ink-muted">Students have come to Plaridel from the United States, Bangladesh, India, Nepal, Egypt, Mexico, Papua New Guinea, China and the Arab world. These are the foreign graduates named on our roll.</p>
         </div>
         <dl class="mt-8 divide-y divide-line border-y border-line">
@@ -294,28 +294,28 @@ useStudentsMotion(root)
               <span class="block font-display text-2xl font-semibold leading-tight text-ink-strong">Saudi Arabia</span>
               <span class="block text-sm font-semibold text-red tabular sm:mt-1">13 graduates</span>
             </dt>
-            <dd class="max-w-3xl leading-relaxed text-ink-muted">Muner Hael, Shaher Alamadhi, Amro Daghistani, Hussam Morea, Faisal Alomoudi, Faisal Abdullah Alghamdi, Yasser Alshery, Ayman Ayoub, Mohammed Misky, Mohamad Khayat, Wael Albakri, Mohamed Algrably and Khalid Essa Huladar, all graduated 2010</dd>
+            <dd class="leading-relaxed text-ink-muted">Muner Hael, Shaher Alamadhi, Amro Daghistani, Hussam Morea, Faisal Alomoudi, Faisal Abdullah Alghamdi, Yasser Alshery, Ayman Ayoub, Mohammed Misky, Mohamad Khayat, Wael Albakri, Mohamed Algrably and Khalid Essa Huladar, all graduated 2010</dd>
           </div>
           <div class="grid gap-x-8 gap-y-2 py-5 sm:grid-cols-[200px_1fr]">
             <dt class="flex items-baseline gap-3 sm:block">
               <span class="block font-display text-2xl font-semibold leading-tight text-ink-strong">Nepal</span>
               <span class="block text-sm font-semibold text-red tabular sm:mt-1">5 graduates</span>
             </dt>
-            <dd class="max-w-3xl leading-relaxed text-ink-muted">Hareram Thapa, Sobit Gauchan and Dilip Thapa, graduated 2010. Manoj Pandey and Pravakar KC (helicopter pilot), graduated 2011</dd>
+            <dd class="leading-relaxed text-ink-muted">Hareram Thapa, Sobit Gauchan and Dilip Thapa, graduated 2010. Manoj Pandey and Pravakar KC (helicopter pilot), graduated 2011</dd>
           </div>
           <div class="grid gap-x-8 gap-y-2 py-5 sm:grid-cols-[200px_1fr]">
             <dt class="flex items-baseline gap-3 sm:block">
               <span class="block font-display text-2xl font-semibold leading-tight text-ink-strong">Bangladesh</span>
               <span class="block text-sm font-semibold text-red tabular sm:mt-1">2 graduates</span>
             </dt>
-            <dd class="max-w-3xl leading-relaxed text-ink-muted">Faraz Bin Zafar, graduated 2011. Arafat Hossen, graduated 2012</dd>
+            <dd class="leading-relaxed text-ink-muted">Faraz Bin Zafar, graduated 2011. Arafat Hossen, graduated 2012</dd>
           </div>
           <div class="grid gap-x-8 gap-y-2 py-5 sm:grid-cols-[200px_1fr]">
             <dt class="flex items-baseline gap-3 sm:block">
               <span class="block font-display text-2xl font-semibold leading-tight text-ink-strong">India</span>
               <span class="block text-sm font-semibold text-red tabular sm:mt-1">1 graduate</span>
             </dt>
-            <dd class="max-w-3xl leading-relaxed text-ink-muted">Taran Barmi, graduated 2010</dd>
+            <dd class="leading-relaxed text-ink-muted">Taran Barmi, graduated 2010</dd>
           </div>
         </dl>
       </div>
