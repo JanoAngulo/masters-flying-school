@@ -9,6 +9,8 @@ export interface MotionKit {
   el: HTMLElement
   /** True at the lg breakpoint, where stacked layouts become rows. */
   row: boolean
+  /** True at the xl breakpoint, for layouts that need more room before they become rows. */
+  wide: boolean
 }
 
 export const EASE_OUT = 'power4.out'
@@ -33,9 +35,9 @@ export function useMotion(root: Ref<HTMLElement | null>, setup: (kit: MotionKit)
     // Reverting restores the static page, so a breakpoint change or a mid-session switch to reduced
     // motion re-runs from a clean state instead of stacking tweens.
     const mm = gsap.matchMedia()
-    mm.add({ row: '(min-width: 1024px)', motion: '(prefers-reduced-motion: no-preference)' }, (ctx) => {
-      const { row, motion } = ctx.conditions as { row: boolean; motion: boolean }
-      if (motion) return setup({ gsap, ScrollTrigger, el, row })
+    mm.add({ row: '(min-width: 1024px)', wide: '(min-width: 1280px)', motion: '(prefers-reduced-motion: no-preference)' }, (ctx) => {
+      const { row, wide, motion } = ctx.conditions as { row: boolean; wide: boolean; motion: boolean }
+      if (motion) return setup({ gsap, ScrollTrigger, el, row, wide })
     })
     revert = () => mm.revert()
   })

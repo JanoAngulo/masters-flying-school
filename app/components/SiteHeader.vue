@@ -97,7 +97,7 @@ onBeforeUnmount(() => {
         </ul>
         <div :class="onContact ? 'mt-4' : 'mt-4 grid gap-3 sm:grid-cols-2'">
           <NuxtLink v-if="!onContact" to="/contact#inquiry" class="press flex min-h-[48px] items-center justify-center rounded-md bg-red font-display text-lg font-semibold text-white" @click="open = false">Send an inquiry</NuxtLink>
-          <a href="tel:+6328517042" class="press flex min-h-[48px] items-center justify-center rounded-md border border-ink-strong font-semibold text-ink-strong tabular">Call (02) 851-7042</a>
+          <a href="tel:+6328517042" class="press flex min-h-[48px] items-center justify-center rounded-md border-2 border-red font-semibold text-red hover:bg-red-tint hover:text-red-dark tabular">Call (02) 851-7042</a>
         </div>
       </nav>
     </div>

@@ -12,11 +12,13 @@
   --c-ink-strong: 22 21 20;   /* #161514 */
   --c-ink-soft: 61 58 54;     /* #3D3A36, hover on ink-strong fills */
   --c-ink-400: 140 134 126;   /* #8C867E, second series in fleet charts */
-  --c-tarmac: 20 26 34;      /* #141A22, drawn runways and the video letterbox only */
+  --c-tarmac: 31 29 27;      /* #1F1D1B, drawn runways and the video letterbox only. Warm, like the ink: blue stays in the logo. */
   /* Hangar concrete: warm, so the white reads as fuselage paint rather than a cold screen. */
   --c-apron: 244 242 239;    /* #F4F2EF */
   --c-ink: 34 33 31;         /* #22211F */
-  --c-ink-muted: 85 80 74;   /* #55504A, AAA on white and apron: most paragraphs are read on phones outdoors */
+  /* Paragraph text. Close to the ink so body copy reads full and friendly rather than faint, yet still a step
+     below headings. AAA on white and apron: most paragraphs are read on phones outdoors. */
+  --c-ink-muted: 66 62 57;   /* #423E39 */
   --c-line: 226 222 216;     /* #E2DED8 */
 
   /* Motion. A strong ease-out for anything entering; built-in easings are too weak to feel responsive. */
@@ -32,6 +34,10 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
 ::selection { background-color: rgb(var(--c-red-tint)); color: rgb(var(--c-ink)); }
 
 @layer base {
+  /* Running text stops at 42rem, the width the pages were set to: it fills a tablet column instead of leaving a
+     third of it empty, and still holds a comfortable line on wide screens. A max-width utility on the element wins. */
+  p, dd:not([aria-hidden="true"]) { max-width: 42rem; }
+
   /* Hover colors fade at the pace .press uses, so a card title turning red keeps time with its arrow and a pill
      filling black matches the hero button. Classes that set their own transition still win. */
   a, button, summary, a *, button *, summary * {
@@ -79,6 +85,14 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
     background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.85) 0 22px, transparent 22px 34px);
   }
 
+  /* A short red stroke over a block's heading, like the cheatline's end on the tail. It groups the block
+     without ruling it off. */
+  .tick { position: relative; padding-top: 1.25rem; }
+  .tick::before {
+    content: ""; position: absolute; left: 0; top: 0; width: 2.5rem; height: 4px;
+    border-radius: 9999px; background: rgb(var(--c-red));
+  }
+
   /* Runway designator numerals. */
   .designator { font-family: "Barlow Condensed", sans-serif; font-weight: 700; line-height: .8; letter-spacing: -.02em; }
 
@@ -86,13 +100,14 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
   .route-track-v { background-image: repeating-linear-gradient(180deg, rgb(var(--c-red)) 0 10px, transparent 10px 18px); width: 2px; }
 
   /* Homepage path: each step but the last holds the leg to the next waypoint, so the route ends at the
-     last step. Offsets follow the 36px waypoint and the list's gap-10 (stacked) and gap-4 (row).
+     last step. Offsets follow the 36px waypoint and the list's gap-10 (stacked) and gap-4 (row). The route runs as a row only
+     from xl: seven steps in a narrower row squeeze each one to a sliver.
      A real element rather than a pseudo-element, so the homepage script can draw it. */
   .route-leg {
     position: absolute; left: 17px; top: 36px; bottom: -2.5rem; width: 2px;
     background-image: repeating-linear-gradient(180deg, rgb(var(--c-red)) 0 10px, transparent 10px 18px);
   }
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     .route-leg {
       left: 36px; right: -1rem; top: 17px; bottom: auto; width: auto; height: 2px;
       background-image: repeating-linear-gradient(90deg, rgb(var(--c-red)) 0 10px, transparent 10px 18px);
@@ -118,6 +133,25 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
   .intro .cheatline::after { animation-delay: .24s; }
   .intro .designator { animation: rise .4s var(--ease-out) .3s both; }
   .intro .hero-photo { animation: settle .7s var(--ease-out) both; }
+  /* The homepage title is a call and its answer: "Or your rotors." lands a beat after "Earn your wings.",
+     and the rest of the column follows the answer. */
+  .intro .hero-lines { animation: none; }
+  .intro .hero-lines > .block { animation: rise .4s var(--ease-out) both; }
+  .intro .hero-lines > .block + .block { animation-delay: 90ms; }
+  .intro .hero-lines + * { animation-delay: 140ms; }
+  .intro .hero-lines + * ~ * { animation-delay: 190ms; }
+
+  /* First solo ends with a bucket of water, so the waypoint that marks it splashes: two rings ripple out once
+     when the route reaches it. A sent inquiry gets the same splash. Each is rare, so it reads as joy. The
+     element is already positioned, so the rings sit on it. */
+  .celebrate::before, .celebrate::after {
+    content: ""; position: absolute; inset: -3px; border-radius: 9999px;
+    border: 2px solid rgb(var(--c-red)); opacity: 0; pointer-events: none;
+  }
+  [data-celebrate].celebrate::before { animation: ripple .8s var(--ease-out) both; }
+  [data-celebrate].celebrate::after { animation: ripple .8s var(--ease-out) .14s both; }
+  [data-celebrate].celebrate-late::before { animation-delay: .45s; }
+  [data-celebrate].celebrate-late::after { animation-delay: .59s; }
 
   /* A sent inquiry is ticked off: the check draws in once the message has faded up. */
   .sent-check path { stroke-dasharray: 1; animation: tick .35s var(--ease-out) .12s both; }
@@ -125,6 +159,15 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
   /* Pressable controls give way slightly under the pointer, so a tap registers before the page changes. */
   .press { transition: color .15s ease, background-color .15s ease, border-color .15s ease, transform .16s var(--ease-out); }
   .press:active { transform: scale(.97); }
+  /* Whole cards and rows answer a tap too, more gently since they are wider. Phones never hover, so this
+     is the only sign a tap on a card registered before the page changes. */
+  .press-card { transition: color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .2s var(--ease-out), transform .16s var(--ease-out); }
+  .press-card:active { transform: scale(.98); }
+
+  /* A photo still downloading on mobile data fades in when it arrives instead of painting in strips.
+     The script marks only images that have not loaded yet, so without it every image simply shows. */
+  .img-fade { transition: opacity .3s var(--ease-out); }
+  .img-fade[data-pending] { opacity: 0; }
 
   /* The mobile menu drops in from the header it belongs to. It closes instantly: closing is the system
      getting out of the way, and it usually happens on the way to a new page. */
@@ -161,6 +204,7 @@ body { font-feature-settings: "kern"; text-rendering: optimizeLegibility; }
 @keyframes paint { from { clip-path: inset(0 100% 0 0); } }
 @keyframes draw { from { transform: scaleX(0); } }
 @keyframes tick { from { stroke-dashoffset: 1; } }
+@keyframes ripple { from { opacity: .7; transform: scale(1); } to { opacity: 0; transform: scale(2.1); } }
 @keyframes fade { from { opacity: 0; } }
 @keyframes drop { from { opacity: 0; transform: translateY(-4px); } }
 
@@ -197,7 +241,11 @@ details[open] > summary ~ * { animation: drop .2s var(--ease-out); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .intro .hero-photo, .sent-check path { animation: none; }
-  .intro h1, .intro h1 ~ *, .intro .threshold, .intro .threshold-thin, .intro .cheatline::before, .intro .cheatline::after, .intro .designator { animation-name: fade; animation-duration: .3s; }
+  .intro h1, .intro h1 ~ *, .intro .hero-lines > .block, .intro .threshold, .intro .threshold-thin, .intro .cheatline::before, .intro .cheatline::after, .intro .designator { animation-name: fade; animation-duration: .3s; }
+  .celebrate::before, .celebrate::after { animation: none; }
+  .press-card:active { transform: none; }
+  .img-fade { transition: opacity .2s linear; }
+  .group:hover .group-hover\:scale-\[1\.03\] { --tw-scale-x: 1; --tw-scale-y: 1; }
   details[open] > summary ~ * { animation-name: fade; }
   .form-status { transition: opacity .2s linear; }
   .spy-bar { transition: opacity .15s linear; }
